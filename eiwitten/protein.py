@@ -9,11 +9,6 @@ class Protein(object):
         for i in range(self.length - 1):
                 if self.sequence[i] == self.sequence[i + 1] == "H":
                     points += 1
-                if self.sequence[i] == self.sequence[i + 1] == "C":
+                elif self.sequence[i] == self.sequence[i + 1] == "C":
                     points += 5
-        # for i in range(self.length):
-        #     if i != 0 and self.sequence[i] == self.sequence[i - 1] == "H":
-        #             points += 1
-        #     if i != 0 and self.sequence[i] == self.sequence[i - 1] == "C":
-        #             points += 5
         return(points)

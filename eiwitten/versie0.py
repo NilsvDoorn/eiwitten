@@ -2,8 +2,9 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-
+import time
 def main():
+    start= time.time()
     # checks whether program is used correctly
     check()
     best_fold_points = 0
@@ -24,15 +25,16 @@ def main():
                 best_fold_points = fold_points(field, protein.errorpoint)
                 best_fold = option
         field.clear_field(protein.length)
-        field.x_cdn = protein.length
-        field.y_cdn = protein.length - 1
+        field.x_cdn = protein.length - 1
+        field.y_cdn = protein.length
     # prints best_fold_points and best_fold and current field
     print(best_fold_points)
     print(best_fold)
     field.fill_field(protein.sequence, best_fold)
     for line in field.field:
         print(line)
-
+    end = time.time()
+    print(end - start)
 
 # checks user input
 def check():
