@@ -19,14 +19,15 @@ def main():
     #
     # creates field and fold based on the protein and the current option
     for option in options.options:
-        if(field.fill_field(protein.sequence, option)):
-            # check wether current fold is the best and remembers it if it is
-            if int(fold_points(field, protein.errorpoint)) > int(best_fold_points):
-                best_fold_points = fold_points(field, protein.errorpoint)
-                best_fold = option
-        field.clear_field(protein.length)
-        field.x_cdn = protein.length - 1
-        field.y_cdn = protein.length
+        if options.cluster(protein.sequence, option):
+            if field.fill_field(protein.sequence, option):
+                # check wether current fold is the best and remembers it if it is
+                if int(fold_points(field, protein.errorpoint)) > int(best_fold_points):
+                    best_fold_points = fold_points(field, protein.errorpoint)
+                    best_fold = option
+            field.clear_field(protein.length)
+            field.x_cdn = protein.length - 1
+            field.y_cdn = protein.length
     # prints best_fold_points and best_fold and current field
     print(best_fold_points)
     print(best_fold)

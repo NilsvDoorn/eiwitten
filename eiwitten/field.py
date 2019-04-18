@@ -46,7 +46,6 @@ class Field(object):
                    self.last_step = str(new_direction)
                else:
                    return False
-
         return True
 
     def clear_field(self, length):

@@ -3,14 +3,15 @@ from itertools import product
 class Option(object):
     def __init__(self, length):
         self.options = list(product(["right", "left", "forward"], repeat = length - 2))
-        self.count = 0
 
-    # def automatic(self, option, protein):
-    #     for i in range(len(protein)):
-    #         if protein[i] == protein[i+4] == "H":
-    #             if option[i] == option[i+1] == "left" or option[i] == option[i+1] == "right":
-    #                 return False
-    #                 self.count += 1
-    #                 print(self.count)
-    #                 i += 4
-    #     return True
+    def cluster(self, sequence, option):
+        length_sequence = len(sequence) - 3
+        i = 0
+        while i < length_sequence:
+            if sequence[i] == sequence[i+3] == "H":
+                if option[i] != option[i+1] or option[i] == "forward":
+                    return False
+                else:
+                    i += 2
+            i += 1
+        return True
