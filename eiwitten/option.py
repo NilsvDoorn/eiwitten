@@ -2,7 +2,7 @@ from itertools import product
 """Generates a list of all folding options for the protein"""
 class Option(object):
     def __init__(self, length):
-        self.options = list(product(["right", "left", "forward"], repeat = length - 2))
+        self.options = ["right", "left", "forward"]
 
     def cluster(self, sequence, option):
         length_sequence = len(sequence) - 3
