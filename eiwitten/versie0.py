@@ -18,9 +18,7 @@ def main():
     last_fold_points = 0
 
     ways = [["right"], ["forward"]]
-    #
-    ### while(not_all_options):
-    #
+
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         new_ways = []
