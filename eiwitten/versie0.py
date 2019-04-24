@@ -46,7 +46,7 @@ def main():
             ways = deepcopy(all_ways)
 
         last_fold_points = best_fold_points
-                # print("after new", new_ways)
+                
     # prints best_fold_points and best_fold and current field
     field.fill_field(protein.sequence, ways[-1])
     print(fold_points(field) - protein.errorpoint)
