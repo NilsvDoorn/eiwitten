@@ -32,9 +32,9 @@ def main():
                     all_ways.append(deepcopy(ways[route]))
 
                     # check wether current fold is the best and remembers it if it is
-                    if int(options.points) > last_fold_points:
+                    if int(fold_points(field)) > last_fold_points:
                         new_ways.append(deepcopy(ways[route]))
-                        best_fold_points = int(options.points)
+                        best_fold_points = int(fold_points(field))
 
                 field.clear_field(protein.length)
                 field.x_cdn = protein.length - 1
