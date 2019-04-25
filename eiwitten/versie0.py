@@ -2,7 +2,12 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
+# from path import Path
 import time
+import matplotlib.path as mpath
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 from copy import deepcopy
 
 def main():
@@ -50,11 +55,15 @@ def main():
     # prints best_fold_points and best_fold and current field
     field.fill_field(protein.sequence, ways[-1])
     print(fold_points(field) - protein.errorpoint)
-    print(ways[-1])
+    print(field.coordinates)
+    # print(ways[-1])
     for line in field.field:
         print(line)
     end = time.time()
     print(end - start)
+
+    # # start visualisation
+    # path.plotFold(protein.sequence, protein.length, field.coordinates)
 
 # checks user input
 def check():
