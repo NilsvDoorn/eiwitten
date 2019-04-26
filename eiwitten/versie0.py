@@ -34,31 +34,31 @@ def main():
         else:
             best_fold_points += 35
         for option in options.options:
-            for route in range(len(ways)):
-                ways[route].append(option)
-                if field.fill_field(protein.sequence[:aminoacid + 4], ways[route]):
+            for route in ways:
+                route.append(option)
+                if field.fill_field(protein.sequence[:aminoacid + 4], route):
                     if aminoacid + 4 == protein.length:
                         if fold_points(field) - protein.errorpoint[aminoacid + 3] > best_fold_points:
                             best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
-                            best_fold = deepcopy(ways[route])
+                            best_fold = deepcopy(route)
 
                     # check wether current fold is the best and remembers it if it is
                     elif aminoacid % 2 == 0:
                         if  fold_points(field) - protein.errorpoint[aminoacid + 3] > last_fold_points:
-                            new_ways.append(deepcopy(ways[route]))
-                            if fold_points(field) - protein.errorpoint[aminoacid + 3] < best_fold_points:
+                            new_ways.append(deepcopy(route))
+                            if fold_points(field) - protein.errorpoint[aminoacid + 3] >= best_fold_points:
                                 best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
                         else:
-                            all_ways.append(deepcopy(ways[route]))
+                            all_ways.append(deepcopy(route))
 
                     else:
-                        all_ways.append(deepcopy(ways[route]))
+                        all_ways.append(deepcopy(route))
 
                 field.clear_field(protein.length)
                 field.x_cdn = protein.length - 1
                 field.y_cdn = protein.length
                 # print("before pop new", new_ways)
-                ways[route].pop()
+                route.pop()
 
         if not len(new_ways) == 0:
             print("New")
