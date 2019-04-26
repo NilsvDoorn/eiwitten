@@ -21,8 +21,6 @@ def main():
     # checks whether current option is better than all previous ones
     options = Option(protein.length)
     field = Field(protein.length, protein.sequence)
-    last_fold_points = 0
-
     ways = [["right"], ["forward"]]
 
     # creates field and fold based on the protein and the current option
@@ -31,23 +29,30 @@ def main():
         new_ways = []
         all_ways = []
         last_fold_points = best_fold_points
-        best_fold_points += 15
         if aminoacid + 4 == protein.length:
             best_fold_points = 0
+        else:
+            best_fold_points += 35
         for option in options.options:
             for route in range(len(ways)):
                 ways[route].append(option)
                 if field.fill_field(protein.sequence[:aminoacid + 4], ways[route]):
-                    all_ways.append(deepcopy(ways[route]))
+                    if aminoacid + 4 == protein.length:
+                        if fold_points(field) - protein.errorpoint[aminoacid + 3] > best_fold_points:
+                            best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                            best_fold = deepcopy(ways[route])
 
                     # check wether current fold is the best and remembers it if it is
-                    if  fold_points(field) - protein.errorpoint[aminoacid + 3] > last_fold_points:
-                        new_ways.append(deepcopy(ways[route]))
-                        if aminoacid + 4 == protein.length and fold_points(field) > best_fold_points:
-                            best_fold_points = fold_points(field)
-                            best_fold = deepcopy(ways[route])
-                        elif aminoacid + 4 != protein.length and fold_points(field) < best_fold_points:
-                            best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                    elif aminoacid % 2 == 0:
+                        if  fold_points(field) - protein.errorpoint[aminoacid + 3] > last_fold_points:
+                            new_ways.append(deepcopy(ways[route]))
+                            if fold_points(field) - protein.errorpoint[aminoacid + 3] < best_fold_points:
+                                best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                        else:
+                            all_ways.append(deepcopy(ways[route]))
+
+                    else:
+                        all_ways.append(deepcopy(ways[route]))
 
                 field.clear_field(protein.length)
                 field.x_cdn = protein.length - 1
@@ -66,7 +71,7 @@ def main():
             print(i)
 
     field.fill_field(protein.sequence, best_fold)
-    print(fold_points(field) - protein.errorpoint[aminoacid + 3])
+    print(best_fold_points)
     print(best_fold)
     for line in field.field:
         print(line)
