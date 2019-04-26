@@ -21,6 +21,7 @@ def main():
 
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
+        print(aminoacid)
         new_ways = []
         all_ways = []
         for option in options.options:
@@ -32,7 +33,12 @@ def main():
                     # check wether current fold is the best and remembers it if it is
                     if  fold_points(field) > last_fold_points:
                         new_ways.append(deepcopy(ways[route]))
-                        best_fold_points = fold_points(field)
+                        if aminoacid + 4 == protein.length and fold_points(field) > best_fold_points:
+                            best_fold_points = fold_points(field)
+                            best_fold = deepcopy(ways[route])
+                        elif aminoacid + 4 != protein.length and fold_points(field) < best_fold_points:
+                            best_fold_points = fold_points(field)
+
 
                 field.clear_field(protein.length)
                 field.x_cdn = protein.length - 1
@@ -46,11 +52,14 @@ def main():
             ways = deepcopy(all_ways)
 
         last_fold_points = best_fold_points
-                
-    # prints best_fold_points and best_fold and current field
-    field.fill_field(protein.sequence, ways[-1])
+        if aminoacid + 5 == protein.length:
+            best_fold_points = 0
+        else:
+            best_fold_points += 15
+
+    field.fill_field(protein.sequence, best_fold)
     print(fold_points(field) - protein.errorpoint)
-    print(ways[-1])
+    print(best_fold)
     for line in field.field:
         print(line)
     end = time.time()
