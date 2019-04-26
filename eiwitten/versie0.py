@@ -3,6 +3,7 @@ from protein import Protein
 from option import Option
 from field import Field
 # from path import Path
+import Tkinter as tk
 import time
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
@@ -62,8 +63,8 @@ def main():
     end = time.time()
     print(end - start)
 
-    # # start visualisation
-    # path.plotFold(protein.sequence, protein.length, field.coordinates)
+    # start visualisation
+    path.plotFold(protein.sequence, protein.length, field.coordinates)
 
 # checks user input
 def check():

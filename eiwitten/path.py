@@ -61,7 +61,7 @@ class Path(object):
 
         # plot line and markers
         line, = ax.plot(x, y, color='blue', linestyle='solid')
-        marker, = ax.plot(x, y, marker= 'o', markerfacecolor=getMarker(), markersize=12)
+        marker, = ax.scatter(x, y, marker= 'o', markerfacecolor=getMarker(), markersize=12)
 
         # import itertools
         # marker = itertools.cycle((',', '+', '.', 'o', '*'))
@@ -75,4 +75,3 @@ class Path(object):
         ax.grid()
 
         plt.savefig("out.png")
-        
