@@ -2,7 +2,7 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-from path import Path
+# from path import Path
 # import Tkinter as tk
 import time
 import matplotlib.path as mpath
@@ -27,9 +27,13 @@ def main():
 
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        print(aminoacid)
+        print(aminoacid, "amino")
         new_ways = []
         all_ways = []
+        last_fold_points = best_fold_points
+        best_fold_points += 15
+        if aminoacid + 4 == protein.length:
+            best_fold_points = 0
         for option in options.options:
             for route in range(len(ways)):
                 ways[route].append(option)
@@ -37,14 +41,13 @@ def main():
                     all_ways.append(deepcopy(ways[route]))
 
                     # check wether current fold is the best and remembers it if it is
-                    if  fold_points(field) > last_fold_points:
+                    if  fold_points(field) - protein.errorpoint[aminoacid + 3] > last_fold_points:
                         new_ways.append(deepcopy(ways[route]))
                         if aminoacid + 4 == protein.length and fold_points(field) > best_fold_points:
                             best_fold_points = fold_points(field)
                             best_fold = deepcopy(ways[route])
                         elif aminoacid + 4 != protein.length and fold_points(field) < best_fold_points:
-                            best_fold_points = fold_points(field)
-
+                            best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
 
                 field.clear_field(protein.length)
                 field.x_cdn = protein.length - 1
@@ -53,27 +56,26 @@ def main():
                 ways[route].pop()
 
         if not len(new_ways) == 0:
+            print("New")
             ways = deepcopy(new_ways)
         else:
+            print("All")
             ways = deepcopy(all_ways)
-
-        last_fold_points = best_fold_points
-        if aminoacid + 5 == protein.length:
-            best_fold_points = 0
-        else:
-            best_fold_points += 15
+            best_fold_points = last_fold_points
+        for i in ways:
+            print(i)
 
     field.fill_field(protein.sequence, best_fold)
-    print(fold_points(field) - protein.errorpoint)
+    print(fold_points(field) - protein.errorpoint[aminoacid + 3])
     print(best_fold)
     for line in field.field:
         print(line)
     end = time.time()
     print(end - start)
 
-    # start visualisation
-    p = Path(protein.sequence, protein.length, field.coordinates)
-    p.plotFold()
+    # # start visualisation
+    # p = Path(protein.sequence, protein.length, field.coordinates)
+    # p.plotFold()
 
 # checks user input
 def check():

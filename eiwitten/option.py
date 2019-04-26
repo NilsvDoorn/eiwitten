@@ -85,15 +85,3 @@ class Option(object):
             elif (CCCC[i][0], CCCC[i][1] - 1) in HHHH:
                 points += 1
         return points
-
-    # def cluster(self, sequence, option):
-    #     length_sequence = len(sequence) - 3
-    #     i = 0
-    #     while i < length_sequence:
-    #         if sequence[i] == sequence[i+3] == "H":
-    #             if option[i] != option[i+1] or option[i] == "forward":
-    #                 return False
-    #             else:
-    #                 i += 2
-    #         i += 1
-    #     return True
