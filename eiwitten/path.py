@@ -24,8 +24,9 @@ class Path(object):
         print(self.protein)
         print('this is the axislength')
         print(self.axislength)
-        # plot figure with size 1:1 with 100 dots per inches
+        plot figure with size 1:1 with 100 dots per inches
         plt.figure(figsize=(1, 1), dpi=100)
+        # handig voor 3D
         fig, ax = plt.subplots()
 
         # use the protein length to plot graph dimensions
@@ -33,6 +34,7 @@ class Path(object):
         x_R = self.axislength * 0.5
         y_L = self.axislength * -0.5
         y_R = self.axislength * 0.5
+
         ax.axis([x_L, x_R, y_L, y_R])
 
         # place the folding coordinates of the field in a list
@@ -43,6 +45,7 @@ class Path(object):
             ]
 
         # coordinates of the aminoacids: placeholder testlist
+        # testlist = [(1, -1), (1, 0), (2, 0), (2, -1), (3, -1), (3, -2), (2, -2)]
         testlist = [(1, -1), (1, 0), (2, 0), (2, -1), (3, -1), (3, -2), (2, -2)]
         testdict = {(1, -1): 'H', (1, 0): 'H', (2, 0): 'P', (2, -1): 'H', (3, -1): 'H',\
                     (3, -2): 'H', (2, -2): 'H'}
@@ -57,12 +60,14 @@ class Path(object):
         list_path = mpath.Path(verts, codes)
 
         # plot control points and connecting lines
-        x, y = zip(*list_path.vertices)
+        x = [t[0] for t in list_path.vertices]
+        y = [t[1] for t in list_path.vertices]
+
 
         # plot line and markers
-        line, = ax.plot(x, y, color='blue', linestyle='solid')
-        marker, = ax.scatter(x, y, marker= 'o', markerfacecolor=getMarker(), markersize=12)
-
+        line = ax.plot(x, y, color='blue', linestyle='solid')
+        # marker, = ax.scatter(x, y, marker= 'o', markerfacecolor=self.getMarker()'', markersize=12)
+        marker = ax.scatter(x, y, marker= 'o', c=self.getMarker(), s=12)
         # import itertools
         # marker = itertools.cycle((',', '+', '.', 'o', '*'))
         # for n in y:

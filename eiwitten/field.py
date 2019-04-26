@@ -38,7 +38,7 @@ class Field(object):
                    self.field[y][x] = aminoacid
                    self.last_step = str(new_direction)
                    # trying out coordinates
-                   self.coordinates.extend(self.field[x][y])
+                   self.coordinates.append((x, y))
                else:
                    return False
            elif direction == "left":
@@ -50,7 +50,7 @@ class Field(object):
 
                    self.last_step = str(new_direction)
                    # trying out coordinates
-                   self.coordinates.extend(self.field[x][y])
+                   self.coordinates.append((x, y))
                else:
                    return False
         return True
