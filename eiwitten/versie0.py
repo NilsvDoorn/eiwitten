@@ -2,7 +2,13 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
+from path import Path
+# import Tkinter as tk
 import time
+import matplotlib.path as mpath
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 from copy import deepcopy
 
 def main():
@@ -64,6 +70,10 @@ def main():
         print(line)
     end = time.time()
     print(end - start)
+
+    # start visualisation
+    p = Path(protein.sequence, protein.length, field.coordinates)
+    p.plotFold()
 
 # checks user input
 def check():

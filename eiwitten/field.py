@@ -8,6 +8,7 @@ class Field(object):
         self.right_ways = {'[0, 1]': [1,0], '[0, -1]': [-1,0], '[1, 0]': [0,-1], '[-1, 0]': [0,1]}
         self.left_ways = {'[0, 1]': [-1,0], '[0, -1]': [1,0], '[1, 0]': [0,1], '[-1, 0]': [0,-1]}
         self.forward_ways = {'[0, 1]': [0,1], '[0, -1]': [0,-1], '[1, 0]': [1,0], '[-1, 0]': [-1,0]}
+        self.coordinates = []
 
     """Fills field based on current option"""
     def fill_field(self, sequence, option):
@@ -25,6 +26,8 @@ class Field(object):
                    x = x + new_direction[1]
                    self.field[y][x] = aminoacid
                    self.last_step = str(new_direction)
+                   # trying out coordinates
+                   self.coordinates.append((x, y))
                else:
                    return False
            elif direction == "forward":
@@ -34,6 +37,8 @@ class Field(object):
                    x = x + new_direction[1]
                    self.field[y][x] = aminoacid
                    self.last_step = str(new_direction)
+                   # trying out coordinates
+                   self.coordinates.append((x, y))
                else:
                    return False
            elif direction == "left":
@@ -44,6 +49,8 @@ class Field(object):
                    self.field[y][x] = aminoacid
 
                    self.last_step = str(new_direction)
+                   # trying out coordinates
+                   self.coordinates.append((x, y))
                else:
                    return False
         return True
@@ -52,3 +59,5 @@ class Field(object):
         for x in range(len(self.field)):
             for y in range(len(self.field)):
                 self.field[y][x] = "_"
+        # trying out coordinates
+        self.coordinates = []

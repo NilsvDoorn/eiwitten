@@ -2,7 +2,7 @@ from itertools import product
 
 class Option(object):
     def __init__(self, length):
-        self.options = ["right", "left", "forward"]
+        self.options = ["right", "forward", "left"]
 
     # finds all x,y amino positions of current option
     def amino_positions(option):

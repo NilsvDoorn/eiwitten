@@ -22,7 +22,7 @@ def random_product(*args, repeat):
 # finds all x,y amino positions of current option
 def amino_positions(option):
     positions = []
-    x, y = 10, 10
+    x, y = 0, 5
     positions.append(tuple((x, y + 1)))
     positions.append(tuple((x, y)))
     direction = "d"
