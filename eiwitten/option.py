@@ -4,6 +4,14 @@ class Option(object):
     def __init__(self, length):
         self.options = ["right", "forward", "left"]
 
+    def mirror(self, route):
+        for option in route:
+            if option == 'right':
+                return False
+            elif option == 'left':
+                return True
+        return True
+
     # finds all x,y amino positions of current option
     def amino_positions(option):
         positions = []
