@@ -5,6 +5,7 @@ from field import Field
 # from path import Path
 # import Tkinter as tk
 import time
+import random
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -19,53 +20,57 @@ def main():
     best_fold_points = 0
     # makes user input into the protein class
     protein = Protein(argv[1])
-    # checks whether current option is better than all previous ones
     options = Option(protein.length)
     field = Field(protein.length, protein.sequence)
     ways = [["right"], ["forward"]]
+    last_fold_points = 0
+    P1 = 0.8
+    P2 = 0.25
 
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
+        best_fold_points = 0
         end = time.time()
         # print(end - start)
         start = time.time()
         print(aminoacid, "amino")
         new_ways = []
         all_ways = []
-        last_fold_points = best_fold_points
-        if aminoacid + 4 == protein.length:
-            best_fold_points = 0
-        # else:
-        #     best_fold_points += 35
-        for option in options.options:
-            for route in ways:
+        # last_fold_points = protein.lower_bound[aminoacid + 3]
+        for route in ways:
+            for option in options.options:
                 route.append(option)
-                if not options.mirror(route):
+                if not options.mirror(route): # and not options.PPP(protein.sequence, route):
                     if field.fill_field(protein.sequence[:aminoacid + 4], route):
+                        pseudo_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
                         if aminoacid + 4 == protein.length:
-                            if fold_points(field) - protein.errorpoint[aminoacid + 3] > best_fold_points:
-                                best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                            if pseudo_points > best_fold_points:
+                                best_fold_points = pseudo_points
                                 best_fold = deepcopy(route)
 
                         # check wether current fold is the best and remembers it if it is
-                        elif aminoacid % 2 == 0:
-                            if  fold_points(field) - protein.errorpoint[aminoacid + 3] > last_fold_points:
+                        elif protein.sequence[aminoacid + 3] == 'H' or protein.sequence[aminoacid + 3] == 'C':
+                            if  pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
-                                if fold_points(field) - protein.errorpoint[aminoacid + 3] > best_fold_points:
+                                if pseudo_points > best_fold_points:
                                     best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                            elif pseudo_points < protein.lower_bound[aminoacid + 3]:
+                                if random.uniform(0, 1) > P1:
+                                    new_ways.append(deepcopy(route))
                             else:
-                                all_ways.append(deepcopy(route))
+                                if random.uniform(0, 1) > P2:
+                                    new_ways.append(deepcopy(route))
 
                         else:
                             all_ways.append(deepcopy(route))
-
                     field.clear_field(protein.length)
                     field.x_cdn = protein.length - 1
                     field.y_cdn = protein.length
-                    # print("before pop new", new_ways)
-                    route.pop()
 
-        if not len(new_ways) == 0:
+
+                    # print("before pop new", new_ways)
+                route.pop()
+        if not len(new_ways) == 0 or aminoacid + 4 == protein.length:
             print("New")
             ways = deepcopy(new_ways)
         else:
@@ -74,6 +79,7 @@ def main():
             best_fold_points = last_fold_points
         for i in ways:
             print(i)
+        last_fold_points = best_fold_points
 
     field.fill_field(protein.sequence, best_fold)
     print(best_fold_points)

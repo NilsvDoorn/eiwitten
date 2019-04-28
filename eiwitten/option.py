@@ -12,6 +12,13 @@ class Option(object):
                 return True
         return True
 
+    def PPP(self, eiwit, route):
+        if eiwit[len(route) - 1] == eiwit[len(route)] == eiwit[len(route) + 1] == 'P' and route[-1] == 'forward':
+            return True
+        else:
+            return False
+
+
     # finds all x,y amino positions of current option
     def amino_positions(option):
         positions = []

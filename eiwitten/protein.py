@@ -3,6 +3,7 @@ class Protein(object):
         self.sequence = protein
         self.length = len(protein)
         self.errorpoint = self.errorcalculator()
+        self.lower_bound = self.minimum()
 
     def errorcalculator(self):
         points = 0
@@ -13,4 +14,15 @@ class Protein(object):
             elif self.sequence[i] == self.sequence[i + 1] == "C":
                 points += 5
             point_list.append(points)
+        return(point_list)
+
+    def minimum(self):
+        points = 0
+        point_list = []
+        for i in range(self.length):
+            if self.sequence[i] == "H":
+                points += 1
+            elif self.sequence[i] == "C":
+                points += 5
+            point_list.append(points // 2)
         return(point_list)
