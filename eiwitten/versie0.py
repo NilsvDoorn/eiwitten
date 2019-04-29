@@ -2,26 +2,26 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-# from path import Path
-# import Tkinter as tk
+<<<<<<< HEAD
+from path import Path
+=======
+>>>>>>> b9bf91ab2d16423be40d964977989ae7299a2ec0
 import time
 import random
-import matplotlib.path as mpath
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 from copy import deepcopy
 
 def main():
-    all= time.time()
-    start= time.time()
+    start = time.time()
     # checks whether program is used correctly
     check()
-    best_fold_points = 0
+
     # makes user input into the protein class
     protein = Protein(argv[1])
+
     options = Option(protein.length)
-    field = Field(protein.length, protein.sequence)
+    best_fold = options.options[0]
+    best_positions = [(0, 0), (0, 1)]
+
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     P1 = 1
@@ -30,38 +30,35 @@ def main():
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         best_fold_points = 0
-        end = time.time()
-        # print(end - start)
-        start = time.time()
-        print(aminoacid, "amino")
         new_ways = []
-        all_ways = []
-        # last_fold_points = protein.lower_bound[aminoacid + 3]
+
         for route in ways:
             for option in options.options:
                 route.append(option)
-                if not options.mirror(route): # and not options.PPP(protein.sequence, route):
-                    if field.fill_field(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                if not options.mirror(route):
+                    if options.amino_positions(protein.sequence[:aminoacid + 4], route):
+                        pseudo_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = pseudo_points
                                 best_fold = deepcopy(route)
-
-                        # check wether current fold is the best and remembers it if it is
                         elif protein.sequence[aminoacid + 3] == 'H' or protein.sequence[aminoacid + 3] == 'C':
-                            if  pseudo_points >= last_fold_points:
+                            if pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
                                 if pseudo_points > best_fold_points:
+<<<<<<< HEAD
                                     best_fold_points = pseudo_points
+=======
+                                    best_fold_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
+>>>>>>> 3f64edc4f698ebbfe42bae60c6f5a6225d737206
                             elif pseudo_points < protein.lower_bound[aminoacid + 3]:
-                                if random.uniform(0, 1) > P1:
+                                if random.uniform(0,1) < P1:
                                     new_ways.append(deepcopy(route))
                             else:
-                                if random.uniform(0, 1) > P2:
+                                if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
-
                         else:
+<<<<<<< HEAD
                             all_ways.append(deepcopy(route))
                     # print("before pop new", new_ways)
                     field.clear_field(protein.length)
@@ -80,18 +77,35 @@ def main():
         for i in ways:
             print(i)
         last_fold_points = best_fold_points
+=======
+                            new_ways.append(deepcopy(route))
 
-    field.fill_field(protein.sequence, best_fold)
-    print(best_fold_points)
+                route.pop()
+        ways = deepcopy(new_ways)
+        best_positions = options.amino_positions(protein.sequence, best_fold)
+>>>>>>> 3f64edc4f698ebbfe42bae60c6f5a6225d737206
+
+        last_fold_points = best_fold_points
+                # print("after new", new_ways)
+    # prints best_fold_points and best_fold and current field
+    print(last_fold_points)
     print(best_fold)
+    print(best_positions)
+    field = Field(protein.length, protein.sequence)
+    field.fill_field(best_positions, protein.sequence)
+    print("Field:")
     for line in field.field:
         print(line)
     end = time.time()
+<<<<<<< HEAD
     print(end - all)
 
-    # # start visualisation
-    # p = Path(protein.sequence, protein.length, field.coordinates)
-    # p.plotFold()
+    # start visualisation
+    p = Path(protein.sequence, protein.length, field.coordinates)
+    p.plotFold()
+=======
+    print(end - start)
+>>>>>>> b9bf91ab2d16423be40d964977989ae7299a2ec0
 
 # checks user input
 def check():
@@ -102,19 +116,30 @@ def check():
             exit("Protein sequence can only contain P, C and H")
 
 # checks the points scored by the current fold
-def fold_points(field):
+def fold_points(positions, sequence):
     points = 0
-    for i in range(field.dimension):
-       for j in range(field.dimension):
-           if field.field[j][i] == "H":
-               for k in [[1,0],[0,1]]:
-                   if field.field[j + k[0]][i + k[1]] == "H":
-                       points += 1
-           elif field.field[j][i] == "C":
-                for k in [[1,0],[0,1]]:
-                    if field.field[j + k[0]][i + k[1]] == "C":
-                        points += 5
-    return(points)
+    HHHH = []
+    CCCC = []
+    for position, acid in zip(positions, sequence):
+        if acid == "H":
+            HHHH.append(position)
+        elif acid == "C":
+            CCCC.append(position)
+    for i in range(len(HHHH)):
+        if (HHHH[i][0] - 1, HHHH[i][1]) in (HHHH or CCCC):
+            points += 1
+        if (HHHH[i][0], HHHH[i][1] - 1) in (HHHH or CCCC):
+            points += 1
+    for i in range(len(CCCC)):
+        if (CCCC[i][0] - 1, CCCC[i][1]) in CCCC:
+            points += 5
+        elif (CCCC[i][0] - 1, CCCC[i][1]) in HHHH:
+            points += 1
+        if (CCCC[i][0], CCCC[i][1] - 1) in CCCC:
+            points += 5
+        elif (CCCC[i][0], CCCC[i][1] - 1) in HHHH:
+            points += 1
+    return points
 
 
 if __name__ == '__main__':

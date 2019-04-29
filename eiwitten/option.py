@@ -1,5 +1,6 @@
 from itertools import product
-
+from math import ceil
+"""Generates a list of all folding options for the protein"""
 class Option(object):
     def __init__(self, length):
         self.options = ["right", "forward", "left"]
@@ -12,20 +13,22 @@ class Option(object):
                 return True
         return True
 
-    def PPP(self, eiwit, route):
-        if eiwit[len(route) - 1] == eiwit[len(route)] == eiwit[len(route) + 1] == 'P' and route[-1] == 'forward':
-            return True
-        else:
-            return False
-
-
-    # finds all x,y amino positions of current option
-    def amino_positions(option):
+    """Fills field based on current option"""
+    def amino_positions(self, sequence, option):
+        # initialises positions list and starting coordinates of protein
         positions = []
-        x, y = 10, 10
-        positions.append(tuple((x, y + 1)))
-        positions.append(tuple((x, y)))
+        begin = ceil(len(sequence) / 2)
+
+        # appends first two positions to positions list
+        positions.append(tuple((begin, begin)))
+        positions.append(tuple((begin + 1, begin)))
+
+        # initialises x-, y-coordinates and current direction
+        x, y = begin, begin + 1
         direction = "d"
+
+        # loops over current option and appends aminoacid coordinates
+        # if there are no bumps
         for move in option:
             if direction == "d":
                 if move == "right":
@@ -35,22 +38,22 @@ class Option(object):
                     x = x + 1
                     direction = "r"
                 elif move == "forward":
-                    y = y - 1
+                    y = y + 1
             elif direction == "r":
                 if move == "right":
-                    y = y - 1
+                    y = y + 1
                     direction = "d"
                 elif move == "left":
-                    y = y + 1
+                    y = y - 1
                     direction = "u"
                 elif move == "forward":
                     x = x + 1
             elif direction == "l":
                 if move == "right":
-                    y = y + 1
+                    y = y - 1
                     direction = "u"
                 elif move == "left":
-                    y = y - 1
+                    y = y + 1
                     direction = "d"
                 elif move == "forward":
                     x = x - 1
@@ -62,41 +65,9 @@ class Option(object):
                     x = x - 1
                     direction = "l"
                 elif move == "forward":
-                    y = y + 1
-            positions.append(tuple((x, y)))
+                    y = y - 1
+            # only appends coordinates if there are no bumps
+            if tuple((y, x)) in positions:
+                return False
+            positions.append(tuple((y, x)))
         return positions
-
-    # determines if current fold option results in bumps
-    def viable_option(option):
-        number = 1
-        for position in option:
-            for i in range(len(option) - number):
-                if option[i + number] == position:
-                    return False
-            number += 1
-        return True
-
-    def fold_points(positions, sequence):
-        points = 0
-        HHHH = []
-        CCCC = []
-        for position, acid in zip(positions, sequence):
-            if acid == "H":
-                HHHH.append(position)
-            elif acid == "C":
-                CCCC.append(position)
-        for i in range(len(HHHH)):
-            if (HHHH[i][0] - 1, HHHH[i][1]) in (HHHH or CCCC):
-                points += 1
-            if (HHHH[i][0], HHHH[i][1] - 1) in (HHHH or CCCC):
-                points += 1
-        for i in range(len(CCCC)):
-            if (CCCC[i][0] - 1, CCCC[i][1]) in CCCC:
-                points += 5
-            elif (CCCC[i][0] - 1, CCCC[i][1]) in HHHH:
-                points += 1
-            if (CCCC[i][0], CCCC[i][1] - 1) in CCCC:
-                points += 5
-            elif (CCCC[i][0], CCCC[i][1] - 1) in HHHH:
-                points += 1
-        return points
