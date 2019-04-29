@@ -4,46 +4,66 @@ from option import Option
 from field import Field
 from path import Path
 import time
+import random
 from copy import deepcopy
 
 def main():
     start = time.time()
     # checks whether program is used correctly
     check()
-    best_fold_points = 0
+
     # makes user input into the protein class
     protein = Protein(argv[1])
-    # checks whether current option is better than all previous ones
-    options = Option(protein.length)
-    field = Field(protein.length, protein.sequence)
-    best_fold = options.options[0]
 
-    new_ways = [["right"], ["left"], ["forward"]]
+    options = Option(protein.length)
+    best_fold = options.options[0]
+    best_positions = [(0, 0), (0, 1)]
+
+    ways = [["right"], ["forward"]]
+    last_fold_points = 0
+    P1 = 1
+    P2 = 0.9
 
     # creates field and fold based on the protein and the current option
-    for aminoacid in range(len(protein.sequence) - 2):
-        ways = deepcopy(new_ways)
+    for aminoacid in range(len(protein.sequence) - 3):
+        best_fold_points = 0
         new_ways = []
-        for option in options.options:
-            for route in range(len(ways)):
-                ways[route].append(option)
-                if options.amino_positions(protein.sequence[:aminoacid + 4], ways[route]):
-                    new_ways.append(deepcopy(ways[route]))
-                    # print("new", new_ways)
 
-                    # check wether current fold is the best and remembers it if it is
-                    if fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], ways[route]), protein.sequence) > best_fold_points:
-                        best_fold_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], ways[route]), protein.sequence)
-                        best_fold = deepcopy(ways[route])
-                        best_positions = options.amino_positions(protein.sequence[:aminoacid + 4], ways[route])
-                        # print(best_fold)
-                # print("before pop new", new_ways)
-                ways[route].pop()
+        for route in ways:
+            for option in options.options:
+                route.append(option)
+                if not options.mirror(route):
+                    if options.amino_positions(protein.sequence[:aminoacid + 4], route):
+                        pseudo_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
+                        if aminoacid + 4 == protein.length:
+                            if pseudo_points > best_fold_points:
+                                best_fold_points = pseudo_points
+                                best_fold = deepcopy(route)
+                        elif protein.sequence[aminoacid + 3] == 'H' or protein.sequence[aminoacid + 3] == 'C':
+                            if pseudo_points >= last_fold_points:
+                                new_ways.append(deepcopy(route))
+                                if pseudo_points > best_fold_points:
+                                    best_fold_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
+                            elif pseudo_points < protein.lower_bound[aminoacid + 3]:
+                                if random.uniform(0,1) < P1:
+                                    new_ways.append(deepcopy(route))
+                            else:
+                                if random.uniform(0,1) > P2:
+                                    new_ways.append(deepcopy(route))
+                        else:
+                            new_ways.append(deepcopy(route))
+
+                route.pop()
+        ways = deepcopy(new_ways)
+        best_positions = options.amino_positions(protein.sequence, best_fold)
+
+        last_fold_points = best_fold_points
                 # print("after new", new_ways)
     # prints best_fold_points and best_fold and current field
-    print(best_fold_points - protein.errorpoint)
+    print(last_fold_points)
     print(best_fold)
     print(best_positions)
+    field = Field(protein.length, protein.sequence)
     field.fill_field(best_positions, protein.sequence)
     print("Field:")
     for line in field.field:

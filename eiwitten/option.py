@@ -13,21 +13,23 @@ class Option(object):
                 return True
         return True
 
-    def PPP(self, eiwit, route):
-        if eiwit[len(route) - 1] == eiwit[len(route)] == eiwit[len(route) + 1] == 'P' and route[-1] == 'forward':
-            return True
-        else:
-            return False
-
     """Fills field based on current option"""
     def amino_positions(self, sequence, option):
+        # initialises positions list and starting coordinates of protein
         positions = []
         begin = ceil(len(sequence) / 2)
+
+        # appends first two positions to positions list
         positions.append(tuple((begin, begin)))
         positions.append(tuple((begin + 1, begin)))
+
+        # initialises x-, y-coordinates and current direction
         x, y = begin, begin + 1
         direction = "d"
-        for aminoacid, move in zip(sequence[2:], option):
+
+        # loops over current option and appends aminoacid coordinates
+        # if there are no bumps
+        for move in option:
             if direction == "d":
                 if move == "right":
                     x = x - 1
@@ -64,6 +66,7 @@ class Option(object):
                     direction = "l"
                 elif move == "forward":
                     y = y - 1
+            # only appends coordinates if there are no bumps
             if tuple((y, x)) in positions:
                 return False
             positions.append(tuple((y, x)))
