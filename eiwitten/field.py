@@ -10,43 +10,11 @@ class Field(object):
         self.forward_ways = {'[0, 1]': [0,1], '[0, -1]': [0,-1], '[1, 0]': [1,0], '[-1, 0]': [-1,0]}
 
     """Fills field based on current option"""
-    def fill_field(self, sequence, option):
-        x = self.x_cdn
-        y = self.y_cdn
-        self.field[y-1][x] = sequence[0]
-        self.field[y][x] = sequence[1]
-        self.last_step = '[1, 0]'
-
-        for aminoacid, direction in zip(sequence[2:], option):
-           if direction == "right":
-               new_direction = self.right_ways[self.last_step]
-               if self.field[y + new_direction[0]][x + new_direction[1]] == "_":
-                   y = y + new_direction[0]
-                   x = x + new_direction[1]
-                   self.field[y][x] = aminoacid
-                   self.last_step = str(new_direction)
-               else:
-                   return False
-           elif direction == "forward":
-               new_direction = self.forward_ways[self.last_step]
-               if self.field[y + new_direction[0]][x + new_direction[1]] == "_":
-                   y = y + new_direction[0]
-                   x = x + new_direction[1]
-                   self.field[y][x] = aminoacid
-                   self.last_step = str(new_direction)
-               else:
-                   return False
-           elif direction == "left":
-               new_direction = self.left_ways[self.last_step]
-               if self.field[y + new_direction[0]][x + new_direction[1]] == "_":
-                   y = y + new_direction[0]
-                   x = x + new_direction[1]
-                   self.field[y][x] = aminoacid
-
-                   self.last_step = str(new_direction)
-               else:
-                   return False
-        return True
+    def fill_field(self, positions, sequence):
+        for position, aminoacid in zip(positions, sequence):
+            print(position)
+            (x, y) = position
+            self.field[x][y] = aminoacid
 
     def clear_field(self, length):
         for x in range(len(self.field)):
