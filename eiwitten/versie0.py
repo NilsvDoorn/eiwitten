@@ -2,10 +2,7 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-<<<<<<< HEAD
 from path import Path
-=======
->>>>>>> b9bf91ab2d16423be40d964977989ae7299a2ec0
 import time
 from copy import deepcopy
 
@@ -52,15 +49,11 @@ def main():
     for line in field.field:
         print(line)
     end = time.time()
-<<<<<<< HEAD
-    print(end - all)
+    print(end - start)
 
     # start visualisation
-    p = Path(protein.sequence, protein.length, field.coordinates)
-    p.plotFold()
-=======
-    print(end - start)
->>>>>>> b9bf91ab2d16423be40d964977989ae7299a2ec0
+    p = Path(protein.length, best_positions)
+    p.plotFold(protein.sequence)
 
 # checks user input
 def check():
