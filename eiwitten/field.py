@@ -11,6 +11,7 @@ class Field(object):
         self.coordinates = []
 
     """Fills field based on current option"""
+<<<<<<< HEAD
     def fill_field(self, sequence, option):
         x = self.x_cdn
         y = self.y_cdn
@@ -54,6 +55,13 @@ class Field(object):
                else:
                    return False
         return True
+=======
+    def fill_field(self, positions, sequence):
+        for position, aminoacid in zip(positions, sequence):
+            print(position)
+            (x, y) = position
+            self.field[x][y] = aminoacid
+>>>>>>> b9bf91ab2d16423be40d964977989ae7299a2ec0
 
     def clear_field(self, length):
         for x in range(len(self.field)):
