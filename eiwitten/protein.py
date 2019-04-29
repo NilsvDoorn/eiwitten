@@ -24,5 +24,5 @@ class Protein(object):
                 points += 1
             elif self.sequence[i] == "C":
                 points += 5
-            point_list.append(points // 2)
+            point_list.append(points // 4)
         return(point_list)

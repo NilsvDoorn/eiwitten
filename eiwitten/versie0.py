@@ -24,8 +24,8 @@ def main():
     field = Field(protein.length, protein.sequence)
     ways = [["right"], ["forward"]]
     last_fold_points = 0
-    P1 = 0.8
-    P2 = 0.25
+    P1 = 1
+    P2 = 0.9
 
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -53,7 +53,7 @@ def main():
                             if  pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
                                 if pseudo_points > best_fold_points:
-                                    best_fold_points = fold_points(field) - protein.errorpoint[aminoacid + 3]
+                                    best_fold_points = pseudo_points
                             elif pseudo_points < protein.lower_bound[aminoacid + 3]:
                                 if random.uniform(0, 1) > P1:
                                     new_ways.append(deepcopy(route))
@@ -63,13 +63,13 @@ def main():
 
                         else:
                             all_ways.append(deepcopy(route))
+                    # print("before pop new", new_ways)
                     field.clear_field(protein.length)
                     field.x_cdn = protein.length - 1
                     field.y_cdn = protein.length
-
-
-                    # print("before pop new", new_ways)
                 route.pop()
+
+
         if not len(new_ways) == 0 or aminoacid + 4 == protein.length:
             print("New")
             ways = deepcopy(new_ways)
