@@ -3,7 +3,21 @@ from math import ceil
 """Generates a list of all folding options for the protein"""
 class Option(object):
     def __init__(self, length):
-        self.options = ["right", "left", "forward"]
+        self.options = ["right", "forward", "left"]
+
+    def mirror(self, route):
+        for option in route:
+            if option == 'right':
+                return False
+            elif option == 'left':
+                return True
+        return True
+
+    def PPP(self, eiwit, route):
+        if eiwit[len(route) - 1] == eiwit[len(route)] == eiwit[len(route) + 1] == 'P' and route[-1] == 'forward':
+            return True
+        else:
+            return False
 
     """Fills field based on current option"""
     def amino_positions(self, sequence, option):
