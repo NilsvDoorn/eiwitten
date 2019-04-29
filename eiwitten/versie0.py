@@ -2,8 +2,7 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-# from path import Path
-# import Tkinter as tk
+from path import Path
 import time
 import random
 import matplotlib.path as mpath
@@ -89,9 +88,9 @@ def main():
     end = time.time()
     print(end - all)
 
-    # # start visualisation
-    # p = Path(protein.sequence, protein.length, field.coordinates)
-    # p.plotFold()
+    # start visualisation
+    p = Path(protein.sequence, protein.length, field.coordinates)
+    p.plotFold()
 
 # checks user input
 def check():

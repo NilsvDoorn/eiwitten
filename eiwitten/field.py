@@ -47,7 +47,7 @@ class Field(object):
                    y = y + new_direction[0]
                    x = x + new_direction[1]
                    self.field[y][x] = aminoacid
-
+                   
                    self.last_step = str(new_direction)
                    # trying out coordinates
                    self.coordinates.append((x, y))
