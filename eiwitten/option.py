@@ -17,7 +17,7 @@ class Option(object):
     def amino_positions(self, sequence, option):
         # initialises positions list and starting coordinates of protein
         positions = []
-        begin = ceil(len(sequence) / 2)
+        begin = int(ceil(len(sequence) / 2))
 
         # appends first two positions to positions list
         positions.append(tuple((begin, begin)))

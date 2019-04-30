@@ -13,7 +13,12 @@ class Protein(object):
                 points += 1
             elif self.sequence[i] == self.sequence[i + 1] == "C":
                 points += 5
+            elif self.sequence[i] == "C" and self.sequence[i + 1] == "H":
+                points += 1
+            elif self.sequence[i] == "H" and self.sequence[i + 1] == "C":
+                points += 1
             point_list.append(points)
+        print(point_list)
         return(point_list)
 
     def minimum(self):
