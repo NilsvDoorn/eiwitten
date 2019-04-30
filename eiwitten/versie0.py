@@ -2,7 +2,7 @@ from sys import argv
 from protein import Protein
 from option import Option
 from field import Field
-
+from path import Path
 import time
 import random
 from copy import deepcopy
@@ -73,9 +73,9 @@ def main():
     end = time.time()
     print(end - start)
 
-    # # start visualisation
-    # p = Path(protein.sequence, protein.length, field.coordinates)
-    # p.plotFold()
+    # start visualisation
+    p = Path(protein.length, best_positions)
+    p.plotFold(protein.sequence)
 
 # checks user input
 def check():
