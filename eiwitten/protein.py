@@ -13,8 +13,9 @@ class Protein(object):
                 points += 1
             elif self.sequence[i] == self.sequence[i + 1] == "C":
                 points += 5
-        return points
-        
+            point_list.append(points)
+        return point_list
+
 
     def minimum(self):
         points = 0
