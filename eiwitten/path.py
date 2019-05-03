@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from field import Field
 from protein import Protein
+from collections import namedtuple
 import math
 
 class Path(object):
@@ -12,29 +13,41 @@ class Path(object):
         self.axislength = protein_length
         self.datapoints = best_positions
 
+    def minmax_coords(*pnts):
+        mn = Point( *(min(p[i] for p in pnts) for i in range(3)) )
+        mx = Point( *(max(p[i] for p in pnts) for i in range(3)) )
+        return mn, mx
+
 
     def plotFold(self, proteinsequence):
         """Plots the folded protein"""
 
-        print('this is the protein sequence')
-        print(proteinsequence)
-        print('this is the axislength')
-        print(self.axislength)
-        print('these are the datapoints')
-        print(self.datapoints)
+        print('this is the protein sequence: ', proteinsequence)
+        print('this is the axislength: ', self.axislength)
+        print('these are the datapoints: ', self.datapoints)
 
         # plot figure with size 1:1 with 100 dots per inches
-        plt.figure(figsize=(1, 1), dpi=100)
+        plt.figure(figsize=(6, 6), dpi=200)
         # handig voor 3D
         fig, ax = plt.subplots()
 
-        # use the protein length to plot graph dimensions
-        x_L = 0
-        x_R = self.axislength
-        y_L = x_L
-        y_R = x_R
+        # find minimum x and y coordinates
+        min_x = 1000
+        max_x = 0
+        min_y = 1000
+        max_y = 0
+        for cnd in self.datapoints:
+            if (min_x > cnd[0]):
+                min_x = cnd[0]
+            if (max_x < cnd[0]):
+                max_x = cnd[0]
+            if (min_y > cnd[1]):
+                min_y = cnd[1]
+            if (max_y < cnd[1]):
+                max_y = cnd[1]
 
-        ax.axis([x_L, x_R, y_L, y_R])
+        # use minimum and maximum coordinates for axis limits
+        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1)])
 
         # place the folding coordinates of the field in a list, starting cnd at protein length
         list_path_data = [
