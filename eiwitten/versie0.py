@@ -74,13 +74,8 @@ def main():
     print(end - start)
 
     # start visualisation
-<<<<<<< HEAD
-    p = Path(protein.sequence, protein.length, field.coordinates)
-    p.plotFold()
-=======
     p = Path(protein.length, best_positions)
     p.plotFold(protein.sequence)
->>>>>>> c02b5b5c0aad9ed005b6e078068585f6df7efa3b
 
 # checks user input
 def check():
