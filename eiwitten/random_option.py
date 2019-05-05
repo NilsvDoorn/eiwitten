@@ -1,19 +1,14 @@
 from itertools import product
 import random
-from math import ceil
-
-
-"""Generates a random fold option for the protein"""
+"""Generates a list of all folding options for the protein"""
 class Option(object):
-    def __init__(self, length, sequence):
-        self.option = random_product(["right", "left", "forward"], repeat = length - 2)
-        self.positions = amino_positions(list(self.option), length)
-        # checks wether option is viable, generates new one if it is not
+    def __init__(self, length):
+#        self.options = list(product(["right", "left", "forward"], repeat = length - 2))
+        self.option = random_product(["right", "left", "forward"], repeat = length)
+        self.positions = amino_positions(list(self.option))
         while not viable_option(self.positions):
-            self.option = random_product(["right", "left", "forward"], repeat = length - 2)
-            self.positions = amino_positions(list(self.option), length)
-        # determines fold points
-        self.points = fold_points(self.positions, sequence)
+            self.option = random_product(["right", "left", "forward"], repeat = length)
+            self.positions = amino_positions(list(self.option))
 
 # from https://docs.python.org/3.1/library/itertools.html?highlight=combinations#itertools.product
 # generates a random sequence of left, forward and right of length protein.length
@@ -23,10 +18,9 @@ def random_product(*args, repeat):
     return tuple(random.choice(pool) for pool in pools)
 
 # finds all x,y amino positions of current option
-def amino_positions(option, length):
+def amino_positions(option):
     positions = []
-    begin = 0
-    x, y = begin, begin
+    x, y = 0, 0
     positions.append(tuple((x, y + 1)))
     positions.append(tuple((x, y)))
     direction = "d"
@@ -68,6 +62,7 @@ def amino_positions(option, length):
             elif move == "forward":
                 y = y + 1
         positions.append(tuple((x, y)))
+    print(positions)
     return positions
 
 # determines if current fold option results in bumps
@@ -76,34 +71,11 @@ def viable_option(option):
     for position in option:
         for i in range(len(option) - number):
             if option[i + number] == position:
+                print("Bump:")
                 return False
-        number += 1
+        number = number + 1
     return True
 
-def fold_points(positions, sequence):
-    points = 0
-    HHHH = []
-    CCCC = []
-    for position, acid in zip(positions, sequence):
-        if acid == "H":
-            HHHH.append(position)
-        elif acid == "C":
-            CCCC.append(position)
-    for i in range(len(HHHH)):
-        if (HHHH[i][0] - 1, HHHH[i][1]) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0], HHHH[i][1] - 1) in (HHHH or CCCC):
-            points += 1
-    for i in range(len(CCCC)):
-        if (CCCC[i][0] - 1, CCCC[i][1]) in CCCC:
-            points += 5
-        elif (CCCC[i][0] - 1, CCCC[i][1]) in HHHH:
-            points += 1
-        if (CCCC[i][0], CCCC[i][1] - 1) in CCCC:
-            points += 5
-        elif (CCCC[i][0], CCCC[i][1] - 1) in HHHH:
-            points += 1
-    return points
     # def automatic(self, option, protein):
     #     for i in range(len(protein)):
     #         if protein[i] == protein[i+4] == "H":
