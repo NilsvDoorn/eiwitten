@@ -10,10 +10,11 @@ class Path(object):
     def __init__(self, protein, axislength, coordinates):
         self.protein = protein
         self.axislength = axislength
-        self.datapoints = coordinates
+        self.path_coordinates = coordinates
 
     def getMarker():
         """Returns a marker with color based on the aminoacid"""
+        #
         return 'red'
 
         # self.path_dict = {}
@@ -24,16 +25,17 @@ class Path(object):
         print(self.protein)
         print('this is the axislength')
         print(self.axislength)
-        plot figure with size 1:1 with 100 dots per inches
+
+        # plot figure with size 1:1 with 100 dots per inches
         plt.figure(figsize=(1, 1), dpi=100)
         # handig voor 3D
         fig, ax = plt.subplots()
 
         # use the protein length to plot graph dimensions
-        x_L = self.axislength * -0.5
-        x_R = self.axislength * 0.5
-        y_L = self.axislength * -0.5
-        y_R = self.axislength * 0.5
+        x_L = self.axislength * 0.5;
+        x_R = self.axislength * (-0.5);
+        y_R = x_R
+        y_L = x_L
 
         ax.axis([x_L, x_R, y_L, y_R])
 
@@ -50,14 +52,21 @@ class Path(object):
         testdict = {(1, -1): 'H', (1, 0): 'H', (2, 0): 'P', (2, -1): 'H', (3, -1): 'H',\
                     (3, -2): 'H', (2, -2): 'H'}
 
+        print('these are the path_coordinates')
+        print(self.path_coordinates)
+
+
         # place the code + coordinates in the list
         for i in testlist:
             list_path_data.extend([(mpath.Path.LINETO, i)])
+        print('this is the list path data (test_list)')
         print(list_path_data)
 
         # use the list for plotting the fold
         codes, verts = zip(*list_path_data)
         list_path = mpath.Path(verts, codes)
+        print('this is the list path (testlist)')
+        print(list_path)
 
         # plot control points and connecting lines
         x = [t[0] for t in list_path.vertices]
