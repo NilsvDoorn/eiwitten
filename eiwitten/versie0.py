@@ -6,6 +6,7 @@ from path import Path
 import time
 import random
 from copy import deepcopy
+from math import ceil
 
 def main():
     start = time.time()
@@ -60,8 +61,28 @@ def main():
         #     print(i)
         # print("")
                 # print("after new", new_ways)
-    # prints best_fold_points and best_fold and current field
+
     best_positions = options.amino_positions(protein.sequence, best_fold)
+    print("First best fold points" + str(best_fold_points))
+
+    error = protein.errorpoint[-1]
+
+    for i in range(10000):
+        changed_fold = best_fold
+        change = random_product(["right", "left", "forward"], repeat = 7)
+        index = round(random.uniform(0, 1) * (protein.length - 10))
+        changed_fold[index] = change[0]
+        changed_fold[index] = change[1]
+        changed_positions = changed_amino_positions(protein.sequence, changed_fold)
+        if changed_positions and (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
+            print("New best fold points:")
+            last_fold_points = fold_points(changed_positions, protein.sequence) - error
+            best_fold = changed_fold
+            best_positions = changed_positions
+            print(last_fold_points)
+
+    # prints best_fold_points and best_fold and current field
+
     print(last_fold_points)
     print(best_fold)
     print(best_positions)
@@ -122,6 +143,70 @@ def fold_points(positions, sequence):
         elif (CCCC[i][0] + 1, CCCC[i][1]) in HHHH:
             points += 2
     return points / 2
+
+def random_product(*args, repeat):
+    "Random selection from itertools.product(*args, **kwds)"
+    pools = [tuple(pool) for pool in args] * repeat
+    return tuple(random.choice(pool) for pool in pools)
+
+def changed_amino_positions(sequence, option):
+    # initialises positions list and starting coordinates of protein
+    positions = []
+    begin = int(ceil(len(sequence) / 2))
+
+    # appends first two positions to positions list
+    positions.append(tuple((begin, begin)))
+    positions.append(tuple((begin + 1, begin)))
+
+    # initialises x-, y-coordinates and current direction
+    x, y = begin, begin + 1
+    direction = "d"
+
+    # loops over current option and appends aminoacid coordinates
+    # if there are no bumps
+    for move in option:
+        if direction == "d":
+            if move == "right":
+                x = x - 1
+                direction = "l"
+            elif move == "left":
+                x = x + 1
+                direction = "r"
+            elif move == "forward":
+                y = y + 1
+        elif direction == "r":
+            if move == "right":
+                y = y + 1
+                direction = "d"
+            elif move == "left":
+                y = y - 1
+                direction = "u"
+            elif move == "forward":
+                x = x + 1
+        elif direction == "l":
+            if move == "right":
+                y = y - 1
+                direction = "u"
+            elif move == "left":
+                y = y + 1
+                direction = "d"
+            elif move == "forward":
+                x = x - 1
+        elif direction == "u":
+            if move == "right":
+                x = x + 1
+                direction = "r"
+            elif move == "left":
+                x = x - 1
+                direction = "l"
+            elif move == "forward":
+                y = y - 1
+        # only appends coordinates if there are no bumps
+        if tuple((y, x)) in positions:
+            return False
+        positions.append(tuple((y, x)))
+    return positions
+
 
 
 if __name__ == '__main__':

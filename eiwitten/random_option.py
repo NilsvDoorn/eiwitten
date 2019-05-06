@@ -62,7 +62,6 @@ def amino_positions(option):
             elif move == "forward":
                 y = y + 1
         positions.append(tuple((x, y)))
-    print(positions)
     return positions
 
 # determines if current fold option results in bumps
