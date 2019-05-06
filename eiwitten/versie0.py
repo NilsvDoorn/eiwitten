@@ -68,10 +68,10 @@ def main():
 
     error = protein.errorpoint[-1]
 
-    for index in range(len(protein.sequence) - 10):
+    for index in range(len(protein.sequence) - 12):
         print("Hillclimber attempt number " + str(index))
         changed_fold = best_fold
-        possible_changes = list(product(["right", "left", "up", "down"], repeat = 8))
+        possible_changes = list(product(["right", "left", "up", "down"], repeat = 10))
         for change in possible_changes:
             changed_fold[index] = change[0]
             changed_fold[index + 1] = change[1]
@@ -81,6 +81,8 @@ def main():
             changed_fold[index + 5] = change[5]
             changed_fold[index + 6] = change[6]
             changed_fold[index + 7] = change[7]
+            changed_fold[index + 8] = change[8]
+            changed_fold[index + 9] = change[9]
             changed_positions = changed_amino_positions(protein.sequence, changed_fold)
             if changed_positions and (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
                 print("New best fold points: ")
