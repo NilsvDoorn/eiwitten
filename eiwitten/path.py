@@ -42,7 +42,7 @@ class Path(object):
             if (max_z < cnd[2]):
                 max_z = cnd[2]
 
-        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)]
+        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)])
 
         list_path_data = [
             (mpath.Path.MOVETO, (self.datapoints[0])),

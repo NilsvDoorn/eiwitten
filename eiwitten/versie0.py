@@ -7,6 +7,7 @@ import time
 import random
 from copy import deepcopy
 from math import ceil
+from itertools import product
 
 def main():
     start = time.time()
@@ -63,23 +64,30 @@ def main():
                 # print("after new", new_ways)
 
     best_positions = options.amino_positions(protein.sequence, best_fold)
-    print("First best fold points" + str(best_fold_points))
+    print("First best fold points: " + str(best_fold_points))
 
     error = protein.errorpoint[-1]
 
-    for i in range(10000):
+    for index in range(len(protein.sequence) - 10):
+        print("Hillclimber attempt number " + str(index))
         changed_fold = best_fold
-        change = random_product(["right", "left", "forward"], repeat = 7)
-        index = round(random.uniform(0, 1) * (protein.length - 10))
-        changed_fold[index] = change[0]
-        changed_fold[index] = change[1]
-        changed_positions = changed_amino_positions(protein.sequence, changed_fold)
-        if changed_positions and (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
-            print("New best fold points:")
-            last_fold_points = fold_points(changed_positions, protein.sequence) - error
-            best_fold = changed_fold
-            best_positions = changed_positions
-            print(last_fold_points)
+        possible_changes = list(product(["right", "left", "up", "down"], repeat = 8))
+        for change in possible_changes:
+            changed_fold[index] = change[0]
+            changed_fold[index + 1] = change[1]
+            changed_fold[index + 2] = change[2]
+            changed_fold[index + 3] = change[3]
+            changed_fold[index + 4] = change[4]
+            changed_fold[index + 5] = change[5]
+            changed_fold[index + 6] = change[6]
+            changed_fold[index + 7] = change[7]
+            changed_positions = changed_amino_positions(protein.sequence, changed_fold)
+            if changed_positions and (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
+                print("New best fold points: ")
+                last_fold_points = fold_points(changed_positions, protein.sequence) - error
+                best_fold = changed_fold
+                best_positions = changed_positions
+                print(last_fold_points)
 
     # prints best_fold_points and best_fold and current field
 
@@ -96,10 +104,10 @@ def main():
 
     # start visualisation
     p = Path(protein.length, best_positions)
-    if best_positions[0][2]:
-        p.plot3Dfold(protein.sequence)
-    else:
-        p.plotFold(protein.sequence)
+    #if best_positions[0][2]:
+    #    p.plot3Dfold(protein.sequence)
+    #else:
+    p.plotFold(protein.sequence)
 
 # checks user input
 def check():
