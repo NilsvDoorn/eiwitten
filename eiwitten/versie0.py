@@ -38,7 +38,7 @@ def main():
                         pseudo_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
-                                best_fold_points = pseudo_points
+                                best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                         else:
                             if pseudo_points >= last_fold_points:
@@ -75,10 +75,10 @@ def main():
 
     # start visualisation
     p = Path(protein.length, best_positions)
-    if best_positions[0][2]:
-        p.plot3Dfold(protein.sequence)
-    else:
-        p.plotFold(protein.sequence)
+    # if best_positions[0][2]:
+    #     p.plot3Dfold(protein.sequence)
+    # else:
+    p.plotFold(protein.sequence, best_fold_points)
 
 # checks user input
 def check():
