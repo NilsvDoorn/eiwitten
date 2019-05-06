@@ -18,8 +18,6 @@ class Path(object):
         mx = Point( *(max(p[i] for p in pnts) for i in range(3)) )
         return mn, mx
 
-
-<<<<<<< HEAD
     # def plot3Dfold(self, proteinsequence):
     #     """This plots the 3D coordinates of the folded protein"""
     #
@@ -55,10 +53,6 @@ class Path(object):
     #
     #
 
-
-
-    def plotFold(self, proteinsequence, best_fold_points):
-=======
     def plot3Dfold(self, proteinsequence):
         """This plots the 3D coordinates of the folded protein"""
 
@@ -97,7 +91,6 @@ class Path(object):
 
 
     def plotFold(self, proteinsequence):
->>>>>>> 9c8d0e794c1a7fba7fb53a7814a1c666ad794376
         """Plots the folded protein"""
 
         print('this is the protein sequence: ', proteinsequence)
@@ -109,7 +102,7 @@ class Path(object):
         # handig voor 3D
         fig, ax = plt.subplots()
 
-        ax.set_title(- best_fold_points)
+        ax.set_title("- best_fold_points")
 
         # find minimum x and y coordinates
         min_x = 1000
