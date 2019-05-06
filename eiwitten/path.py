@@ -19,6 +19,43 @@ class Path(object):
         return mn, mx
 
 
+    def plot3Dfold(self, proteinsequence):
+        """This plots the 3D coordinates of the folded protein"""
+
+        min_x = 1000
+        max_x = 0
+        min_y = 1000
+        max_y = 0
+        min_z = 1000
+        max_z = 0
+        for cnd in self.datapoints:
+            if (min_x > cnd[0]):
+                min_x = cnd[0]
+            if (max_x < cnd[0]):
+                max_x = cnd[0]
+            if (min_y > cnd[1]):
+                min_y = cnd[1]
+            if (max_y < cnd[1]):
+                max_y = cnd[1]
+            if (min_z > cnd[2]):
+                min_z = cnd[2]
+            if (max_z < cnd[2]):
+                max_z = cnd[2]
+
+        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)]
+
+        list_path_data = [
+            (mpath.Path.MOVETO, (self.datapoints[0])),
+            ]
+
+        # place the code + coordinates in the list
+        for i in self.datapoints[1:]:
+            list_path_data.extend([(mpath.Path.LINETO, i)])
+
+
+
+
+
     def plotFold(self, proteinsequence):
         """Plots the folded protein"""
 
@@ -63,6 +100,8 @@ class Path(object):
         # use the list for plotting the fold
         codes, verts = zip(*list_path_data)
         list_path = mpath.Path(verts, codes)
+        print('this is the list path (testlist)')
+        print(list_path)
 
         # plot control points and connecting lines
         x = [t[0] for t in list_path.vertices]

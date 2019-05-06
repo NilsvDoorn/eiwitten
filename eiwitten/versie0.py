@@ -96,7 +96,10 @@ def main():
 
     # start visualisation
     p = Path(protein.length, best_positions)
-    p.plotFold(protein.sequence)
+    if best_positions[0][2]:
+        p.plot3Dfold(protein.sequence)
+    else:
+        p.plotFold(protein.sequence)
 
 # checks user input
 def check():
