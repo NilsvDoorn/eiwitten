@@ -21,21 +21,27 @@ def main():
 
     ways = [["right"], ["forward"]]
     last_fold_points = 0
-    P1 = 0.8
+    P1 = 0.9
     P2 = 0.5
+    # print(protein.lower_bound)
 
     # creates field and fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
+        # P2 = 0.1 + aminoacid * (1 / protein.length)
+
         best_fold_points = 0
         new_ways = []
         print('aminoacid', aminoacid)
+        # print('P2', P2)
+        # print('last_fold_points', last_fold_points)
 
         for route in ways:
             for option in options.options:
                 route.append(option)
                 if not options.mirror(route):
                     if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
+                        pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        # print('pseudo_points', pseudo_points)
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = pseudo_points
@@ -46,30 +52,23 @@ def main():
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = pseudo_points
                             elif pseudo_points < protein.lower_bound[aminoacid + 3]:
+                                # print('lage kans')
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
                             else:
+                                # print('hogere kans')
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
                 route.pop()
         ways = deepcopy(new_ways)
         if not best_fold_points == 0:
             last_fold_points = best_fold_points
-        print(len(ways))
-        # for i in ways:
-        #     print(i)
-        # print("")
-                # print("after new", new_ways)
-    # prints best_fold_points and best_fold and current field
+        print('ammount ways', len(ways))
+
     best_positions = options.amino_positions(protein.sequence, best_fold)
-    print(last_fold_points)
+    print(best_fold_points)
     print(best_fold)
     print(best_positions)
-    field = Field(protein.length, protein.sequence)
-    field.fill_field(best_positions, protein.sequence)
-    print("Field:")
-    for line in field.field:
-        print(line)
     end = time.time()
     print(end - start)
 
