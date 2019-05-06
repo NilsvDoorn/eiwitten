@@ -120,11 +120,15 @@ def main():
     # if best_positions[0][2]:
     #     p.plot3Dfold(protein.sequence)
     # else:
+<<<<<<< HEAD
     #p.plotFold(protein.sequence, best_fold_points)
     #if best_positions[0][2]:
     #    p.plot3Dfold(protein.sequence)
     #else:
     p.plotFold(protein.sequence)
+=======
+    p.plotFold(protein.sequence, best_fold_points)
+>>>>>>> 40d0a1820539c442b36b183d31480b8ea1820254
 
 # checks user input
 def check():

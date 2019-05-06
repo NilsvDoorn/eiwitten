@@ -15,6 +15,7 @@ r = z**2 + 1
 x = r * np.sin(theta)
 y = r * np.cos(theta)
 ax.plot(x, y, z, label='parametric curve')
+ax.scatter(2, 3, 5, label = 'parametric curve')
 ax.legend()
 
 plt.show()
@@ -39,7 +40,6 @@ plt.show()
 # ax = fig.add_subplot(111, projection='3d')
 #
 #
-# ax.plot(2, 3, 5)
 #
 # # n = 100
 # # # For each set of style and range settings, plot n random points in the box
