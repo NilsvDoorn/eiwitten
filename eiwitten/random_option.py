@@ -4,10 +4,10 @@ import random
 class Option(object):
     def __init__(self, length):
 #        self.options = list(product(["right", "left", "forward"], repeat = length - 2))
-        self.option = random_product(["right", "left", "forward"], repeat = length)
+        self.option = list(random_product(["right", "left", "forward"], repeat = length))
         self.positions = amino_positions(list(self.option))
         while not viable_option(self.positions):
-            self.option = random_product(["right", "left", "forward"], repeat = length)
+            self.option = list(random_product(["right", "left", "forward"], repeat = length))
             self.positions = amino_positions(list(self.option))
 
 # from https://docs.python.org/3.1/library/itertools.html?highlight=combinations#itertools.product
@@ -70,7 +70,6 @@ def viable_option(option):
     for position in option:
         for i in range(len(option) - number):
             if option[i + number] == position:
-                print("Bump:")
                 return False
         number = number + 1
     return True

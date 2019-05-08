@@ -79,6 +79,7 @@ def main():
 
     error = protein.errorpoint[-1]
 
+<<<<<<< HEAD
     # for index in range(len(protein.sequence) - 12):
     #     print("Hillclimber attempt number " + str(index))
     #     changed_fold = best_fold
@@ -101,6 +102,41 @@ def main():
     #             best_fold = changed_fold
     #             best_positions = changed_positions
     #             print(last_fold_points)
+=======
+    # Creates list of all possible changes of size 10
+    possible_changes = list(product(["right", "left", "forward"], repeat = 10))
+
+    # Iterates over each aminoacid in the sequence up untill the last - 12
+    for index in range(len(protein.sequence) - 11):
+        print("Hillclimber attempt number " + str(index))
+        # Remembers best fold
+
+
+
+        # Iterates over all possible changes and adds them to every poiny in best_fold
+        for change in possible_changes:
+            changed_fold = best_fold
+            changed_fold[index] = change[0]
+            changed_fold[index + 1] = change[1]
+            changed_fold[index + 2] = change[2]
+            changed_fold[index + 3] = change[3]
+            changed_fold[index + 4] = change[4]
+            changed_fold[index + 5] = change[5]
+            changed_fold[index + 6] = change[6]
+            changed_fold[index + 7] = change[7]
+            changed_fold[index + 8] = change[8]
+            changed_fold[index + 9] = change[9]
+
+            # Determines aminopositions of changed fold
+            changed_positions = changed_amino_positions(protein.sequence, changed_fold)
+            if changed_positions:
+                if (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
+                    print("New best fold points: ")
+                    last_fold_points = fold_points(changed_positions, protein.sequence) - error
+                    best_fold = changed_fold
+                    best_positions = changed_positions
+                    print(last_fold_points)
+>>>>>>> 8c18da24add80f1d247a7cdbfa92890fbd0ae935
 
     # prints best_fold_points and best_fold and current field
 
@@ -115,7 +151,19 @@ def main():
     # if best_positions[0][2]:
     #     p.plot3Dfold(protein.sequence)
     # else:
+<<<<<<< HEAD
     p.plotFold(protein.sequence, best_fold_points)
+=======
+<<<<<<< HEAD
+    #p.plotFold(protein.sequence, best_fold_points)
+    #if best_positions[0][2]:
+    #    p.plot3Dfold(protein.sequence)
+    #else:
+    p.plotFold(protein.sequence)
+=======
+    p.plotFold(protein.sequence, best_fold_points)
+>>>>>>> 40d0a1820539c442b36b183d31480b8ea1820254
+>>>>>>> 8c18da24add80f1d247a7cdbfa92890fbd0ae935
 
 # checks user input
 def check():

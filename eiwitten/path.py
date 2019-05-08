@@ -13,13 +13,17 @@ class Path(object):
         self.axislength = protein_length
         self.datapoints = best_positions
 
+<<<<<<< HEAD
     def minmax_coords(*pnts):
         mn = Point( *(min(p[i] for p in pnts) for i in range(3)) )
         mx = Point( *(max(p[i] for p in pnts) for i in range(3)) )
         return mn, mx
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 8c18da24add80f1d247a7cdbfa92890fbd0ae935
     # def plot3Dfold(self, proteinsequence):
     #     """This plots the 3D coordinates of the folded protein"""
     #
@@ -54,10 +58,64 @@ class Path(object):
     #         list_path_data.extend([(mpath.Path.LINETO, i)])
     #
     #
+<<<<<<< HEAD
 
 
 
     def plotFold(self, proteinsequence, best_fold_points):
+=======
+=======
+>>>>>>> 40d0a1820539c442b36b183d31480b8ea1820254
+
+    def plot3Dfold(self, proteinsequence):
+        """This plots the 3D coordinates of the folded protein"""
+
+        min_x = 1000
+        max_x = 0
+        min_y = 1000
+        max_y = 0
+        min_z = 1000
+        max_z = 0
+        for cnd in self.datapoints:
+            if (min_x > cnd[0]):
+                min_x = cnd[0]
+            if (max_x < cnd[0]):
+                max_x = cnd[0]
+            if (min_y > cnd[1]):
+                min_y = cnd[1]
+            if (max_y < cnd[1]):
+                max_y = cnd[1]
+            if (min_z > cnd[2]):
+                min_z = cnd[2]
+            if (max_z < cnd[2]):
+                max_z = cnd[2]
+
+        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)])
+
+        list_path_data = [
+            (self.datapoints[0),
+            ]
+
+        # place the code + coordinates in the list
+        for i in self.datapoints[1:]:
+            list_path_data.append(i)
+
+        # plot control points and connecting lines
+        x = [t[0] for t in list_path_data]
+        y = [t[1] for t in list_path_data]
+        z = [t[2] for t in list_path_data]
+
+
+
+
+<<<<<<< HEAD
+    def plotFold(self, proteinsequence):
+=======
+
+
+    def plotFold(self, proteinsequence, best_fold_points):
+>>>>>>> 40d0a1820539c442b36b183d31480b8ea1820254
+>>>>>>> 8c18da24add80f1d247a7cdbfa92890fbd0ae935
         """Plots the folded protein"""
 
         # print('this is the protein sequence: ', proteinsequence)
@@ -69,13 +127,18 @@ class Path(object):
         # handig voor 3D
         fig, ax = plt.subplots()
 
-        ax.set_title(- best_fold_points)
+<<<<<<< HEAD
+        ax.set_title("- best_fold_points")
+=======
+        ax.set_title('This fold has a stability of: ' + str(- best_fold_points))
+>>>>>>> 40d0a1820539c442b36b183d31480b8ea1820254
 
         # find minimum x and y coordinates
         min_x = 1000
         max_x = 0
         min_y = 1000
         max_y = 0
+
         for cnd in self.datapoints:
             if (min_x > cnd[0]):
                 min_x = cnd[0]
@@ -85,6 +148,7 @@ class Path(object):
                 min_y = cnd[1]
             if (max_y < cnd[1]):
                 max_y = cnd[1]
+
 
         # use minimum and maximum coordinates for axis limits
         ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1)])
