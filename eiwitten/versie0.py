@@ -31,7 +31,7 @@ def main():
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         round_points = []
-        P1 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.2
+        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.2
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4))
         print('P1:', P1)
         print('AVG_points:', AVG_points)
@@ -42,40 +42,37 @@ def main():
         new_ways = []
         round_points = 0
         print('aminoacid', aminoacid + 4)
-        if protein.sequence[:aminoacid + 4] == 'P' and not aminoacid + 4 == protein.length:
-            for route in ways:
-                for option in options.options:
-                    route.append(option)
-                    new_ways.append(deepcopy(route))
-        else:
-            for route in ways:
-                for option in options.options:
-                    route.append(option)
-                    if not options.mirror(route):
-                        if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                            pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
-                            round_points += pseudo_points
-                            if aminoacid + 4 == protein.length:
+
+        for route in ways:
+            for option in options.options:
+                route.append(option)
+                if not options.mirror(route):
+                    if options.amino_positions(protein.sequence[:aminoacid + 4], route):
+                        pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        if aminoacid + 4 == protein.length:
+                            if pseudo_points > best_fold_points:
+                                best_fold_points = int(pseudo_points)
+                                best_fold = deepcopy(route)
+                        else:
+                            if pseudo_points >= last_fold_points:
+                                new_ways.append(deepcopy(route))
+                                round_points += pseudo_points
                                 if pseudo_points > best_fold_points:
-                                    best_fold_points = int(pseudo_points)
-                                    best_fold = deepcopy(route)
-                            else:
-                                if pseudo_points >= last_fold_points:
+                                    best_fold_points = pseudo_points
+                            elif pseudo_points <= AVG_points:
+                                # print('lage kans')
+                                if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
-                                    if pseudo_points > best_fold_points:
-                                        best_fold_points = pseudo_points
-                                elif pseudo_points <= AVG_points:
-                                    # print('lage kans')
-                                    if random.uniform(0,1) > P1:
-                                        new_ways.append(deepcopy(route))
-                                else:
-                                    # print('hogere kans')
-                                    if random.uniform(0,1) > P2:
-                                        new_ways.append(deepcopy(route))
-                    route.pop()
-            if not len(new_ways) == 0:
-                AVG_points = round_points // len(new_ways)
-            last_fold_points = best_fold_points
+                                    round_points += pseudo_points
+                            else:
+                                # print('hogere kans')
+                                if random.uniform(0,1) > P2:
+                                    new_ways.append(deepcopy(route))
+                                    round_points += pseudo_points
+                route.pop()
+        if not len(new_ways) == 0:
+            AVG_points = round_points // len(new_ways)
+        last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
         # print(round_points)
@@ -83,7 +80,7 @@ def main():
         #     print(i)
         # print("")
 
-    # best_positions = options.amino_positions(protein.sequence, best_fold)
+    best_positions = options.amino_positions(protein.sequence, best_fold)
     # print("First best fold points: " + str(best_fold_points))
 
     # error = protein.errorpoint[-1]
