@@ -52,10 +52,6 @@ class Path(object):
     #         list_path_data.extend([(mpath.Path.LINETO, i)])
     #
     #
-<<<<<<< HEAD
-=======
-
->>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
     def plot3Dfold(self, proteinsequence):
         """This plots the 3D coordinates of the folded protein"""
@@ -83,11 +79,7 @@ class Path(object):
         ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)])
 
         list_path_data = [
-<<<<<<< HEAD
-            (self.datapoints[0]),
-=======
             (self.datapoints[0])
->>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
             ]
 
         # place the code + coordinates in the list
@@ -102,14 +94,9 @@ class Path(object):
 
 
 
-<<<<<<< HEAD
 
 
     def plotFold(self, proteinsequence, best_fold_points):
-=======
-    def plotFold(self, proteinsequence, best_fold_points):
-
->>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
         """Plots the folded protein"""
 
         # print('this is the protein sequence: ', proteinsequence)
@@ -122,10 +109,6 @@ class Path(object):
         fig, ax = plt.subplots()
 
         ax.set_title('This fold has a stability of: ' + str(- best_fold_points))
-<<<<<<< HEAD
-=======
-
->>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
         # find minimum x and y coordinates
         min_x = 1000

@@ -132,13 +132,7 @@ def main():
     # if best_positions[0][2]:
     #     p.plot3Dfold(protein.sequence)
     # else:
-<<<<<<< HEAD
     p.plotFold(protein.sequence, best_fold_points)
-=======
-
-    p.plotFold(protein.sequence, best_fold_points)
-
->>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
 # checks user input
 def check():
@@ -159,30 +153,42 @@ def fold_points(positions, sequence):
         elif acid == "C":
             CCCC.append(position)
     for i in range(len(HHHH)):
-        if (HHHH[i][0] - 1, HHHH[i][1]) in (HHHH or CCCC):
+        if (HHHH[i][0] - 1, HHHH[i][1], HHHH[i][2]) in (HHHH or CCCC):
             points += 1
-        if (HHHH[i][0], HHHH[i][1] - 1) in (HHHH or CCCC):
+        if (HHHH[i][0], HHHH[i][1] - 1, HHHH[i][2]) in (HHHH or CCCC):
             points += 1
-        if (HHHH[i][0], HHHH[i][1] + 1) in (HHHH or CCCC):
+        if (HHHH[i][0], HHHH[i][1] + 1, HHHH[i][2]) in (HHHH or CCCC):
             points += 1
-        if (HHHH[i][0] + 1, HHHH[i][1]) in (HHHH or CCCC):
+        if (HHHH[i][0] + 1, HHHH[i][1], HHHH[i][2]) in (HHHH or CCCC):
+            points += 1
+        if (HHHH[i][0], HHHH[i][1], HHHH[i][2] + 1) in (HHHH or CCCC):
+            points += 1
+        if (HHHH[i][0] + 1, HHHH[i][1], HHHH[i][2] - 1) in (HHHH or CCCC):
             points += 1
     for i in range(len(CCCC)):
-        if (CCCC[i][0] - 1, CCCC[i][1]) in CCCC:
+        if (CCCC[i][0] - 1, CCCC[i][1], CCCC[i][2]) in CCCC:
             points += 5
-        elif (CCCC[i][0] - 1, CCCC[i][1]) in HHHH:
+        elif (CCCC[i][0] - 1, CCCC[i][1], CCCC[i][2]) in HHHH:
             points += 2
-        if (CCCC[i][0], CCCC[i][1] - 1) in CCCC:
+        if (CCCC[i][0], CCCC[i][1] - 1, CCCC[i][2]) in CCCC:
             points += 5
-        elif (CCCC[i][0], CCCC[i][1] - 1) in HHHH:
+        elif (CCCC[i][0], CCCC[i][1] - 1, CCCC[i][2]) in HHHH:
             points += 2
-        if (CCCC[i][0], CCCC[i][1] + 1) in CCCC:
+        if (CCCC[i][0], CCCC[i][1] + 1, CCCC[i][2]) in CCCC:
             points += 5
-        elif (CCCC[i][0], CCCC[i][1] + 1) in HHHH:
+        elif (CCCC[i][0], CCCC[i][1] + 1, CCCC[i][2]) in HHHH:
             points += 2
-        if (CCCC[i][0] + 1, CCCC[i][1]) in CCCC:
+        if (CCCC[i][0] + 1, CCCC[i][1], CCCC[i][2]) in CCCC:
             points += 5
-        elif (CCCC[i][0] + 1, CCCC[i][1]) in HHHH:
+        elif (CCCC[i][0] + 1, CCCC[i][1], CCCC[i][2]) in HHHH:
+            points += 2
+        if (CCCC[i][0], CCCC[i][1], CCCC[i][2] + 1) in CCCC:
+            points += 5
+        elif (CCCC[i][0], CCCC[i][1], CCCC[i][2] + 1) in HHHH:
+            points += 2
+        if (CCCC[i][0], CCCC[i][1], CCCC[i][2] - 1) in CCCC:
+            points += 5
+        elif (CCCC[i][0], CCCC[i][1], CCCC[i][2] - 1) in HHHH:
             points += 2
     return points / 2
 
