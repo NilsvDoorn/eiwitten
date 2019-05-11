@@ -23,21 +23,32 @@ def main():
 
     ways = [["right"], ["forward"]]
     last_fold_points = 0
-    P1 = 0.8
-    P2 = 0.5
+    AVG_points=0
+    # P1 = 0
+    # P2 = 0
+    # print(protein.lower_bound)
 
-    # creates field and fold based on the protein and the current option
+    # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
+        round_points = []
+        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.2
+        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4))
+        print('P1:', P1)
+        print('AVG_points:', AVG_points)
+        print('P2:', P2)
+        print('last_fold_points:', last_fold_points)
+
         best_fold_points = 0
         new_ways = []
-        print('aminoacid', aminoacid)
+        round_points = 0
+        print('aminoacid', aminoacid + 4)
 
         for route in ways:
             for option in options.options:
                 route.append(option)
                 if not options.mirror(route):
                     if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3]
+                        pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -45,73 +56,74 @@ def main():
                         else:
                             if pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
+                                round_points += pseudo_points
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = pseudo_points
-                            elif pseudo_points < protein.lower_bound[aminoacid + 3]:
+                            elif pseudo_points <= AVG_points:
+                                # print('lage kans')
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
+                                    round_points += pseudo_points
                             else:
+                                # print('hogere kans')
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
+                                    round_points += pseudo_points
                 route.pop()
+        if not len(new_ways) == 0:
+            AVG_points = round_points // len(new_ways)
+        last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
-        if not best_fold_points == 0:
-            last_fold_points = best_fold_points
         print(len(ways))
+        # print(round_points)
         # for i in ways:
         #     print(i)
         # print("")
-                # print("after new", new_ways)
 
     best_positions = options.amino_positions(protein.sequence, best_fold)
-    print("First best fold points: " + str(best_fold_points))
+    # print("First best fold points: " + str(best_fold_points))
 
-    error = protein.errorpoint[-1]
-
+    # error = protein.errorpoint[-1]
     # Creates list of all possible changes of size 10
-    possible_changes = list(product(["right", "left", "forward"], repeat = 10))
+    # possible_changes = list(product(["right", "left", "forward"], repeat = 10))
+    #
+    # # Iterates over each aminoacid in the sequence up untill the last - 12
+    # for index in range(len(protein.sequence) - 11):
+    #     print("Hillclimber attempt number " + str(index))
+    #     # Remembers best fold
+    #
+    #
+    #
+    #     # Iterates over all possible changes and adds them to every poiny in best_fold
+    #     for change in possible_changes:
+    #         changed_fold = best_fold
+    #         changed_fold[index] = change[0]
+    #         changed_fold[index + 1] = change[1]
+    #         changed_fold[index + 2] = change[2]
+    #         changed_fold[index + 3] = change[3]
+    #         changed_fold[index + 4] = change[4]
+    #         changed_fold[index + 5] = change[5]
+    #         changed_fold[index + 6] = change[6]
+    #         changed_fold[index + 7] = change[7]
+    #         changed_fold[index + 8] = change[8]
+    #         changed_fold[index + 9] = change[9]
+    #
+    #         # Determines aminopositions of changed fold
+    #         changed_positions = changed_amino_positions(protein.sequence, changed_fold)
+    #         if changed_positions:
+    #             if (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
+    #                 print("New best fold points: ")
+    #                 last_fold_points = fold_points(changed_positions, protein.sequence) - error
+    #                 best_fold = changed_fold
+    #                 best_positions = changed_positions
+    #                 print(last_fold_points)
 
-    # Iterates over each aminoacid in the sequence up untill the last - 12
-    for index in range(len(protein.sequence) - 11):
-        print("Hillclimber attempt number " + str(index))
-        # Remembers best fold
-
-
-
-        # Iterates over all possible changes and adds them to every poiny in best_fold
-        for change in possible_changes:
-            changed_fold = best_fold
-            changed_fold[index] = change[0]
-            changed_fold[index + 1] = change[1]
-            changed_fold[index + 2] = change[2]
-            changed_fold[index + 3] = change[3]
-            changed_fold[index + 4] = change[4]
-            changed_fold[index + 5] = change[5]
-            changed_fold[index + 6] = change[6]
-            changed_fold[index + 7] = change[7]
-            changed_fold[index + 8] = change[8]
-            changed_fold[index + 9] = change[9]
-
-            # Determines aminopositions of changed fold
-            changed_positions = changed_amino_positions(protein.sequence, changed_fold)
-            if changed_positions:
-                if (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
-                    print("New best fold points: ")
-                    last_fold_points = fold_points(changed_positions, protein.sequence) - error
-                    best_fold = changed_fold
-                    best_positions = changed_positions
-                    print(last_fold_points)
 
     # prints best_fold_points and best_fold and current field
 
     print(last_fold_points)
     print(best_fold)
     print(best_positions)
-    field = Field(protein.length, protein.sequence)
-    field.fill_field(best_positions, protein.sequence)
-    print("Field:")
-    for line in field.field:
-        print(line)
     end = time.time()
     print(end - start)
 
@@ -120,7 +132,13 @@ def main():
     # if best_positions[0][2]:
     #     p.plot3Dfold(protein.sequence)
     # else:
+<<<<<<< HEAD
     p.plotFold(protein.sequence, best_fold_points)
+=======
+
+    p.plotFold(protein.sequence, best_fold_points)
+
+>>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
 # checks user input
 def check():
@@ -176,7 +194,7 @@ def random_product(*args, repeat):
 def changed_amino_positions(sequence, option):
     # initialises positions list and starting coordinates of protein
     positions = []
-    begin = int(ceil(len(sequence) / 2))
+    begin = ceil(len(sequence) // 2)
 
     # appends first two positions to positions list
     positions.append(tuple((begin, begin)))
@@ -184,47 +202,54 @@ def changed_amino_positions(sequence, option):
 
     # initialises x-, y-coordinates and current direction
     x, y = begin, begin + 1
+    directions = {'d':{'right': [-1,0,'l'], 'left': [1,0,'r'], 'forward': [0,1]},
+                'r':{'right': [0,1,'d'], 'left': [0,-1,'u'], 'forward': [1,0]},
+                'l':{'right': [0,-1,'u'], 'left': [0,1,'d'], 'forward': [-1,0]},
+                'u':{'right': [1,0,'r'], 'left': [-1,0,'l'], 'forward': [0,-1]}}
     direction = "d"
 
     # loops over current option and appends aminoacid coordinates
     # if there are no bumps
     for move in option:
-        if direction == "d":
-            if move == "right":
-                x = x - 1
-                direction = "l"
-            elif move == "left":
-                x = x + 1
-                direction = "r"
-            elif move == "forward":
-                y = y + 1
-        elif direction == "r":
-            if move == "right":
-                y = y + 1
-                direction = "d"
-            elif move == "left":
-                y = y - 1
-                direction = "u"
-            elif move == "forward":
-                x = x + 1
-        elif direction == "l":
-            if move == "right":
-                y = y - 1
-                direction = "u"
-            elif move == "left":
-                y = y + 1
-                direction = "d"
-            elif move == "forward":
-                x = x - 1
-        elif direction == "u":
-            if move == "right":
-                x = x + 1
-                direction = "r"
-            elif move == "left":
-                x = x - 1
-                direction = "l"
-            elif move == "forward":
-                y = y - 1
+        x += directions[direction][move][0]
+        y += directions[direction][move][1]
+        direction = directions[direction][move][2]
+        # if direction == "d":
+        #     if move == "right":
+        #         x = x - 1
+        #         direction = "l"
+        #     elif move == "left":
+        #         x = x + 1
+        #         direction = "r"
+        #     elif move == "forward":
+        #         y = y + 1
+        # elif direction == "r":
+        #     if move == "right":
+        #         y = y + 1
+        #         direction = "d"
+        #     elif move == "left":
+        #         y = y - 1
+        #         direction = "u"
+        #     elif move == "forward":
+        #         x = x + 1
+        # elif direction == "l":
+        #     if move == "right":
+        #         y = y - 1
+        #         direction = "u"
+        #     elif move == "left":
+        #         y = y + 1
+        #         direction = "d"
+        #     elif move == "forward":
+        #         x = x - 1
+        # elif direction == "u":
+        #     if move == "right":
+        #         x = x + 1
+        #         direction = "r"
+        #     elif move == "left":
+        #         x = x - 1
+        #         direction = "l"
+        #     elif move == "forward":
+        #         y = y - 1
         # only appends coordinates if there are no bumps
         if tuple((y, x)) in positions:
             return False

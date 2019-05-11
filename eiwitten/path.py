@@ -52,6 +52,10 @@ class Path(object):
     #         list_path_data.extend([(mpath.Path.LINETO, i)])
     #
     #
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
     def plot3Dfold(self, proteinsequence):
         """This plots the 3D coordinates of the folded protein"""
@@ -79,7 +83,11 @@ class Path(object):
         ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1), (min_z - 1), (max_z - 1)])
 
         list_path_data = [
+<<<<<<< HEAD
             (self.datapoints[0]),
+=======
+            (self.datapoints[0])
+>>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
             ]
 
         # place the code + coordinates in the list
@@ -94,14 +102,19 @@ class Path(object):
 
 
 
+<<<<<<< HEAD
 
 
     def plotFold(self, proteinsequence, best_fold_points):
+=======
+    def plotFold(self, proteinsequence, best_fold_points):
+
+>>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
         """Plots the folded protein"""
 
-        print('this is the protein sequence: ', proteinsequence)
-        print('this is the axislength: ', self.axislength)
-        print('these are the datapoints: ', self.datapoints)
+        # print('this is the protein sequence: ', proteinsequence)
+        # print('this is the axislength: ', self.axislength)
+        # print('these are the datapoints: ', self.datapoints)
 
         # plot figure with size 1:1 with 100 dots per inches
         plt.figure(figsize=(6, 6), dpi=200)
@@ -109,6 +122,10 @@ class Path(object):
         fig, ax = plt.subplots()
 
         ax.set_title('This fold has a stability of: ' + str(- best_fold_points))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1e8dead0ce7cbb4b6437dd6a0ed51f60b69bb6b9
 
         # find minimum x and y coordinates
         min_x = 1000
@@ -138,14 +155,14 @@ class Path(object):
         # place the code + coordinates in the list
         for i in self.datapoints[1:]:
             list_path_data.extend([(mpath.Path.LINETO, i)])
-        print('this is the list_path_data')
-        print(list_path_data)
+        # print('this is the list_path_data')
+        # print(list_path_data)
 
         # use the list for plotting the fold
         codes, verts = zip(*list_path_data)
         list_path = mpath.Path(verts, codes)
-        print('this is the list path')
-        print(list_path)
+        # print('this is the list path')
+        # print(list_path)
 
         # plot control points and connecting lines
         x = [t[0] for t in list_path.vertices]
@@ -166,12 +183,12 @@ class Path(object):
             else:
                 c_cnd_list.append(position)
 
-        print('these are the h coordinates')
-        print(h_cnd_list)
-        print('these are the p coordinates')
-        print(p_cnd_list)
-        print('these are the c coordinates')
-        print(c_cnd_list)
+        # print('these are the h coordinates')
+        # print(h_cnd_list)
+        # print('these are the p coordinates')
+        # print(p_cnd_list)
+        # print('these are the c coordinates')
+        # print(c_cnd_list)
 
         # self.plotMark(h_cnd_list, p_cnd_list, c_cnd_list)
         # define x, y per aminoacid
