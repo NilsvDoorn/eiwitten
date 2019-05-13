@@ -10,11 +10,7 @@ from math import ceil
 from itertools import product
 
 def main():
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> c8bcdecc48d13d07f86718b59ca35415ee8e8743
     # Determines program running time
     start = time.time()
 
