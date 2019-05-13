@@ -10,7 +10,7 @@ from math import ceil
 from itertools import product
 
 def main():
-    
+
     # Determines program running time
     start = time.time()
 
@@ -211,11 +211,11 @@ def changed_amino_positions(sequence, option):
 
     # initialises x-, y-coordinates and current direction
     x, y = begin, begin + 1
-    directions = {'d':{'right': [-1,0,'l'], 'left': [1,0,'r'], 'forward': [0,1]},
-                'r':{'right': [0,1,'d'], 'left': [0,-1,'u'], 'forward': [1,0]},
-                'l':{'right': [0,-1,'u'], 'left': [0,1,'d'], 'forward': [-1,0]},
-                'u':{'right': [1,0,'r'], 'left': [-1,0,'l'], 'forward': [0,-1]}}
-    direction = "d"
+    directions = {'y_min':{'right': [-1,0,'x_min'], 'left': [1,0,'x_plus'], 'forward': [0,1]},
+                'x_plus':{'right': [0,1,'y_min'], 'left': [0,-1,'y_plus'], 'forward': [1,0]},
+                'x_min':{'right': [0,-1,'y_plus'], 'left': [0,1,'y_min'], 'forward': [-1,0]},
+                'y_plus':{'right': [1,0,'x_plus'], 'left': [-1,0,'x_min'], 'forward': [0,-1]}}
+    direction = "y_min"
 
     # loops over current option and appends aminoacid coordinates
     # if there are no bumps
