@@ -33,6 +33,7 @@ def main():
         round_points = []
         P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
+
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -42,7 +43,6 @@ def main():
         new_ways = []
         round_points = 0
         print('aminoacid', aminoacid + 4)
-
         for route in ways:
             for option in options.options:
                 route.append(option)
@@ -71,7 +71,7 @@ def main():
                                     round_points += pseudo_points
                 route.pop()
         if not len(new_ways) == 0:
-            AVG_points = round_points // len(new_ways)
+            AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
