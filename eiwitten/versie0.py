@@ -127,9 +127,12 @@ def main():
     end = time.time()
     print(end - start)
 
+    print("This is best_positions: " + str(best_positions))
+    print(best_positions[0])
+    print(best_positions[0][2])
     # start visualisation
     p = Path(protein.length, best_positions)
-    if best_positions[0][2]:
+    if len(best_positions[0]) is 3:
         p.plot3Dfold(protein.sequence, best_fold_points)
     else:
         p.plotFold(protein.sequence, best_fold_points)
