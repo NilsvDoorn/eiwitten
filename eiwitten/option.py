@@ -7,9 +7,9 @@ class Option(object):
 
     def mirror(self, route):
         for option in route:
-            if option == 'right' or option == "up" or option == "down":
+            if option == 'right':
                 return False
-            elif option == 'left':
+            elif option == 'left' or option == "up" or option == "down":
                 return True
         return True
 
