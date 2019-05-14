@@ -31,13 +31,8 @@ def main():
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         round_points = []
-<<<<<<< HEAD
-        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.2
-        P2 = 0.4 / (1 + 100 * 0.825 ** (aminoacid + 4))
-=======
         P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
->>>>>>> 7bc908384246538e9e280dd2b6f19f801e6b5bcc
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
