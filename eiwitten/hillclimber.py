@@ -49,7 +49,6 @@ def main():
 
 
     # prints best_fold_points and best_fold and current field
-
     print(best_fold_points)
     print(best_fold)
     print(best_positions)
@@ -115,10 +114,6 @@ def changed_amino_positions(sequence, option):
     # initialises positions list and starting coordinates of protein
     positions = []
     begin = int(ceil(len(sequence) / 2))
-
-    # appends first two positions to positions list
-    positions.append(tuple((begin, begin, begin)))
-    positions.append(tuple((begin, begin + 1, begin)))
 
     # initialises x-, y-coordinates and current direction
     x, y, z = begin, begin + 1, begin
@@ -222,9 +217,6 @@ def changed_amino_positions(sequence, option):
             return False
         positions.append(tuple((x, y, z)))
     return positions
-
-
-
 
 if __name__ == '__main__':
     main()

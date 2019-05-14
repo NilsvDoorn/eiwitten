@@ -1,3 +1,5 @@
+"""Initialises protein class which remembers the sequence, length, """
+"""errorpoints and lower bound of the selected protein             """
 class Protein(object):
     def __init__(self, protein):
         self.sequence = protein
@@ -5,6 +7,8 @@ class Protein(object):
         self.errorpoint = self.errorcalculator()
         self.lower_bound = self.minimum()
 
+    """Determines points that are rewarded for aminoacids that are next"""
+    """to eachother in the sequence                                    """
     def errorcalculator(self):
         points = 0
         point_list = [0]
@@ -18,9 +22,9 @@ class Protein(object):
             elif self.sequence[i] == "H" and self.sequence[i + 1] == "C":
                 points += 1
             point_list.append(points)
-        print(point_list)
         return(point_list)
 
+    """Determines minimum number of points for each point in the sequence"""
     def minimum(self):
         points = 0
         point_list = []
