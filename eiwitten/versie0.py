@@ -35,8 +35,12 @@ def main():
     for aminoacid in range(len(protein.sequence) - 3):
         round_points = []
         P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
+<<<<<<< HEAD
+        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
+=======
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
 
+>>>>>>> a588598d86ec36a406ba33ed39b72817a24821f0
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -130,9 +134,12 @@ def main():
     end = time.time()
     print(end - start)
 
+    print("This is best_positions: " + str(best_positions))
+    print(best_positions[0])
+    print(best_positions[0][2])
     # start visualisation
     p = Path(protein.length, best_positions)
-    if best_positions[0][2]:
+    if len(best_positions[0]) is 3:
         p.plot3Dfold(protein.sequence, best_fold_points)
     else:
         p.plotFold(protein.sequence, best_fold_points)

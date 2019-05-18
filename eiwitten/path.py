@@ -1,7 +1,6 @@
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from field import Field
 from protein import Protein
 import math
 from mpl_toolkits.mplot3d import axes3d, Axes3D
@@ -26,11 +25,9 @@ class Path(object):
 
         ax.set_title('This fold has a stability of: ' + str(- best_fold_points))
 
-        # testdata = [(5, 5, 5), (5, 6, 5), (5, 7, 5), (6, 7, 5), (7, 7, 5), (7, 6, 5), (6, 6, 5), (6, 6, 6), (6, 5, 6), (6, 5, 5)]
 
         # create list with path coordinates
         list_3D_path = self.datapoints
-        # list_3D_path = testdata
 
 
         # plot control points and connecting lines
@@ -62,7 +59,6 @@ class Path(object):
         # print('these are the c coordinates')
         # print(c_cnd_list)
 
-        # self.plotMark(h_cnd_list, p_cnd_list, c_cnd_list)
         # define x, y per aminoacid
         h_x_3D = [t[0] for t in h_3D_cnd_list]
         h_y_3D = [t[1] for t in h_3D_cnd_list]
