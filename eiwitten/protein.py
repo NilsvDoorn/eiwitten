@@ -22,6 +22,7 @@ class Protein(object):
             elif self.sequence[i] == "H" and self.sequence[i + 1] == "C":
                 points += 1
             point_list.append(points)
+        print(point_list[-1])
         return(point_list)
 
     """Determines minimum number of points for each point in the sequence"""
