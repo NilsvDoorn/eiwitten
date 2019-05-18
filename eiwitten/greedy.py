@@ -19,9 +19,9 @@ def main():
     best_positions = amino_positions(best_fold)
     best_fold_points = fold_points(best_positions, protein.sequence)
 
-    for i in range(3):
+    for i in range(4):
         for index in range(len(protein.sequence) - 6):
-            print("Hillclimber attempt number " + str(i) + "." + str(index + 1))
+            print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
         # Iterates over all possible changes and adds them to every poiny in best_fold
 
             for change in possible_changes:

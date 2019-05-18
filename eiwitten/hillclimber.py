@@ -38,6 +38,7 @@ def main():
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
 
+
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -125,9 +126,40 @@ def main():
 
     # prints best_fold_points and best_fold and current field
 
-    print(last_fold_points)
+    best_fold_points = last_fold_points
     print(best_fold)
     print(best_positions)
+
+    """Hillclimber"""
+    possible_changes = list(product(["forward", "left", "right", "up", "down"], repeat = 6))
+
+    for i in range(2):
+        for index in range(len(protein.sequence) - 8):
+            print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
+            # Iterates over all possible changes and adds them to every poiny in best_fold
+
+            for change in possible_changes:
+                changed_fold = deepcopy(best_fold)
+                changed_fold[index] = change[0]
+                changed_fold[index + 1] = change[1]
+                changed_fold[index + 2] = change[2]
+                changed_fold[index + 3] = change[3]
+                changed_fold[index + 4] = change[4]
+                changed_fold[index + 5] = change[5]
+
+                # Determines aminopositions of changed fold
+                changed_positions = amino_positions(changed_fold)
+                if changed_positions:
+                    if (fold_points(changed_positions, protein.sequence) - protein.errorpoint[-1]) > best_fold_points:
+                        best_fold_points = fold_points(changed_positions, protein.sequence)
+                        best_fold = changed_fold
+                        best_positions = changed_positions
+                        print("New best fold points: " + str(int(best_fold_points - protein.errorpoint[-1])))
+                        print("")
+
+
+
+
     end = time.time()
     print(end - start)
 
@@ -267,6 +299,114 @@ def changed_amino_positions(sequence, option):
         if tuple((y, x)) in positions:
             return False
         positions.append(tuple((y, x)))
+    return positions
+
+def amino_positions(option):
+    # initialises positions list and starting coordinates of protein
+    positions = []
+    begin = int(ceil(len(option) / 2))
+
+    # initialises x-, y-coordinates and current direction
+    x, y, z = begin, begin + 1, begin
+    direction = "x_min"
+
+    # loops over current option and appends aminoacid coordinates
+    # if there are no bumps
+    for move in option:
+        if direction == "x_plus":
+            if move == "right":
+                y = y - 1
+                direction = "y_min"
+            elif move == "left":
+                y = y + 1
+                direction = "y_plus"
+            elif move == "up":
+                z = z + 1
+                direction = "z_plus"
+            elif move == "down":
+                z = z - 1
+                direction = "z_min"
+            elif move == "forward":
+                x = x + 1
+        elif direction == "y_plus":
+            if move == "right":
+                x = x + 1
+                direction = "x_plus"
+            elif move == "left":
+                x = x - 1
+                direction = "x_min"
+            elif move == "up":
+                z = z + 1
+                direction = "z_plus"
+            elif move == "down":
+                z = z - 1
+                direction = "z_min"
+            elif move == "forward":
+                y = y + 1
+        elif direction == "y_min":
+            if move == "right":
+                x = x - 1
+                direction = "x_min"
+            elif move == "left":
+                x = x + 1
+                direction = "x_plus"
+            elif move == "up":
+                z = z + 1
+                direction = "z_plus"
+            elif move == "down":
+                z = z - 1
+                direction = "z_min"
+            elif move == "forward":
+                y = y - 1
+        elif direction == "x_min":
+            if move == "right":
+                y = y + 1
+                direction = "y_plus"
+            elif move == "left":
+                y = y - 1
+                direction = "y_min"
+            elif move == "up":
+                z = z + 1
+                direction = "z_plus"
+            elif move == "down":
+                z = z - 1
+                direction = "z_min"
+            elif move == "forward":
+                x = x - 1
+        elif direction == "z_plus":
+            if move == "right":
+                x = x + 1
+                direction = "x_plus"
+            elif move == "left":
+                x = x - 1
+                direction = "x_min"
+            elif move == "up":
+                y = y + 1
+                direction = "y_plus"
+            elif move == "down":
+                y = y - 1
+                direction = "y_min"
+            elif move == "forward":
+                z = z + 1
+        elif direction == "z_min":
+            if move == "right":
+                x = x + 1
+                direction = "x_plus"
+            elif move == "left":
+                x = x - 1
+                direction = "x_min"
+            elif move == "up":
+                y = y + 1
+                direction = "y_plus"
+            elif move == "down":
+                y = y - 1
+                direction = "y_min"
+            elif move == "forward":
+                z = z - 1
+        # only appends coordinates if there are no bumps
+        if tuple((x, y, z)) in positions:
+            return False
+        positions.append(tuple((x, y, z)))
     return positions
 
 
