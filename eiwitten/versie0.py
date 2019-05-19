@@ -35,6 +35,7 @@ def main():
     for aminoacid in range(len(protein.sequence) - 3):
 
         P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
+        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
 
         print('P1:', P1)
