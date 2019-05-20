@@ -25,13 +25,13 @@ class Option(object):
 
         # initialises x-, y-coordinates and current direction
         x, y, z = begin, begin + 1, begin
-        directions = {'y_min':{'right': [1,0,0,'x_min'], 'left': [-1,0,'x_plus'], 'forward': [0,-1]},
+        directions = {'y_plus':{'right': [1,0,0,'x_min'], 'left': [-1,0,'x_plus'], 'forward': [0,-1]},
                     'x_plus':{'right': [0,-1,0,'y_min'], 'left': [0,1,0,'y_plus'], 'up': [0,0,1,'z_plus'], 'down': [0,0,-1,'z_min'], 'forward': [1,0,0,'x_plus']},
                     'x_min':{'right': [0,1,'y_plus'], 'left': [0,-1,'y_min'], 'forward': [1,0]},
-                    'y_plus':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]},
+                    'y_min':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]},
                     'z_plus':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]},
                     'z_min':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]}}
-        direction = "x_min"
+        direction = "y_min"
 
         # loops over current option and appends aminoacid coordinates
         # if there are no bumps
@@ -51,7 +51,7 @@ class Option(object):
                     direction = "z_min"
                 elif move == "forward":
                     x = x + 1
-            elif direction == "y_plus":
+            elif direction == "y_min":
                 if move == "right":
                     x = x + 1
                     direction = "x_plus"
@@ -66,7 +66,7 @@ class Option(object):
                     direction = "z_min"
                 elif move == "forward":
                     y = y + 1
-            elif direction == "y_min":
+            elif direction == "y_plus":
                 if move == "right":
                     x = x - 1
                     direction = "x_min"

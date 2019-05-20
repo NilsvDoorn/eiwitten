@@ -20,7 +20,7 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = Option(protein.length)
+    options = Option()
     best_fold = options.options[0]
     best_positions = []
 
@@ -33,17 +33,9 @@ def main():
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-<<<<<<< HEAD
         # round_points = []
         P1 = 0.8
         P2 = 0.25
-=======
-
-        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
-
->>>>>>> 694e4618da312c0a9d73114cb398dfedee155947
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -58,7 +50,7 @@ def main():
                 route.append(option)
                 if not options.mirror(route):
                     if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        pseudo_points = int(fold_points_3d(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -156,7 +148,7 @@ def check():
             exit("Protein sequence can only contain P, C and H")
 
 # checks the points scored by the current fold
-def fold_points(positions, sequence):
+def fold_points_3d(positions, sequence):
     points = 0
     HHHH = []
     CCCC = []
@@ -165,44 +157,43 @@ def fold_points(positions, sequence):
             HHHH.append(position)
         elif acid == "C":
             CCCC.append(position)
-    for i in range(len(HHHH)):
-        if (HHHH[i][0] - 1, HHHH[i][1], HHHH[i][2]) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0], HHHH[i][1] - 1, HHHH[i][2]) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0], HHHH[i][1] + 1, HHHH[i][2]) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0] + 1, HHHH[i][1], HHHH[i][2]) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0], HHHH[i][1], HHHH[i][2] + 1) in (HHHH or CCCC):
-            points += 1
-        if (HHHH[i][0] + 1, HHHH[i][1], HHHH[i][2] - 1) in (HHHH or CCCC):
-            points += 1
-    for i in range(len(CCCC)):
-        if (CCCC[i][0] - 1, CCCC[i][1], CCCC[i][2]) in CCCC:
-            points += 5
-        elif (CCCC[i][0] - 1, CCCC[i][1], CCCC[i][2]) in HHHH:
-            points += 2
-        if (CCCC[i][0], CCCC[i][1] - 1, CCCC[i][2]) in CCCC:
-            points += 5
-        elif (CCCC[i][0], CCCC[i][1] - 1, CCCC[i][2]) in HHHH:
-            points += 2
-        if (CCCC[i][0], CCCC[i][1] + 1, CCCC[i][2]) in CCCC:
-            points += 5
-        elif (CCCC[i][0], CCCC[i][1] + 1, CCCC[i][2]) in HHHH:
-            points += 2
-        if (CCCC[i][0] + 1, CCCC[i][1], CCCC[i][2]) in CCCC:
-            points += 5
-        elif (CCCC[i][0] + 1, CCCC[i][1], CCCC[i][2]) in HHHH:
-            points += 2
-        if (CCCC[i][0], CCCC[i][1], CCCC[i][2] + 1) in CCCC:
-            points += 5
-        elif (CCCC[i][0], CCCC[i][1], CCCC[i][2] + 1) in HHHH:
-            points += 2
-        if (CCCC[i][0], CCCC[i][1], CCCC[i][2] - 1) in CCCC:
-            points += 5
-        elif (CCCC[i][0], CCCC[i][1], CCCC[i][2] - 1) in HHHH:
-            points += 2
+    for acid_position in HHHH:
+        for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
+                points += 1
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
+                points += 1
+
+    for acid_position in CCCC:
+        for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
+                points += 5
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
+                points += 1
+    return points / 2
+
+def fold_points_2d(positions, sequence):
+    points = 0
+    HHHH = []
+    CCCC = []
+    for position, acid in zip(positions, sequence):
+        if acid == "H":
+            HHHH.append(position)
+        elif acid == "C":
+            CCCC.append(position)
+    for acid_position in HHHH:
+        for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
+                points += 1
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
+                points += 1
+
+    for acid_position in CCCC:
+        for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
+                points += 5
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
+                points += 1
     return points / 2
 
 # def random_product(*args, repeat):
@@ -221,10 +212,12 @@ def changed_amino_positions(sequence, option):
 
     # initialises x-, y-coordinates and current direction
     x, y = begin, begin + 1
-    directions = {'y_min':{'right': [-1,0,'x_min'], 'left': [1,0,'x_plus'], 'forward': [0,1]},
-                'x_plus':{'right': [0,1,'y_min'], 'left': [0,-1,'y_plus'], 'forward': [1,0]},
-                'x_min':{'right': [0,-1,'y_plus'], 'left': [0,1,'y_min'], 'forward': [-1,0]},
-                'y_plus':{'right': [1,0,'x_plus'], 'left': [-1,0,'x_min'], 'forward': [0,-1]}}
+
+    # right, left and forward change with last direction
+    directions = {'y_min':{'right': [-1,0,'x_min'], 'left': [1,0,'x_plus'], 'forward': [0,1,'y_min']},
+                'x_plus':{'right': [0,1,'y_min'], 'left': [0,-1,'y_plus'], 'forward': [1,0,'x_plus']},
+                'x_min':{'right': [0,-1,'y_plus'], 'left': [0,1,'y_min'], 'forward': [-1,0,'x_min']},
+                'y_plus':{'right': [1,0,'x_plus'], 'left': [-1,0,'x_min'], 'forward': [0,-1,'y_plus']}}
     direction = "y_min"
 
     # loops over current option and appends aminoacid coordinates
@@ -233,42 +226,7 @@ def changed_amino_positions(sequence, option):
         x += directions[direction][move][0]
         y += directions[direction][move][1]
         direction = directions[direction][move][2]
-        # if direction == "d":
-        #     if move == "right":
-        #         x = x - 1
-        #         direction = "l"
-        #     elif move == "left":
-        #         x = x + 1
-        #         direction = "r"
-        #     elif move == "forward":
-        #         y = y + 1
-        # elif direction == "r":
-        #     if move == "right":
-        #         y = y + 1
-        #         direction = "d"
-        #     elif move == "left":
-        #         y = y - 1
-        #         direction = "u"
-        #     elif move == "forward":
-        #         x = x + 1
-        # elif direction == "l":
-        #     if move == "right":
-        #         y = y - 1
-        #         direction = "u"
-        #     elif move == "left":
-        #         y = y + 1
-        #         direction = "d"
-        #     elif move == "forward":
-        #         x = x - 1
-        # elif direction == "u":
-        #     if move == "right":
-        #         x = x + 1
-        #         direction = "r"
-        #     elif move == "left":
-        #         x = x - 1
-        #         direction = "l"
-        #     elif move == "forward":
-        #         y = y - 1
+
         # only appends coordinates if there are no bumps
         if tuple((y, x)) in positions:
             return False
