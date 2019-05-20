@@ -33,14 +33,9 @@ def main():
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        round_points = []
-        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
-<<<<<<< HEAD
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
-=======
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
-
->>>>>>> a588598d86ec36a406ba33ed39b72817a24821f0
+        # round_points = []
+        P1 = 0.8
+        P2 = 0.25
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -202,10 +197,10 @@ def fold_points(positions, sequence):
             points += 2
     return points / 2
 
-def random_product(*args, repeat):
-    "Random selection from itertools.product(*args, **kwds)"
-    pools = [tuple(pool) for pool in args] * repeat
-    return tuple(random.choice(pool) for pool in pools)
+# def random_product(*args, repeat):
+#     "Random selection from itertools.product(*args, **kwds)"
+#     pools = [tuple(pool) for pool in args] * repeat
+#     return tuple(random.choice(pool) for pool in pools)
 
 def changed_amino_positions(sequence, option):
     # initialises positions list and starting coordinates of protein
