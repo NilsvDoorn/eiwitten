@@ -1,6 +1,6 @@
 # Eiwit vouwen
 Eiwitten zijn essentieel voor het leven. Ze bestaan uit een aaneenschakeling van aminozuren die, afhankelijk van het type, een bepaalde interactie met elkaar aan gaan waardoor een bepaalde vouwing ontstaat.
-<p>De algoritmes binnen deze map proberen de vouwing van een eiwit te voorspellen aan de hand van de aminozuurvolgorde. Hiervoor worden de aminzuren in groepen verdeeld (P, H of C) op een grid geplaatst waarbij twee opeenvolgende aminozuren een stap van elkaar verwijderd liggen. De score van de vouwing wordt vervolgens bepaald door de hoeveelheid H's en C's naast elkaar liggen. Hierbij leveren H-H en C-H 1 punt op en C-C 5 punten.
+<p>De algoritmes binnen deze map proberen de vouwing van een eiwit te voorspellen aan de hand van de aminozuurvolgorde. Hiervoor worden de aminzuren in groepen verdeeld (P, H of C) en op een grid geplaatst waarbij twee opeenvolgende aminozuren 1 stap van elkaar verwijderd liggen. De score van de vouwing wordt vervolgens bepaald door de hoeveelheid H's en C's die naast elkaar liggen. Hierbij leveren H-H en C-H 1 punt op en C-C 5 punten.
 
 <h2>Aan de slag (Getting Started)<h2>
 <h3>Vereisten (Prerequisites)</h3>
