@@ -1,14 +1,15 @@
 from itertools import product
 import random
-"""Generates a list of all folding options for the protein"""
+from math import ceil
+
+"""Generates an array of a random fold option for the protein"""
 class Option(object):
-    def __init__(self, length):
-#        self.options = list(product(["right", "left", "forward"], repeat = length - 2))
+    def __init__(self, length, sequence):
         self.option = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
-        self.positions = amino_positions(list(self.option), length)
+        self.positions = amino_positions(sequence, list(self.option))
         while not self.positions:
             self.option = list(random_product(["right", "left", "forward",  "up", "down"], repeat = length))
-            self.positions = amino_positions(list(self.option), length)
+            self.positions = amino_positions(sequence, list(self.option))
 
 # from https://docs.python.org/3.1/library/itertools.html?highlight=combinations#itertools.product
 # generates a random sequence of left, forward and right of length protein.length
@@ -18,14 +19,11 @@ def random_product(*args, repeat):
     return tuple(random.choice(pool) for pool in pools)
 
 # finds all x,y amino positions of current option
-def amino_positions(option, length):
+def amino_positions(sequence, option):
+
     # initialises positions list and starting coordinates of protein
     positions = []
-    begin = int((length / 2))
-
-    # appends first two positions to positions list
-    positions.append(tuple((begin, begin, begin)))
-    positions.append(tuple((begin, begin + 1, begin)))
+    begin = int(ceil(len(sequence) / 2))
 
     # initialises x-, y-coordinates and current direction
     x, y, z = begin, begin + 1, begin
@@ -129,23 +127,3 @@ def amino_positions(option, length):
             return False
         positions.append(tuple((x, y, z)))
     return positions
-
-# determines if current fold option results in bumps
-def viable_option(option):
-    number = 1
-    for position in option:
-        for i in range(len(option) - number):
-            if option[i + number] == position:
-                return False
-        number = number + 1
-    return True
-
-    # def automatic(self, option, protein):
-    #     for i in range(len(protein)):
-    #         if protein[i] == protein[i+4] == "H":
-    #             if option[i] == option[i+1] == "left" or option[i] == option[i+1] == "right":
-    #                 return False
-    #                 self.count += 1
-    #                 print(self.count)
-    #                 i += 4
-    #     return True

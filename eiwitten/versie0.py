@@ -22,7 +22,7 @@ def main():
 
     options = Option(protein.length)
     best_fold = options.options[0]
-    best_positions = [(0, 0), (0, 1)]
+    best_positions = []
 
     ways = [["right"], ["forward"]]
     last_fold_points = 0
@@ -33,9 +33,17 @@ def main():
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
+<<<<<<< HEAD
         # round_points = []
         P1 = 0.8
         P2 = 0.25
+=======
+
+        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
+        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
+        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
+
+>>>>>>> 694e4618da312c0a9d73114cb398dfedee155947
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)

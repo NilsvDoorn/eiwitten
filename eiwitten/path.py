@@ -121,7 +121,10 @@ class Path(object):
 
         # ax.axis([(min_x_3D - 1), (max_x_3D + 1), (min_y_3D - 1), (max_y_3D + 1), (min_z_3D - 1), (max_z_3D + 1)])
 
+        # disable axis ticks
+        ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False, left= False, right= False)
 
+        # ax.set_axis_off()
 
         plt.savefig("3D_out.png")
 
@@ -237,13 +240,14 @@ class Path(object):
         # connect_h = ax.plot(x, y, color='red', linestyle='--')
         # connect_c = ax.plot(x, y, color='yellow', linestyle='--')
 
-
         # plot a grid for better visualisation
         gridline_space = 1.0
         ax.xaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
         ax.yaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
         ax.grid()
 
+        # disable axis ticks
+        ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False)
 
 
         plt.savefig("out.png")
