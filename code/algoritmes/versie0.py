@@ -48,19 +48,20 @@ def main():
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                         else:
+                            round_points += pseudo_points
                             if pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
-                                round_points += pseudo_points
+
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = pseudo_points
                             elif pseudo_points <= AVG_points:
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+
                             else:
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+    
                 route.pop()
         if not len(new_ways) == 0:
             AVG_points = round_points / len(all_ways)
