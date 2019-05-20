@@ -1,6 +1,5 @@
 from sys import argv
 from protein import Protein
-from random_option import Option
 from field import Field
 from path import Path
 import time
@@ -9,34 +8,42 @@ from copy import deepcopy
 from math import ceil
 from itertools import product
 
-def main():
+change_length = 6
+number_loops = 2
+
+def hillclimber():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    possible_changes = list(product(["forward", "left", "right", "up", "down"], repeat = 6))
+    # generates random viable option (no bumps)
+    best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = protein.length))
+    while not amino_positions(best_fold):
+        best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = protein.length))
 
-    option = Option(protein.length, protein.sequence)
-
-    best_fold = option.option
-    best_positions = option.positions
+    # finds positions and fold points of randomly generated option
+    best_positions = amino_positions(best_fold)
     best_fold_points = fold_points(best_positions, protein.sequence) - protein.errorpoint[-1]
 
-    for i in range(3):
-        for index in range(len(protein.sequence) - 6):
-            print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
-        # Iterates over all possible changes and adds them to every poiny in best_fold
+    # creates list of all options of size change_length
+    possible_changes = list(product(["forward", "left", "right", "up", "down"], repeat = change_length))
 
+    # loops over entire protein number_loops' times
+    for i in range(number_loops):
+        for index in range(len(protein.sequence) - change_length):
+            print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
+
+            # iterates over all possible changes and adds them to every point in best_fold
             for change in possible_changes:
                 changed_fold = deepcopy(best_fold)
-                changed_fold[index] = change[0]
-                changed_fold[index + 1] = change[1]
-                changed_fold[index + 2] = change[2]
-                changed_fold[index + 3] = change[3]
-                changed_fold[index + 4] = change[4]
-                changed_fold[index + 5] = change[5]
 
-                # Determines aminopositions of changed fold
+                for change_index in range(change_length):
+                    changed_fold[index + change_index] = change[change_index]
+
+                # determines aminopositions of changed fold
                 changed_positions = amino_positions(changed_fold)
+
+                # remembers changed_fold and changed_positions if the score
+                # is higher than that of best_fold
                 if changed_positions:
                     if (fold_points(changed_positions, protein.sequence) - protein.errorpoint[-1]) > best_fold_points:
                         best_fold_points = fold_points(changed_positions, protein.sequence) - protein.errorpoint[-1]
@@ -44,7 +51,6 @@ def main():
                         best_positions = changed_positions
                         print("New best fold points: " + str(int(best_fold_points)))
                         print("")
-                        print(protein.errorpoint[-1])
 
 
     # prints best_fold_points and best_fold and current field
@@ -58,6 +64,13 @@ def main():
         p.plot3Dfold(protein.sequence, best_fold_points)
     else:
         p.plotFold(protein.sequence, best_fold_points)
+
+# from https://docs.python.org/3.1/library/itertools.html?highlight=combinations#itertools.product
+# generates a random option of length protein.length
+def random_product(*args, repeat):
+    "Random selection from itertools.product(*args, **kwds)"
+    pools = [tuple(pool) for pool in args] * repeat
+    return tuple(random.choice(pool) for pool in pools)
 
 # checks the points scored by the current fold
 def fold_points(positions, sequence):
@@ -219,4 +232,4 @@ def amino_positions(option):
 
 
 if __name__ == '__main__':
-    main()
+    hillclimber()

@@ -20,7 +20,7 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = Option(protein.length)
+    options = Option()
     best_fold = options.options[0]
     best_positions = [(0, 0), (0, 1)]
 
@@ -35,7 +35,6 @@ def main():
     for aminoacid in range(len(protein.sequence) - 3):
         round_points = []
         P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.3
         P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
 
 
@@ -86,45 +85,6 @@ def main():
         # print("")
 
     best_positions = options.amino_positions(protein.sequence, best_fold)
-    # print("First best fold points: " + str(best_fold_points))
-
-    # error = protein.errorpoint[-1]
-    # Creates list of all possible changes of size 10
-    # possible_changes = list(product(["right", "left", "forward"], repeat = 10))
-    #
-    # # Iterates over each aminoacid in the sequence up untill the last - 12
-    # for index in range(len(protein.sequence) - 11):
-    #     print("Hillclimber attempt number " + str(index))
-    #     # Remembers best fold
-    #
-    #
-    #
-    #     # Iterates over all possible changes and adds them to every poiny in best_fold
-    #     for change in possible_changes:
-    #         changed_fold = best_fold
-    #         changed_fold[index] = change[0]
-    #         changed_fold[index + 1] = change[1]
-    #         changed_fold[index + 2] = change[2]
-    #         changed_fold[index + 3] = change[3]
-    #         changed_fold[index + 4] = change[4]
-    #         changed_fold[index + 5] = change[5]
-    #         changed_fold[index + 6] = change[6]
-    #         changed_fold[index + 7] = change[7]
-    #         changed_fold[index + 8] = change[8]
-    #         changed_fold[index + 9] = change[9]
-    #
-    #         # Determines aminopositions of changed fold
-    #         changed_positions = changed_amino_positions(protein.sequence, changed_fold)
-    #         if changed_positions:
-    #             if (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
-    #                 print("New best fold points: ")
-    #                 last_fold_points = fold_points(changed_positions, protein.sequence) - error
-    #                 best_fold = changed_fold
-    #                 best_positions = changed_positions
-    #                 print(last_fold_points)
-
-
-    # prints best_fold_points and best_fold and current field
 
     best_fold_points = last_fold_points
     print(best_fold)
@@ -133,7 +93,7 @@ def main():
     """Hillclimber"""
     possible_changes = list(product(["forward", "left", "right", "up", "down"], repeat = 6))
 
-    for i in range(2):
+    for i in range(1):
         for index in range(len(protein.sequence) - 8):
             print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
             # Iterates over all possible changes and adds them to every poiny in best_fold

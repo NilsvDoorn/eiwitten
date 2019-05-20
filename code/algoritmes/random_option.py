@@ -5,7 +5,7 @@ from math import ceil
 """Generates an array of a random fold option for the protein"""
 class Option(object):
     def __init__(self, length, sequence):
-        self.option = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
+
         self.positions = amino_positions(sequence, list(self.option))
         while not self.positions:
             self.option = list(random_product(["right", "left", "forward",  "up", "down"], repeat = length))
