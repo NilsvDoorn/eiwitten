@@ -23,7 +23,7 @@ class Option(object):
         positions.append(tuple((begin, begin, begin)))
         positions.append(tuple((begin, begin + 1, begin)))
 
-        # initialises x-, y-coordinates and current direction
+        # initialises x-, y- and z-coordinates and current direction
         x, y, z = begin, begin + 1, begin
         directions_xy = {'y_min':{'right': [-1,0,'x_min'], 'left': [1,0,'x_plus'], 'forward': [0,1,'y_min'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
                     'x_plus':{'right': [0,1,'y_min'], 'left': [0,-1,'y_plus'], 'forward': [1,0,'x_plus'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
