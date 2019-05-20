@@ -61,10 +61,10 @@ def main():
                             else:
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
-    
+
                 route.pop()
         if not len(new_ways) == 0:
-            AVG_points = round_points / len(all_ways)
+            AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
