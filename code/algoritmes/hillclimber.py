@@ -1,7 +1,5 @@
 from sys import argv
 from protein import Protein
-from option import Option
-from field import Field
 from path import Path
 import time
 import random
@@ -20,24 +18,20 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = Option()
-    best_fold = options.options[0]
-    best_positions = [(0, 0), (0, 1)]
+    options = ["right", "forward", "left", "up", "down"]
+    best_fold = options[0]
+    best_positions = []
 
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-    # P1 = 0
-    # P2 = 0
+    P1 = 0.9
+    P2 = 0.5
     # print(protein.lower_bound)
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        round_points = []
-        P1 = 0.7 / (1 + 200 * 0.65 ** (aminoacid + 4)) + 0.4
-        P2 = 0.8 / (1 + 200 * 0.825 ** (aminoacid + 4)) + 0.5
-
-
+        # round_points = []
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -48,11 +42,11 @@ def main():
         round_points = 0
         print('aminoacid', aminoacid + 4)
         for route in ways:
-            for option in options.options:
+            for option in options:
                 route.append(option)
-                if not options.mirror(route):
-                    if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = int(fold_points(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                if not mirror(route):
+                    if amino_positions(route):
+                        pseudo_points = int(fold_points_3d(amino_positions(route), protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -79,13 +73,10 @@ def main():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
-        # print(round_points)
-        # for i in ways:
-        #     print(i)
-        # print("")
 
-    best_positions = options.amino_positions(protein.sequence, best_fold)
+    best_positions = amino_positions(best_fold)
 
+    # print("First best fold points: " + str(best_fold_points))
     best_fold_points = last_fold_points
     print(best_fold)
     print(best_positions)
@@ -108,7 +99,7 @@ def main():
                 changed_fold[index + 5] = change[5]
 
                 # Determines aminopositions of changed fold
-                changed_positions = amino_positions(changed_fold)
+                changed_positions = changed_amino_positions(changed_fold)
                 if changed_positions:
                     if (fold_points(changed_positions, protein.sequence) - protein.errorpoint[-1]) > best_fold_points:
                         best_fold_points = fold_points(changed_positions, protein.sequence)
@@ -191,19 +182,10 @@ def fold_points(positions, sequence):
             points += 2
     return points / 2
 
-def random_product(*args, repeat):
-    "Random selection from itertools.product(*args, **kwds)"
-    pools = [tuple(pool) for pool in args] * repeat
-    return tuple(random.choice(pool) for pool in pools)
-
-def changed_amino_positions(sequence, option):
+def changed_amino_positions(option):
     # initialises positions list and starting coordinates of protein
     positions = []
     begin = ceil(len(sequence) // 2)
-
-    # appends first two positions to positions list
-    positions.append(tuple((begin, begin)))
-    positions.append(tuple((begin + 1, begin)))
 
     # initialises x-, y-coordinates and current direction
     x, y = begin, begin + 1
@@ -260,6 +242,14 @@ def changed_amino_positions(sequence, option):
             return False
         positions.append(tuple((y, x)))
     return positions
+
+def mirror(route):
+    for option in route:
+        if option == 'right':
+            return False
+        elif option == 'left' or option == "up" or option == "down":
+            return True
+    return True
 
 def amino_positions(option):
     # initialises positions list and starting coordinates of protein
@@ -368,6 +358,32 @@ def amino_positions(option):
             return False
         positions.append(tuple((x, y, z)))
     return positions
+
+
+# checks the points scored by the current fold
+def fold_points_3d(positions, sequence):
+    points = 0
+    HHHH = []
+    CCCC = []
+    for position, acid in zip(positions, sequence):
+        if acid == "H":
+            HHHH.append(position)
+        elif acid == "C":
+            CCCC.append(position)
+    for acid_position in HHHH:
+        for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
+                points += 1
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
+                points += 1
+
+    for acid_position in CCCC:
+        for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
+            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
+                points += 5
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
+                points += 1
+    return points / 2
 
 
 
