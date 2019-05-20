@@ -16,11 +16,11 @@ Om de code te draaien met de standaardconfiguratie (bv. brute-force en voorbeeld
 
 python main.py
 
-#Auteurs (Authors)
-Nils van Doorn
-Jesse Pannekeet
+<h2>Auteurs (Authors)</h2>
+Nils van Doorn</br>
+Jesse Pannekeet</br>
 Thomas Verouden
 
-#Dankwoord (Acknowledgments)
-StackOverflow
+<h2>Dankwoord (Acknowledgments)</h2>
+StackOverflow</br>
 minor programmeren van de UvA
