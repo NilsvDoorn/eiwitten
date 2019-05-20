@@ -1,7 +1,7 @@
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from protein import Protein
+
 import math
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 
