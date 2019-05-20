@@ -1,7 +1,6 @@
 from sys import argv
 from protein import Protein
 from option import Option
-from field import Field
 from path import Path
 import time
 import random
@@ -128,8 +127,6 @@ def main():
     #                 best_positions = changed_positions
     #                 print(last_fold_points)
 
-
-    # prints best_fold_points and best_fold and current field
 
     print(best_fold_points)
     print(best_fold)

@@ -9,7 +9,7 @@ def random_product(*args, repeat):
     pools = [tuple(pool) for pool in args] * repeat
     return tuple(random.choice(pool) for pool in pools)
 
-def viable_random_product(length):
+def viable_random_product_3d(length):
     best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
     while not amino_positions(best_fold):
         best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
