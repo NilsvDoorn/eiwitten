@@ -27,15 +27,13 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-    # P1 = 0
-    # P2 = 0
+    P1 = 0.8
+    P2 = 0.25
     # print(protein.lower_bound)
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         # round_points = []
-        P1 = 0.8
-        P2 = 0.25
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -77,51 +75,9 @@ def main():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
-        # print(round_points)
-        # for i in ways:
-        #     print(i)
-        # print("")
 
     best_positions = options.amino_positions(protein.sequence, best_fold)
     # print("First best fold points: " + str(best_fold_points))
-
-    # error = protein.errorpoint[-1]
-    # Creates list of all possible changes of size 10
-    # possible_changes = list(product(["right", "left", "forward"], repeat = 10))
-    #
-    # # Iterates over each aminoacid in the sequence up untill the last - 12
-    # for index in range(len(protein.sequence) - 11):
-    #     print("Hillclimber attempt number " + str(index))
-    #     # Remembers best fold
-    #
-    #
-    #
-    #     # Iterates over all possible changes and adds them to every poiny in best_fold
-    #     for change in possible_changes:
-    #         changed_fold = best_fold
-    #         changed_fold[index] = change[0]
-    #         changed_fold[index + 1] = change[1]
-    #         changed_fold[index + 2] = change[2]
-    #         changed_fold[index + 3] = change[3]
-    #         changed_fold[index + 4] = change[4]
-    #         changed_fold[index + 5] = change[5]
-    #         changed_fold[index + 6] = change[6]
-    #         changed_fold[index + 7] = change[7]
-    #         changed_fold[index + 8] = change[8]
-    #         changed_fold[index + 9] = change[9]
-    #
-    #         # Determines aminopositions of changed fold
-    #         changed_positions = changed_amino_positions(protein.sequence, changed_fold)
-    #         if changed_positions:
-    #             if (fold_points(changed_positions, protein.sequence)) - error > last_fold_points:
-    #                 print("New best fold points: ")
-    #                 last_fold_points = fold_points(changed_positions, protein.sequence) - error
-    #                 best_fold = changed_fold
-    #                 best_positions = changed_positions
-    #                 print(last_fold_points)
-
-
-    # prints best_fold_points and best_fold and current field
 
     print(last_fold_points)
     print(best_fold)
@@ -132,7 +88,9 @@ def main():
     print("This is best_positions: " + str(best_positions))
     print(best_positions[0])
     print(best_positions[0][2])
-    # start visualisation
+
+
+    # start visualisation in 2D or 3D depending on version run
     p = Path(protein.length, best_positions)
     if len(best_positions[0]) is 3:
         p.plot3Dfold(protein.sequence, best_fold_points)
@@ -195,11 +153,6 @@ def fold_points_2d(positions, sequence):
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 1
     return points / 2
-
-# def random_product(*args, repeat):
-#     "Random selection from itertools.product(*args, **kwds)"
-#     pools = [tuple(pool) for pool in args] * repeat
-#     return tuple(random.choice(pool) for pool in pools)
 
 def changed_amino_positions(sequence, option):
     # initialises positions list and starting coordinates of protein
