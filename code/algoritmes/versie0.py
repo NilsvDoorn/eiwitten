@@ -36,12 +36,16 @@ def make_3D_fold():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
+<<<<<<< HEAD
+=======
+    P1 = 0.8
+    P2 = 0.25
+    # print(protein.lower_bound)
+>>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         # round_points = []
-        P1 = 0.8
-        P2 = 0.25
         print('P1:', P1)
         print('AVG_points:', AVG_points)
         print('P2:', P2)
@@ -83,15 +87,15 @@ def make_3D_fold():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
-        # print(round_points)
-        # for i in ways:
-        #     print(i)
-        # print("")
 
     best_positions = options.amino_positions(protein.sequence, best_fold)
+<<<<<<< HEAD
     
 
     # prints best_fold_points and best_fold and current field
+=======
+    # print("First best fold points: " + str(best_fold_points))
+>>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
 
     print(last_fold_points)
     print(best_fold)
@@ -103,7 +107,12 @@ def make_3D_fold():
     print(best_positions[0])
     print(best_positions[0][2])
 
+<<<<<<< HEAD
     # start visualisation
+=======
+
+    # start visualisation in 2D or 3D depending on version run
+>>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
     p = Path(protein.length, best_positions)
     if len(best_positions[0]) is 3:
         p.plot3Dfold(protein.sequence, best_fold_points)
@@ -170,12 +179,16 @@ def fold_points_2d(positions, sequence):
                 points += 1
     return points / 2
 
+<<<<<<< HEAD
 # def random_product(*args, repeat):
 #     "Random selection from itertools.product(*args, **kwds)"
 #     pools = [tuple(pool) for pool in args] * repeat
 #     return tuple(random.choice(pool) for pool in pools)
 
 def amino_positions_2D(sequence, option):
+=======
+def changed_amino_positions(sequence, option):
+>>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
     # initialises positions list and starting coordinates of protein
     positions = []
     begin = ceil(len(sequence) // 2)
