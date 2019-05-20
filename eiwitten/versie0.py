@@ -36,10 +36,6 @@ def main():
         # round_points = []
         P1 = 0.8
         P2 = 0.25
-        print('P1:', P1)
-        print('AVG_points:', AVG_points)
-        print('P2:', P2)
-        print('last_fold_points:', last_fold_points)
 
         best_fold_points = 0
         new_ways = []
@@ -62,12 +58,10 @@ def main():
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = pseudo_points
                             elif pseudo_points <= AVG_points:
-                                # print('lage kans')
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
                                     round_points += pseudo_points
                             else:
-                                # print('hogere kans')
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
                                     round_points += pseudo_points
@@ -77,13 +71,9 @@ def main():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
-        # print(round_points)
-        # for i in ways:
-        #     print(i)
-        # print("")
 
+    # make positions sendig to matplotlib
     best_positions = options.amino_positions(protein.sequence, best_fold)
-    # print("First best fold points: " + str(best_fold_points))
 
     # error = protein.errorpoint[-1]
     # Creates list of all possible changes of size 10
