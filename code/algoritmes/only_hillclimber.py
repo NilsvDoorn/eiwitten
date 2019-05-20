@@ -36,6 +36,7 @@ def hillclimber():
             for change in possible_changes:
                 changed_fold = deepcopy(best_fold)
 
+                # changes move from index in protein to index + change_length to changed move
                 for change_index in range(change_length):
                     changed_fold[index + change_index] = change[change_index]
 
