@@ -5,7 +5,6 @@ class Protein(object):
         self.sequence = protein
         self.length = len(protein)
         self.errorpoint = self.errorcalculator()
-        self.lower_bound = self.minimum()
 
     """Determines points that are rewarded for aminoacids that are next"""
     """to eachother in the sequence                                    """
@@ -23,16 +22,4 @@ class Protein(object):
                 points += 1
             point_list.append(points)
         print(point_list[-1])
-        return(point_list)
-
-    """Determines minimum number of points for each point in the sequence"""
-    def minimum(self):
-        points = 0
-        point_list = []
-        for i in range(self.length):
-            if self.sequence[i] == "H":
-                points += 1
-            elif self.sequence[i] == "C":
-                points += 5
-            point_list.append(points // 4)
         return(point_list)

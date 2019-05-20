@@ -27,50 +27,67 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-    # P1 = 0
-    # P2 = 0
-    # print(protein.lower_bound)
+    P1 = 1
+    P2 = 1
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         # round_points = []
-        P1 = 0.8
-        P2 = 0.25
+        # P1 = 0.8
+        # P2 = 0.25
 
         best_fold_points = 0
         new_ways = []
         all_ways = []
+        best_ways = []
         round_points = 0
-        print('aminoacid', aminoacid + 4)
+        print('aminoacid', aminoacid)
         for route in ways:
             for option in options.options:
                 route.append(option)
                 if not options.mirror(route):
                     if options.amino_positions(protein.sequence[:aminoacid + 4], route):
                         pseudo_points = int(fold_points_3d(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
-                        else:
-                            if pseudo_points >= last_fold_points:
-                                new_ways.append(deepcopy(route))
-                                round_points += pseudo_points
-                                if pseudo_points > best_fold_points:
-                                    best_fold_points = pseudo_points
+                        elif aminoacid % 5 == 0:
+                            if pseudo_points > best_fold_points:
+                                for i in best_ways:
+                                    if pseudo_points <= AVG_points:
+                                        if random.uniform(0,1) > P1:
+                                            new_ways.append(deepcopy(i))
+                                    else:
+                                        if random.uniform(0,1) > P2:
+                                            new_ways.append(deepcopy(i))
+                                best_ways = []
+                                best_fold_points = pseudo_points
+                                best_ways.append(deepcopy(route))
+
+                            elif pseudo_points == best_fold_points:
+                                best_ways.append(deepcopy(route))
+
                             elif pseudo_points <= AVG_points:
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
                             else:
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+                        else:
+                            round_points += pseudo_points
+                            all_ways.append(deepcopy(route))
                 route.pop()
+        for i in best_ways:
+            new_ways.append(deepcopy(i))
+
         if not len(new_ways) == 0:
+            ways = deepcopy(new_ways)
+        elif not len(all_ways) == 0:
             AVG_points = round_points / len(all_ways)
-        # last_fold_points = best_fold_points
-        ways = deepcopy(new_ways)
+            ways = deepcopy(all_ways)
+
         print(len(ways))
 
     # make positions sendig to matplotlib
@@ -114,7 +131,7 @@ def main():
 
     # prints best_fold_points and best_fold and current field
 
-    print(last_fold_points)
+    print(best_fold_points)
     print(best_fold)
     print(best_positions)
     end = time.time()
@@ -176,13 +193,15 @@ def fold_points_2d(positions, sequence):
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 1
+            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
+                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
-                points += 2
+                points += 1
     return points / 2
 
 # def random_product(*args, repeat):
