@@ -25,10 +25,10 @@ class Option(object):
 
         # initialises x-, y- and z-coordinates and current direction
         x, y, z = begin, begin + 1, begin
-        directions = {'y_plus':{'right': [1,0,0,'x_min'], 'left': [-1,0,'x_plus'], 'forward': [0,-1]},
-                    'x_plus':{'right': [0,-1,0,'y_min'], 'left': [0,1,0,'y_plus'], 'up': [0,0,1,'z_plus'], 'down': [0,0,-1,'z_min'], 'forward': [1,0,0,'x_plus']},
-                    'x_min':{'right': [0,1,'y_plus'], 'left': [0,-1,'y_min'], 'forward': [1,0]},
-                    'y_min':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]},
+        directions_xy = {'y_min':{'right': [-1,0,'x_min'], 'left': [1,0,'x_plus'], 'forward': [0,1,'y_min'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
+                    'x_plus':{'right': [0,1,'y_min'], 'left': [0,-1,'y_plus'], 'forward': [1,0,'x_plus'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
+                    'x_min':{'right': [0,-1,'y_plus'], 'left': [0,1,'y_min'], 'forward': [-1,0,'x_min'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
+                    'y_plus':{'right': [1,0,'x_plus'], 'left': [-1,0,'x_min'], 'forward': [0,-1,'y_plus'], 'up':[0,0,1,'z_plus'], 'down': [0,0,-1,'z_min']},
                     'z_plus':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]},
                     'z_min':{'right': [-1,0,'x_plus'], 'left': [1,0,'x_min'], 'forward': [0,1]}}
         direction = "y_min"
@@ -36,6 +36,11 @@ class Option(object):
         # loops over current option and appends aminoacid coordinates
         # if there are no bumps
         for move in option:
+            # x += directions_xy[direction[1]][move][0]
+            # y += directions_xy[direction[1]][move][1]
+            # z += directions_xy[direction[1]][move][2]
+            # direction[0] = direction[1]
+            # direction[1] = directions[direction][move][3]
             if direction == "x_plus":
                 if move == "right":
                     y = y - 1

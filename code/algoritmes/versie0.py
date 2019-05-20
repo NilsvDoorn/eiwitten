@@ -32,13 +32,9 @@ def main():
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         # round_points = []
-        print('P1:', P1)
-        print('AVG_points:', AVG_points)
-        print('P2:', P2)
-        print('last_fold_points:', last_fold_points)
-
         best_fold_points = 0
         new_ways = []
+        all_ways = []
         round_points = 0
         print('aminoacid', aminoacid + 4)
         for route in ways:
@@ -52,21 +48,20 @@ def main():
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                         else:
+                            round_points += pseudo_points
                             if pseudo_points >= last_fold_points:
                                 new_ways.append(deepcopy(route))
-                                round_points += pseudo_points
+
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = pseudo_points
                             elif pseudo_points <= AVG_points:
-                                # print('lage kans')
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+
                             else:
-                                # print('hogere kans')
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+
                 route.pop()
         if not len(new_ways) == 0:
             AVG_points = round_points / len(new_ways)
@@ -141,15 +136,13 @@ def fold_points_2d(positions, sequence):
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 def changed_amino_positions(sequence, option):
