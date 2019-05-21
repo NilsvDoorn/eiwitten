@@ -12,14 +12,14 @@ def random_product(*args, repeat):
 # generates random option until one is found that contains no bumps (2D)
 def viable_random_product_2d(length):
     best_fold = list(random_product(["right", "left", "forward"], repeat = length))
-    while not amino_positions_2d(best_fold):
+    while not amino_positions_2d_hc(best_fold):
         best_fold = list(random_product(["right", "left", "forward"], repeat = length))
     return best_fold
 
 # generates random option until one is found that contains no bumps (3D)
 def viable_random_product_3d(length):
     best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
-    while not amino_positions_3d(best_fold):
+    while not amino_positions_3d_hc(best_fold):
         best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
     return best_fold
 
@@ -31,7 +31,7 @@ def all_options_2d(length):
 def all_options_3d(length):
     return list(product(["forward", "left", "right", "up", "down"], repeat = length))
 
-def amino_positions_2d(option):
+def amino_positions_2d_hc(option):
     # initialises positions list and starting coordinates of protein
     positions = []
     begin = ceil(len(option) // 2)
@@ -58,7 +58,7 @@ def amino_positions_2d(option):
         positions.append(tuple((y, x)))
     return positions
 
-def amino_positions_3d(option):
+def amino_positions_3d_hc(option):
 
     # initialises positions list and starting coordinates of protein
     positions = []
@@ -169,8 +169,9 @@ def amino_positions_3d(option):
     # returns a list of all the current fold's aminoacids' positions
     return positions
 
-# checks the points scored by the current 3D fold
-def fold_points_2d(positions, protein):
+"""checks the points scored by the current fold (2D)"""
+# hc = Hillclimber
+def fold_points_2d_hc(positions, protein):
 
     # initialises list of points, H-positions and C-positions
     points = 0
@@ -197,29 +198,39 @@ def fold_points_2d(positions, protein):
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 2
+
+    # returns points scored by current fold
     return (points / 2)  - protein.errorpoint[-1]
 
-# checks the points scored by the current fold
+"""checks the points scored by the current fold (3D)"""
+# hc = Hillclimber
 def fold_points_3d_hc(positions, protein):
+
+    # initialises lists for positions of H's and C's and points
     points = 0
     HHHH = []
     CCCC = []
+
+    # finds all H and C positions
     for position, acid in zip(positions, protein.sequence):
         if acid == "H":
             HHHH.append(position)
         elif acid == "C":
             CCCC.append(position)
+
+    # finds all H-H connections
     for acid_position in HHHH:
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
-                points += 1
 
+    # finds all H-C and C-C connections
     for acid_position in CCCC:
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
-                points += 1
+                points += 2
+
+    # returns points scored by current fold
     return (points / 2) - protein.errorpoint[-1]
