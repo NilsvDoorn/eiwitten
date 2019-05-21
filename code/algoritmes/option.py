@@ -4,6 +4,7 @@ from math import ceil
 class Option(object):
     def __init__(self):
         self.options = ["right", "forward", "left", "up", "down"]
+        self.options_2D = ["right", "forward", "left"]
 
     def mirror(self, route):
         for option in route:

@@ -26,9 +26,14 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
+<<<<<<< HEAD:code/algoritmes/versie0.py
     P1 = 0.8
     P2 = 0.25
     # print(protein.lower_bound)
+=======
+    P1 = 0.9
+    P2 = 0.5
+>>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86:code/algoritmes/beam_search.py
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -72,11 +77,13 @@ def main():
         # print(len(ways))
 
     best_positions = amino_positions(protein.sequence, best_fold)
-    # print("First best fold points: " + str(best_fold_points))
 
+<<<<<<< HEAD:code/algoritmes/versie0.py
     # print(last_fold_points)
     # print(best_fold)
     # print(best_positions)
+=======
+>>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86:code/algoritmes/beam_search.py
     end = time.time()
     tijd = end - start
     # print(time)
