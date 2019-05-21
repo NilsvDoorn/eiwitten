@@ -1,6 +1,7 @@
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 from protein import Protein
 import math
 from mpl_toolkits.mplot3d import axes3d, Axes3D
@@ -79,15 +80,6 @@ class Path(object):
         if len(c_3D_cnd_list) is not 0:
             ax.scatter(c_x_3D, c_y_3D, c_z_3D, marker= 'o', c='yellow', s=100, label='C', zorder=10)
 
-        # # list coordinates for connection lines for h-h and c-c
-        # for index in h_cnd_list:
-        #     if index
-        #
-        #
-        #
-        # # plot connection lines to indicate interactions
-        # connect_h = ax.plot(x, y, color='red', linestyle='--')
-        # connect_c = ax.plot(x, y, color='yellow', linestyle='--')
 
         # make the fold determine axis length
         min_x_3D = 1000
@@ -122,7 +114,10 @@ class Path(object):
         # ax.axis([(min_x_3D - 1), (max_x_3D + 1), (min_y_3D - 1), (max_y_3D + 1), (min_z_3D - 1), (max_z_3D + 1)])
 
         # disable axis ticks
-        ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False, left= False, right= False)
+        # ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False, left= False, right= False)
+        ax.set_xticks(np.array([]))
+        ax.set_yticks(np.array([]))
+        ax.set_zticks(np.array([]))
 
         # ax.set_axis_off()
 
@@ -138,10 +133,6 @@ class Path(object):
     def plotFold(self, proteinsequence, best_fold_points):
 
         """Plots the folded protein"""
-
-        # print('this is the protein sequence: ', proteinsequence)
-        # print('this is the axislength: ', self.axislength)
-        # print('these are the datapoints: ', self.datapoints)
 
         # plot figure with size 1:1 with 100 dots per inches
         plt.figure(figsize=(6, 6), dpi=200)
@@ -179,14 +170,10 @@ class Path(object):
         # place the code + coordinates in the list
         for i in self.datapoints[1:]:
             list_path_data.extend([(mpath.Path.LINETO, i)])
-        # print('this is the list_path_data')
-        # print(list_path_data)
 
         # use the list for plotting the fold
         codes, verts = zip(*list_path_data)
         list_path = mpath.Path(verts, codes)
-        # print('this is the list path')
-        # print(list_path)
 
         # plot control points and connecting lines
         x = [t[0] for t in list_path.vertices]
@@ -207,14 +194,6 @@ class Path(object):
             else:
                 c_cnd_list.append(position)
 
-        # print('these are the h coordinates')
-        # print(h_cnd_list)
-        # print('these are the p coordinates')
-        # print(p_cnd_list)
-        # print('these are the c coordinates')
-        # print(c_cnd_list)
-
-        # self.plotMark(h_cnd_list, p_cnd_list, c_cnd_list)
         # define x, y per aminoacid
         h_x = [t[0] for t in h_cnd_list]
         h_y = [t[1] for t in h_cnd_list]
@@ -230,16 +209,6 @@ class Path(object):
         marker = ax.scatter(p_x, p_y, marker= 'o', c='blue', s=100, zorder=10)
         marker = ax.scatter(c_x, c_y, marker= 'o', c='yellow', s=100, zorder=10)
 
-        # # list coordinates for connection lines for h-h and c-c
-        # for index in h_cnd_list:
-        #     if index
-        #
-        #
-        #
-        # # plot connection lines to indicate interactions
-        # connect_h = ax.plot(x, y, color='red', linestyle='--')
-        # connect_c = ax.plot(x, y, color='yellow', linestyle='--')
-
         # plot a grid for better visualisation
         gridline_space = 1.0
         ax.xaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
@@ -247,7 +216,13 @@ class Path(object):
         ax.grid()
 
         # disable axis ticks
-        ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False)
+        # ax.tick_params(axis= 'both', which= 'both', bottom= False, top= False)
+        ax.set_xticks(np.array([]))
+        ax.set_yticks(np.array([]))
+
+        # plot a grid for better visualisation
+        gridline_space = 1.0
+        ax.grid()
 
 
-        plt.savefig("out.png")
+        plt.savefig("2D_out.png")

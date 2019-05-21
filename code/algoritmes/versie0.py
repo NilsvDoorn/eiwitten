@@ -9,23 +9,20 @@ from copy import deepcopy
 from math import ceil
 from itertools import product
 
+
+
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
 
     # checks whether program is used correctly
     check()
 
-    if argv[2] == "3D":
-        make_3D_fold()
-    elif argv[2] == "2D":
-        make_2D_fold()
-
-
-
-def make_3D_fold():
-
     # Determines program running time
     start = time.time()
+
+    # set dimension for folding the protein
+    dimension = argv[2]
+    print(dimension)
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -33,15 +30,13 @@ def make_3D_fold():
     options = Option()
     best_fold = options.options[0]
     best_positions = []
+    best_positions_2d = []
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-<<<<<<< HEAD
-=======
     P1 = 0.8
     P2 = 0.25
     # print(protein.lower_bound)
->>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -56,68 +51,95 @@ def make_3D_fold():
         round_points = 0
         print('aminoacid', aminoacid + 4)
         for route in ways:
-            for option in options.options:
-                route.append(option)
-                if not options.mirror(route):
-                    if options.3(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = int(fold_points_3d(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
-                        if aminoacid + 4 == protein.length:
-                            if pseudo_points > best_fold_points:
-                                best_fold_points = int(pseudo_points)
-                                best_fold = deepcopy(route)
-                        else:
-                            if pseudo_points >= last_fold_points:
-                                new_ways.append(deepcopy(route))
-                                round_points += pseudo_points
+            if dimension == "3D":
+                for option in options.options:
+                    route.append(option)
+                    if not options.mirror(route):
+                        if options.amino_positions(protein.sequence[:aminoacid + 4], route):
+                            pseudo_points = int(fold_points_3d(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                            if aminoacid + 4 == protein.length:
                                 if pseudo_points > best_fold_points:
-                                    best_fold_points = pseudo_points
-                            elif pseudo_points <= AVG_points:
-                                # print('low chance')
-                                if random.uniform(0,1) > P1:
-                                    new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
+                                    best_fold_points = int(pseudo_points)
+                                    best_fold = deepcopy(route)
                             else:
-                                # print('high chance')
-                                if random.uniform(0,1) > P2:
+                                if pseudo_points >= last_fold_points:
                                     new_ways.append(deepcopy(route))
                                     round_points += pseudo_points
-                route.pop()
+                                    if pseudo_points > best_fold_points:
+                                        best_fold_points = pseudo_points
+                                elif pseudo_points <= AVG_points:
+                                    # print('low chance')
+                                    if random.uniform(0,1) > P1:
+                                        new_ways.append(deepcopy(route))
+                                        round_points += pseudo_points
+                                else:
+                                    # print('high chance')
+                                    if random.uniform(0,1) > P2:
+                                        new_ways.append(deepcopy(route))
+                                        round_points += pseudo_points
+                    route.pop()
+
+            # dimension == "2D"
+            else:
+                for option in options.options_2D:
+                    route.append(option)
+                    if not options.mirror(route):
+                        if amino_positions_2d(protein.sequence[:aminoacid + 4], route):
+                            pseudo_points = int(fold_points_2d(amino_positions_2d(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                            if aminoacid + 4 == protein.length:
+                                if pseudo_points > best_fold_points:
+                                    best_fold_points = int(pseudo_points)
+                                    best_fold = deepcopy(route)
+                            else:
+                                if pseudo_points >= last_fold_points:
+                                    new_ways.append(deepcopy(route))
+                                    round_points += pseudo_points
+                                    if pseudo_points > best_fold_points:
+                                        best_fold_points = pseudo_points
+                                elif pseudo_points <= AVG_points:
+                                    # print('low chance')
+                                    if random.uniform(0,1) > P1:
+                                        new_ways.append(deepcopy(route))
+                                        round_points += pseudo_points
+                                else:
+                                    # print('high chance')
+                                    if random.uniform(0,1) > P2:
+                                        new_ways.append(deepcopy(route))
+                                        round_points += pseudo_points
+                    route.pop()
+
+
         if not len(new_ways) == 0:
             AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
         print(len(ways))
 
-    best_positions = options.amino_positions(protein.sequence, best_fold)
-<<<<<<< HEAD
-    
-
-    # prints best_fold_points and best_fold and current field
-=======
-    # print("First best fold points: " + str(best_fold_points))
->>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
-
-    print(last_fold_points)
-    print(best_fold)
-    print(best_positions)
     end = time.time()
-    print(end - start)
 
-    print("This is best_positions: " + str(best_positions))
-    print(best_positions[0])
-    print(best_positions[0][2])
+    if dimension == "3D":
+        best_positions = options.amino_positions(protein.sequence, best_fold)
+        print("Best_positions: " + str(best_positions))
+        print(best_positions[0])
+        print(best_positions[0][2])
+    else:
+        best_positions_2d = amino_positions_2d(protein.sequence, best_fold)
+        print("Best_positions_2d: " + str(best_positions_2d))
+        print(best_positions_2d[0])
+        print(best_positions_2d[0][1])
 
-<<<<<<< HEAD
+    print("Last_fold_points: " + str(last_fold_points))
+    print("Best_fold: " + str(best_fold))
+    print("Time: " + str(end - start))
+
     # start visualisation
-=======
-
-    # start visualisation in 2D or 3D depending on version run
->>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
-    p = Path(protein.length, best_positions)
-    if len(best_positions[0]) is 3:
+    if dimension == "3D":
+        p = Path(protein.length, best_positions)
         p.plot3Dfold(protein.sequence, best_fold_points)
     else:
+        p = Path(protein.length, best_positions_2d)
         p.plotFold(protein.sequence, best_fold_points)
+
 
 # checks user input
 def check():
@@ -126,11 +148,11 @@ def check():
     for aminoacid in argv[1]:
         if aminoacid != 'H' and aminoacid != 'P' and aminoacid != 'C':
             exit("Protein sequence can only contain P, C and H")
-    for fold_dimension in argv[2]:
-        if fold_dimension != "2D" and fold_dimension != "3D":
+    if argv[2] != "2D" and argv[2] != "3D":
             exit("Please add either 2D or 3D as dimension for folding, after the given proteinsequence")
 
-# checks the points scored by the current fold
+
+# checks the points scored by the current 3D fold
 def fold_points_3d(positions, sequence):
     points = 0
     HHHH = []
@@ -155,6 +177,8 @@ def fold_points_3d(positions, sequence):
                 points += 1
     return points / 2
 
+
+# checks the points scored by the current 3D fold
 def fold_points_2d(positions, sequence):
     points = 0
     HHHH = []
@@ -179,16 +203,9 @@ def fold_points_2d(positions, sequence):
                 points += 1
     return points / 2
 
-<<<<<<< HEAD
-# def random_product(*args, repeat):
-#     "Random selection from itertools.product(*args, **kwds)"
-#     pools = [tuple(pool) for pool in args] * repeat
-#     return tuple(random.choice(pool) for pool in pools)
 
-def amino_positions_2D(sequence, option):
-=======
-def changed_amino_positions(sequence, option):
->>>>>>> 4ca0cbfe4b137045a2d908ab835e12e821c54864
+# amino positions function for 2D
+def amino_positions_2d(sequence, option):
     # initialises positions list and starting coordinates of protein
     positions = []
     begin = ceil(len(sequence) // 2)
