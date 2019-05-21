@@ -4,7 +4,6 @@ from protein import Protein
 from path import Path
 from functions import viable_random_product_3d, all_options_3d, amino_positions, fold_points_3d
 
-
 change_length = 6
 number_loops = 2
 
