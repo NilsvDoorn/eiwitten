@@ -1,222 +1,65 @@
 from sys import argv
 from protein import Protein
-from random_option import Option
-from field import Field
 from path import Path
-import time
-import random
 from copy import deepcopy
-from math import ceil
-from itertools import product
+from functions import viable_random_product_3d, all_options_3d, amino_positions, fold_points_3d
 
-def main():
+change_length = 6
+number_loops = 2
+
+def greedy():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    possible_changes = list(product(["forward", "left", "right", "up", "down"], repeat = 6))
+    # generates random viable option (no bumps)
+    best_fold = viable_random_product_3d(change_length)
 
-    best_fold = list(possible_changes[0])
+    # finds positions and fold points of randomly generated option
     best_positions = amino_positions(best_fold)
-    best_fold_points = fold_points(best_positions, protein.sequence)
+    best_fold_points = fold_points_3d(best_positions, protein, "change")
 
-    for i in range(4):
-        for index in range(len(protein.sequence) - 6):
-            print("Hillclimber attempt number " + str(i + 1) + "." + str(index + 1))
-        # Iterates over all possible changes and adds them to every poiny in best_fold
+    # creates list of all options of size change_length
+    possible_changes = all_options_3d(change_length)
 
+    # loops over entire protein number_loops times
+    for loop_number in range(number_loops):
+        for index in range(len(protein.sequence) - change_length):
+
+            # lets user know which loop is currently run
+            loop = str(loop_number + 1) + "." + str(index + 1)
+            print("Greedy attempt number " + loop)
+
+            # tries all possibble changes on every point in best_fold
             for change in possible_changes:
                 changed_fold = deepcopy(best_fold)
-                changed_fold[index] = change[0]
-                changed_fold[index + 1] = change[1]
-                changed_fold[index + 2] = change[2]
-                changed_fold[index + 3] = change[3]
-                changed_fold[index + 4] = change[4]
-                changed_fold[index + 5] = change[5]
+                for change_index in range(change_length):
+                    changed_fold[index + change_index] = change[change_index]
 
-                # Determines aminopositions of changed fold
+                # determines aminopositions of changed fold
                 changed_positions = amino_positions(changed_fold)
+
+                # only checks score if there are no bumps
                 if changed_positions:
-                    if (fold_points(changed_positions, protein.sequence)) > best_fold_points:
-                        best_fold_points = fold_points(changed_positions, protein.sequence)
+
+                    # remembers fold and positions if they improve the score
+                    fold_points = fold_points_3d(changed_positions, protein, "change")
+                    if fold_points > best_fold_points:
+                        best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
-                        print("New best fold points: " + str(int(best_fold_points - protein.errorpoint[-1])))
+                        print("New best fold points: " + str(int(best_fold_points)))
                         print("")
 
-            if (i == 0):
+            # builds up the option on the first loop
+            if (loop_number == 0):
                 best_fold.append("forward")
-
-
-    # prints best_fold_points and best_fold and current field
-    print(best_fold_points - protein.errorpoint[-1])
-    print(best_fold)
-    print(best_positions)
 
     # renders visualisation
     p = Path(protein.length, best_positions)
     if best_positions[0][2]:
-        p.plot3Dfold(protein.sequence, best_fold_points - protein.errorpoint[-1])
+        p.plot3Dfold(protein.sequence, best_fold_points)
     else:
-        p.plotFold(protein.sequence, best_fold_points - protein.errorpoint[-1])
-
-# checks the points scored by the current fold
-def fold_points(positions, sequence):
-    points = 0
-    HHHH = []
-    CCCC = []
-    for position, acid in zip(positions, sequence):
-        if acid == "H":
-            HHHH.append(position)
-        elif acid == "C":
-            CCCC.append(position)
-    for position in HHHH:
-        if (position[0] - 1, position[1], position[2]) in (HHHH or CCCC):
-            points += 1
-        if (position[0], position[1] - 1, position[2]) in (HHHH or CCCC):
-            points += 1
-        if (position[0], position[1] + 1, position[2]) in (HHHH or CCCC):
-            points += 1
-        if (position[0] + 1, position[1], position[2]) in (HHHH or CCCC):
-            points += 1
-        if (position[0], position[1], position[2] + 1) in (HHHH or CCCC):
-            points += 1
-        if (position[0], position[1], position[2] - 1) in (HHHH or CCCC):
-            points += 1
-    for position in CCCC:
-        if (position[0] - 1, position[1], position[2]) in CCCC:
-            points += 5
-        elif (position[0] - 1, position[1], position[2]) in HHHH:
-            points += 2
-        if (position[0], position[1] - 1, position[2]) in CCCC:
-            points += 5
-        elif (position[0], position[1] - 1, position[2]) in HHHH:
-            points += 2
-        if (position[0], position[1] + 1, position[2]) in CCCC:
-            points += 2
-        elif (position[0], position[1] + 1, position[2]) in HHHH:
-            points += 2
-        if (position[0] + 1, position[1], position[2]) in CCCC:
-            points += 5
-        elif (position[0] + 1, position[1], position[2]) in HHHH:
-            points += 2
-        if (position[0], position[1], position[2] + 1) in CCCC:
-            points += 5
-        elif (position[0], position[1], position[2] + 1) in HHHH:
-            points += 2
-        if (position[0], position[1], position[2] - 1) in CCCC:
-            points += 5
-        elif (position[0], position[1], position[2] - 1) in HHHH:
-            points += 2
-    return points / 2
-
-def amino_positions(option):
-    # initialises positions list and starting coordinates of protein
-    positions = []
-    begin = int(ceil(len(option) / 2))
-
-    # initialises x-, y-coordinates and current direction
-    x, y, z = begin, begin + 1, begin
-    direction = "x_min"
-
-    # loops over current option and appends aminoacid coordinates
-    # if there are no bumps
-    for move in option:
-        if direction == "x_plus":
-            if move == "right":
-                y = y - 1
-                direction = "y_min"
-            elif move == "left":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                x = x + 1
-        elif direction == "y_plus":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                y = y + 1
-        elif direction == "y_min":
-            if move == "right":
-                x = x - 1
-                direction = "x_min"
-            elif move == "left":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                y = y - 1
-        elif direction == "x_min":
-            if move == "right":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "left":
-                y = y - 1
-                direction = "y_min"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                x = x - 1
-        elif direction == "z_plus":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "down":
-                y = y - 1
-                direction = "y_min"
-            elif move == "forward":
-                z = z + 1
-        elif direction == "z_min":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "down":
-                y = y - 1
-                direction = "y_min"
-            elif move == "forward":
-                z = z - 1
-        # only appends coordinates if there are no bumps
-        if tuple((x, y, z)) in positions:
-            return False
-        positions.append(tuple((x, y, z)))
-    return positions
-
+        p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy()

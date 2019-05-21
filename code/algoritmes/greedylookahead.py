@@ -1,7 +1,6 @@
 from sys import argv
 from protein import Protein
 from option import Option
-from field import Field
 from path import Path
 import time
 import random
@@ -34,22 +33,21 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-    P1 = 0.8
-    P2 = 0.25
-    # print(protein.lower_bound)
+    P1 = 1
+    P2 = 1
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         # round_points = []
-        print('P1:', P1)
-        print('AVG_points:', AVG_points)
-        print('P2:', P2)
-        print('last_fold_points:', last_fold_points)
+        # P1 = 0.8
+        # P2 = 0.25
 
         best_fold_points = 0
         new_ways = []
+        all_ways = []
+        best_ways = []
         round_points = 0
-        print('aminoacid', aminoacid + 4)
+        print('aminoacid', aminoacid)
         for route in ways:
             if dimension == "3D":
                 for option in options.options:
@@ -110,9 +108,11 @@ def main():
 
 
         if not len(new_ways) == 0:
-            AVG_points = round_points / len(new_ways)
-        last_fold_points = best_fold_points
-        ways = deepcopy(new_ways)
+            ways = deepcopy(new_ways)
+        elif not len(all_ways) == 0:
+            AVG_points = round_points / len(all_ways)
+            ways = deepcopy(all_ways)
+
         print(len(ways))
 
     end = time.time()
