@@ -2,12 +2,13 @@ from sys import argv
 from copy import deepcopy
 from protein import Protein
 from path import Path
-from functions import viable_random_product_3d, all_options_3d, amino_positions, fold_points_3d
+from functions import viable_random_product_3d, all_options_3d, amino_positions_3d, fold_points_3d
 
 change_length = 6
 number_loops = 2
 
 def hillclimber():
+    
     # makes user input into the protein class
     protein = Protein(argv[1])
 
@@ -15,7 +16,7 @@ def hillclimber():
     best_fold = viable_random_product_3d(protein.length)
 
     # finds positions and fold points of randomly generated option
-    best_positions = amino_positions(best_fold)
+    best_positions = amino_positions_3d(best_fold)
     best_fold_points = fold_points_3d(best_positions, protein, "change")
 
     # creates list of all options of size change_length
@@ -36,7 +37,7 @@ def hillclimber():
                     changed_fold[index + change_index] = change[change_index]
 
                 # determines positions of changed fold
-                changed_positions = amino_positions(changed_fold)
+                changed_positions = amino_positions_3d(changed_fold)
 
                 # only checks score if there are no bumps
                 if changed_positions:
@@ -52,10 +53,7 @@ def hillclimber():
 
     # renders visualisation
     p = Path(protein.length, best_positions)
-    if best_positions[0][2]:
-        p.plot3Dfold(protein.sequence, best_fold_points)
-    else:
-        p.plotFold(protein.sequence, best_fold_points)
+    p.plot3Dfold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
     hillclimber()

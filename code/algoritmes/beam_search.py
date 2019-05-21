@@ -27,7 +27,6 @@ def main():
     AVG_points=0
     P1 = 0.9
     P2 = 0.5
-    # print(protein.lower_bound)
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -70,11 +69,7 @@ def main():
         print(len(ways))
 
     best_positions = amino_positions(protein.sequence, best_fold)
-    # print("First best fold points: " + str(best_fold_points))
 
-    print(last_fold_points)
-    print(best_fold)
-    print(best_positions)
     end = time.time()
     print(end - start)
 
