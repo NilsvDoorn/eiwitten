@@ -6,6 +6,7 @@ import random
 from copy import deepcopy
 from math import ceil
 from itertools import product
+import csv
 
 def main():
 
@@ -25,8 +26,8 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-    P1 = 0.9
-    P2 = 0.5
+    P1 = 0.8
+    P2 = 0.25
     # print(protein.lower_bound)
 
     # creates fold based on the protein and the current option
@@ -36,13 +37,14 @@ def main():
         new_ways = []
         all_ways = []
         round_points = 0
-        print('aminoacid', aminoacid + 4)
+        # print('aminoacid', aminoacid + 4)
         for route in ways:
             for option in options:
                 route.append(option)
                 if not mirror(route):
-                    if amino_positions(protein.sequence[:aminoacid + 4], route):
-                        pseudo_points = int(fold_points_3d(amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                    coordinates_route = options.amino_positions(protein.sequence[:aminoacid + 4], route)
+                    if coordinates_route:
+                        pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -67,28 +69,33 @@ def main():
             AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
-        print(len(ways))
+        # print(len(ways))
 
     best_positions = amino_positions(protein.sequence, best_fold)
     # print("First best fold points: " + str(best_fold_points))
 
-    print(last_fold_points)
-    print(best_fold)
-    print(best_positions)
+    # print(last_fold_points)
+    # print(best_fold)
+    # print(best_positions)
     end = time.time()
-    print(end - start)
+    tijd = end - start
+    # print(time)
 
-    print("This is best_positions: " + str(best_positions))
-    print(best_positions[0])
-    print(best_positions[0][2])
+    # print("This is best_positions: " + str(best_positions))
+    # print(best_positions[0])
+    # print(best_positions[0][2])
+    results = [protein.sequence,best_fold_points,round(tijd),P2,P1]
+    with open('beam.csv', 'a') as csvFile:
+        writer = csv.writer(csvFile)
+        writer.writerow(results)
 
-
-    # start visualisation in 2D or 3D depending on version run
-    p = Path(protein.length, best_positions)
-    if len(best_positions[0]) is 3:
-        p.plot3Dfold(protein.sequence, best_fold_points)
-    else:
-        p.plotFold(protein.sequence, best_fold_points)
+    csvFile.close()
+    # # start visualisation in 2D or 3D depending on version run
+    # p = Path(protein.length, best_positions)
+    # if len(best_positions[0]) is 3:
+    #     p.plot3Dfold(protein.sequence, best_fold_points)
+    # else:
+    #     p.plotFold(protein.sequence, best_fold_points)
 
 # checks user input
 def check():
