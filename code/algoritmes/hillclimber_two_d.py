@@ -4,8 +4,8 @@ from protein import Protein
 from path import Path
 from functions import viable_random_product_2d, all_options_2d, amino_positions_2d, fold_points_2d
 
-change_length = 6
-number_loops = 2
+change_length = 8
+number_loops = 3
 
 def hillclimber():
 

@@ -48,7 +48,7 @@ def greedy():
                         best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
-                        print("New best fold points: " + str(int(best_fold_points)))
+                        print("New best fold points: " + str(best_fold_points))
                         print("")
 
             # builds up the option on the first loop

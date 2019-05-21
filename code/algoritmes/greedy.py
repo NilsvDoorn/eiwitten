@@ -2,7 +2,7 @@ from sys import argv
 from protein import Protein
 from path import Path
 from copy import deepcopy
-from functions import viable_random_product_3d, all_options_3d, amino_positions_3d, fold_points_3d
+from functions import viable_random_product_3d, all_options_3d, amino_positions_3d, fold_points_3d_hc
 
 change_length = 6
 number_loops = 3
@@ -17,7 +17,7 @@ def greedy():
 
     # finds positions and fold points of randomly generated option
     best_positions = amino_positions_3d(best_fold)
-    best_fold_points = fold_points_3d(best_positions, protein, "change")
+    best_fold_points = fold_points_3d_hc(best_positions, protein)
 
     # creates list of all options of size change_length
     possible_changes = all_options_3d(change_length)
@@ -43,12 +43,12 @@ def greedy():
                 if changed_positions:
 
                     # remembers fold and positions if they improve the score
-                    fold_points = fold_points_3d(changed_positions, protein, "change")
+                    fold_points = fold_points_3d_hc(changed_positions, protein)
                     if fold_points > best_fold_points:
                         best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
-                        print("New best fold points: " + str(int(best_fold_points)))
+                        print("New best fold points: " + str(best_fold_points))
                         print("")
 
             # builds up the option on the first loop

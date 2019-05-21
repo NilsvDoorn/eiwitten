@@ -1,5 +1,6 @@
 import random
 from math import ceil
+from copy import deepcopy
 from itertools import product
 
 # generates a random option of the sequence *args of length repeat
@@ -199,7 +200,7 @@ def fold_points_2d(positions, protein):
     return (points / 2)  - protein.errorpoint[-1]
 
 # checks the points scored by the current fold
-def fold_points_3d(positions, protein, version):
+def fold_points_3d_hc(positions, protein):
     points = 0
     HHHH = []
     CCCC = []
@@ -221,7 +222,4 @@ def fold_points_3d(positions, protein, version):
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 1
-    if version == "change":
-        return (points / 2) - protein.errorpoint[-1]
-    else:
-        return points / 2
+    return (points / 2) - protein.errorpoint[-1]
