@@ -32,112 +32,88 @@ def main():
     best_positions = []
     best_positions_2d = []
     ways = [["right"], ["forward"]]
-    last_fold_points = 0
-    AVG_points=0
     optellingwegens = 0
     # creates fold based on the protein and the current option
-    for aminoacid in range(len(protein.sequence) - 3):
-        all_ways = []
-        best_ways = []
-        round_points = 0
-        best_fold_points = 0
-        # print('aminoacid', aminoacid)
-        for route in ways:
-<<<<<<< HEAD
-            for option in options.options:
-                route.append(option)
-                if not options.mirror(route):
-                    coordinates_route = options.amino_positions(protein.sequence[:aminoacid + 4], route)
-                    if coordinates_route:
-                        pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
 
-                        if aminoacid + 4 == protein.length:
-                            if pseudo_points > best_fold_points:
-                                best_fold_points = int(pseudo_points)
-                                best_fold = deepcopy(route)
-                        elif aminoacid % 10 == 0:
-                            if pseudo_points > best_fold_points:
-                                best_ways = []
-                                best_fold_points = pseudo_points
-                                best_ways.append(deepcopy(route))
-                            elif pseudo_points > best_fold_points:
-                                best_ways.append(deepcopy(route))
-                        else:
-                            round_points += pseudo_points
-                            all_ways.append(deepcopy(route))
-                route.pop()
-=======
-            if dimension == "3D":
+    if dimension == "3D":
+        for aminoacid in range(len(protein.sequence) - 3):
+            all_ways = []
+            best_ways = []
+            best_fold_points = 0
+            print('aminoacid', aminoacid)
+            for route in ways:
                 for option in options.options:
                     route.append(option)
                     if not options.mirror(route):
-                        if options.amino_positions(protein.sequence[:aminoacid + 4], route):
-                            pseudo_points = int(fold_points_3d(options.amino_positions(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        coordinates_route = options.amino_positions(protein.sequence[:aminoacid + 4], route)
+                        if coordinates_route:
+                            pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                             if aminoacid + 4 == protein.length:
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = int(pseudo_points)
                                     best_fold = deepcopy(route)
-                            else:
-                                if pseudo_points >= last_fold_points:
-                                    new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
-                                    if pseudo_points > best_fold_points:
-                                        best_fold_points = pseudo_points
-                                elif pseudo_points <= AVG_points:
-                                    # print('low chance')
-                                    if random.uniform(0,1) > P1:
-                                        new_ways.append(deepcopy(route))
-                                        round_points += pseudo_points
-                                else:
-                                    # print('high chance')
-                                    if random.uniform(0,1) > P2:
-                                        new_ways.append(deepcopy(route))
-                                        round_points += pseudo_points
-                    route.pop()
+                                    best_coordinates = coordinates_route
+                            elif aminoacid % 6 == 0:
+                                if pseudo_points > best_fold_points:
+                                    best_ways = []
+                                    best_fold_points = pseudo_points
+                                    best_ways.append(deepcopy(route))
 
-            # dimension == "2D"
+                                elif pseudo_points == best_fold_points:
+                                    best_ways.append(deepcopy(route))
+                            else:
+                                all_ways.append(deepcopy(route))
+                    route.pop()
+            if not len(best_ways) == 0:
+                ways = deepcopy(best_ways)
             else:
+                ways = deepcopy(all_ways)
+
+            print(len(ways))
+            optellingwegens += len(ways)
+
+    # dimension == "2D"
+    else:
+        for aminoacid in range(len(protein.sequence) - 3):
+            all_ways = []
+            best_ways = []
+            best_fold_points = 0
+            print('aminoacid', aminoacid)
+            for route in ways:
                 for option in options.options_2D:
                     route.append(option)
                     if not options.mirror(route):
-                        if amino_positions_2d(protein.sequence[:aminoacid + 4], route):
-                            pseudo_points = int(fold_points_2d(amino_positions_2d(protein.sequence[:aminoacid + 4], route), protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        coordinates_route = amino_positions_2d(protein.sequence[:aminoacid + 4], route)
+                        if coordinates_route:
+                            pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                             if aminoacid + 4 == protein.length:
                                 if pseudo_points > best_fold_points:
                                     best_fold_points = int(pseudo_points)
                                     best_fold = deepcopy(route)
+                                    best_coordinates = coordinates_route
+                            elif aminoacid % 5 == 0:
+                                if pseudo_points > best_fold_points:
+                                    best_ways = []
+                                    best_fold_points = pseudo_points
+                                    best_ways.append(deepcopy(route))
+
+                                elif pseudo_points == best_fold_points:
+                                    best_ways.append(deepcopy(route))
                             else:
-                                if pseudo_points >= last_fold_points:
-                                    new_ways.append(deepcopy(route))
-                                    round_points += pseudo_points
-                                    if pseudo_points > best_fold_points:
-                                        best_fold_points = pseudo_points
-                                elif pseudo_points <= AVG_points:
-                                    # print('low chance')
-                                    if random.uniform(0,1) > P1:
-                                        new_ways.append(deepcopy(route))
-                                        round_points += pseudo_points
-                                else:
-                                    # print('high chance')
-                                    if random.uniform(0,1) > P2:
-                                        new_ways.append(deepcopy(route))
-                                        round_points += pseudo_points
+                                all_ways.append(deepcopy(route))
                     route.pop()
 
->>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86
 
-        if not len(best_ways) == 0:
-            ways = deepcopy(best_ways)
-        elif not len(all_ways) == 0:
-            AVG_points = round_points / len(all_ways)
-            ways = deepcopy(all_ways)
+            if not len(best_ways) == 0:
+                ways = deepcopy(best_ways)
+            else:
+                ways = deepcopy(all_ways)
 
-        # print(len(ways))
-        optellingwegens += len(ways)
+            print(len(ways))
+            optellingwegens += len(ways)
 
-<<<<<<< HEAD
     # make positions sendig to matplotlib
-    best_positions = options.amino_positions(protein.sequence, best_fold)
+    best_positions = best_coordinates
 
     end = time.time()
     tijd = end - start
@@ -148,37 +124,11 @@ def main():
 
     csvFile.close()
     # start visualisation
-    # p = Path(protein.length, best_positions)
-    # if len(best_positions[0]) is 3:
-    #     p.plot3Dfold(protein.sequence, best_fold_points)
-    # else:
-    #     p.plotFold(protein.sequence, best_fold_points)
-=======
-    end = time.time()
-
-    if dimension == "3D":
-        best_positions = options.amino_positions(protein.sequence, best_fold)
-        print("Best_positions: " + str(best_positions))
-        print(best_positions[0])
-        print(best_positions[0][2])
-    else:
-        best_positions_2d = amino_positions_2d(protein.sequence, best_fold)
-        print("Best_positions_2d: " + str(best_positions_2d))
-        print(best_positions_2d[0])
-        print(best_positions_2d[0][1])
-
-    print("Last_fold_points: " + str(last_fold_points))
-    print("Best_fold: " + str(best_fold))
-    print("Time: " + str(end - start))
-
-    # start visualisation
-    if dimension == "3D":
-        p = Path(protein.length, best_positions)
+    p = Path(protein.length, best_positions)
+    if len(best_positions[0]) is 3:
         p.plot3Dfold(protein.sequence, best_fold_points)
     else:
-        p = Path(protein.length, best_positions_2d)
         p.plotFold(protein.sequence, best_fold_points)
->>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86
 
 
 # checks user input
@@ -206,15 +156,13 @@ def fold_points_3d(positions, sequence):
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 
@@ -232,15 +180,13 @@ def fold_points_2d(positions, sequence):
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 

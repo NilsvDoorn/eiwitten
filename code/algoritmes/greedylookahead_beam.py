@@ -33,10 +33,6 @@ def main():
     optellingwegens = 0
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        # round_points = []
-        # P1 = 0.8
-        # P2 = 0.25
-
         best_fold_points = 0
         new_ways = []
         all_ways = []
@@ -105,11 +101,11 @@ def main():
 
     csvFile.close()
     # start visualisation
-    # p = Path(protein.length, best_positions)
-    # if len(best_positions[0]) is 3:
-    #     p.plot3Dfold(protein.sequence, best_fold_points)
-    # else:
-    #     p.plotFold(protein.sequence, best_fold_points)
+    p = Path(protein.length, best_positions)
+    if len(best_positions[0]) is 3:
+        p.plot3Dfold(protein.sequence, best_fold_points)
+    else:
+        p.plotFold(protein.sequence, best_fold_points)
 
 # checks user input
 def check():
@@ -133,15 +129,13 @@ def fold_points_3d(positions, sequence):
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 def fold_points_2d(positions, sequence):
@@ -157,15 +151,13 @@ def fold_points_2d(positions, sequence):
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 # def random_product(*args, repeat):

@@ -26,14 +26,9 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-<<<<<<< HEAD:code/algoritmes/versie0.py
     P1 = 0.8
     P2 = 0.25
     # print(protein.lower_bound)
-=======
-    P1 = 0.9
-    P2 = 0.5
->>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86:code/algoritmes/beam_search.py
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -47,7 +42,7 @@ def main():
             for option in options:
                 route.append(option)
                 if not mirror(route):
-                    coordinates_route = options.amino_positions(protein.sequence[:aminoacid + 4], route)
+                    coordinates_route = amino_positions(protein.sequence[:aminoacid + 4], route)
                     if coordinates_route:
                         pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
@@ -78,12 +73,6 @@ def main():
 
     best_positions = amino_positions(protein.sequence, best_fold)
 
-<<<<<<< HEAD:code/algoritmes/versie0.py
-    # print(last_fold_points)
-    # print(best_fold)
-    # print(best_positions)
-=======
->>>>>>> d2a2a32729c078f4d3db2ccaab8dfdfabb9c6f86:code/algoritmes/beam_search.py
     end = time.time()
     tijd = end - start
     # print(time)
@@ -98,11 +87,11 @@ def main():
 
     csvFile.close()
     # # start visualisation in 2D or 3D depending on version run
-    # p = Path(protein.length, best_positions)
-    # if len(best_positions[0]) is 3:
-    #     p.plot3Dfold(protein.sequence, best_fold_points)
-    # else:
-    #     p.plotFold(protein.sequence, best_fold_points)
+    p = Path(protein.length, best_positions)
+    if len(best_positions[0]) is 3:
+        p.plot3Dfold(protein.sequence, best_fold_points)
+    else:
+        p.plotFold(protein.sequence, best_fold_points)
 
 # checks user input
 def check():
@@ -126,15 +115,13 @@ def fold_points_3d(positions, sequence):
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 1
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
-                points += 1
 
     for acid_position in CCCC:
         for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
-                points += 1
+                points += 2
     return points / 2
 
 def fold_points_2d(positions, sequence):
