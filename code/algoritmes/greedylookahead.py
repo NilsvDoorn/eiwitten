@@ -123,6 +123,8 @@ def main():
         writer.writerow(results)
 
     csvFile.close()
+
+    print(best_fold)
     # start visualisation
     p = Path(protein.length, best_positions)
     if len(best_positions[0]) is 3:
