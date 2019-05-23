@@ -6,9 +6,15 @@ from path import Path
 from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
+<<<<<<< HEAD:code/algoritmes/3d/greedylookahead_beam.py
+def main():
+    # lets user know which program is currently being run
+    print("__3D-Greedylookahead_with_Beam_Search__")
+=======
 def greedy_look_ahead_beam(sequence):
 
     print("__3D-Beam-search with greedy look ahead__")
+>>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/3d/greedy_look_ahead_beam.py
 
     # Determines program running time
     start = timer.time()
@@ -46,7 +52,7 @@ def greedy_look_ahead_beam(sequence):
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_3d(route, False)
 
                     # check for bumbs
                     if coordinates_route:

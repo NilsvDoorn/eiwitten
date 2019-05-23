@@ -7,7 +7,13 @@ from functions import all_options_3d, amino_positions_3d, fold_points_3d, mirror
 
 def greedy(sequence):
 
+<<<<<<< HEAD
+def main():
+    # lets user know which program is currently being run
+    print("__3D-Greedy__")
+=======
     print("__3D-greedy__")
+>>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742
 
     # Determines program running time
     start = timer.time()
@@ -35,14 +41,13 @@ def greedy(sequence):
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_3d(route, False)
 
                     # check for bumbs
                     if coordinates_route:
 
                         # calculate points of current fold
                         pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
-
                         # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
@@ -62,15 +67,12 @@ def greedy(sequence):
                                 best_ways.append(deepcopy(route))
 
                 route.pop()
-        if aminoacid % steps == 0:
-            ways = deepcopy(best_ways)
-        else:
-            ways = deepcopy(all_ways)
 
+        ways = deepcopy(best_ways)
         optellingwegens += len(ways)
 
 
-    end = time.time()
+    end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
