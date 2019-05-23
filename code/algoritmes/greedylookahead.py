@@ -1,6 +1,5 @@
 from sys import argv
 from protein import Protein
-from option import Option
 from path import Path
 import time
 from copy import deepcopy
