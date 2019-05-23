@@ -8,7 +8,7 @@ from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_h
 def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__2D-Greedy__")
+    print("__2D-Greedy with look ahead__")
 
     # determines algorithm running time
     start = timer.time()
@@ -68,7 +68,6 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)

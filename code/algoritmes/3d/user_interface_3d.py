@@ -7,7 +7,7 @@ import time
 
 def settings_3d(sequence):
     print("You have loaded the 3-dimensional algorithms")
-    time.sleep(1)
+    time.sleep(2)
 
     # asks user to select an algorithm (or all of them)
     print("Please make a selection:")
@@ -17,7 +17,6 @@ def settings_3d(sequence):
     print("4. Beam search")
     print("5. Beam search greedy look ahead")
     print("6. Run all algorithms")
-    time.sleep(1)
 
     # checks if users selection is valid
     number = input("Number: ")

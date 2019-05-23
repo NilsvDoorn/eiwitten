@@ -9,7 +9,7 @@ def settings_2d(sequence):
 
     # gives information to user
     print("You have loaded the 2-dimensional algorithms")
-    time.sleep(1)
+    time.sleep(2)
 
     # asks user to select an algorithm (or all of them)
     print("Please make a selection:")
@@ -19,10 +19,9 @@ def settings_2d(sequence):
     print("4. Beam search")
     print("5. Beam search greedy look ahead")
     print("6. Run all algorithms")
-    time.sleep(1)
+    number = input("Number: ")
 
     # checks if users selection is valid
-    number = input("Number: ")
     while not number.isdigit() or int(number) < 1 or int(number) > 7:
         print("Please enter an integer between 1 and 5")
         time.sleep(1)
@@ -38,7 +37,7 @@ def settings_2d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for hillclimber? (yes or no) ")
+        settings = input("Default settings for hillclimber? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
@@ -47,7 +46,6 @@ def settings_2d(sequence):
 
         # runs hillclimber with default settings
         if settings in yes:
-            print("")
             hillclimber_2d(sequence, 8, 3)
 
         # runs hillclimber with settings specified by user
@@ -81,7 +79,7 @@ def settings_2d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for greedy look ahead? (yes or no) ")
+        settings = input("Default settings for greedy look ahead? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
@@ -90,7 +88,6 @@ def settings_2d(sequence):
 
         # runs hillclimber with default settings
         if settings in yes:
-            print("")
             greedy_look_ahead_2d(sequence, 8, 3)
 
         # runs hillclimber with settings specified by user
@@ -114,10 +111,94 @@ def settings_2d(sequence):
             print("")
             greedy_look_ahead_2d(sequence, int(change_length), int(number_loops))
 
+    # runs beam search algorithm
     if number == 4 or number == 6:
         print("")
-        beam_search_2d(sequence)
+
+        # lets user choose to change settings or use default
+        settings = input("Default settings for beam search? (yes or no) ")
+        while settings not in yesno:
+            print("Type y or n, then hit enter")
+            time.sleep(1)
+            settings = input("Defaul settings? ")
+
+        # runs hillclimber with default settings
+        if settings in yes:
+            print("")
+            beam_search_2d(sequence, 0.8, 0.25)
+
+        # runs beam search with settings specified by user
+        else:
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search will keep good options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_one = input("Chance: ")
+            print("")
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search will keep bad options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_two = input("Chance: ")
+
+            print("")
+            beam_search_2d(sequence, float(chance_one), float(chance_two))
 
     if number == 5 or number == 6:
         print("")
-        greedy_look_ahead_beam_2d(sequence)
+
+        # lets user choose to change settings or use default
+        settings = input("Default settings for beam search with look ahead? (yes or no) ")
+        while settings not in yesno:
+            print("Type y or n, then hit enter")
+            time.sleep(1)
+            settings = input("Defaul settings? ")
+
+        # runs hillclimber with default settings
+        if settings in yes:
+            print("")
+            greedy_look_ahead_beam_2d(sequence, 1, 1, 6)
+
+        # runs beam search with settings specified by user
+        else:
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search with look ahead will keep good options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_one = input("Chance: ")
+            print("")
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search with look ahead will keep bad options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_two = input("Chance: ")
+            print("")
+
+            # prompts user for the step length
+            print("Please enter the length that beam search will look ahead")
+            time.sleep(1)
+            print("Length should not be longer than the length of the protein!")
+            print("Length above 7 will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            steps = input("Length: ")
+
+            print("")
+            greedy_look_ahead_beam_2d(sequence, float(chance_one), float(chance_two), int(steps))

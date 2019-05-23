@@ -6,7 +6,10 @@ from path import Path
 from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
-def greedy_look_ahead_beam_2d(sequence):
+def greedy_look_ahead_beam_2d(sequence, chance_one, chance_two, steps):
+
+    # lets user know which program is currently being run
+    print("__2D-Beam-search with look ahead__")
 
     # Determines program running time
     start = timer.time()
@@ -21,13 +24,6 @@ def greedy_look_ahead_beam_2d(sequence):
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-
-    # chance to prune a fold
-    P1 = 1
-    P2 = 1
-
-    # steps to look ahead
-    steps = 6
 
     optellingwegens = 0
     # creates fold based on the protein and the current option
@@ -68,10 +64,10 @@ def greedy_look_ahead_beam_2d(sequence):
                                 # give last best score a chance to proceed
                                 for i in best_ways:
                                     if pseudo_points <= AVG_points:
-                                        if random.uniform(0,1) > P1:
+                                        if random.uniform(0,1) > chance_one:
                                             new_ways.append(deepcopy(i))
                                     else:
-                                        if random.uniform(0,1) > P2:
+                                        if random.uniform(0,1) > chance_two:
                                             new_ways.append(deepcopy(i))
                                 best_ways = []
                                 best_fold_points = pseudo_points
@@ -83,12 +79,12 @@ def greedy_look_ahead_beam_2d(sequence):
 
                             # low chance of proceeding
                             elif pseudo_points <= AVG_points:
-                                if random.uniform(0,1) > P1:
+                                if random.uniform(0,1) > chance_one:
                                     new_ways.append(deepcopy(route))
 
                             # high chance of proceeding
                             else:
-                                if random.uniform(0,1) > P2:
+                                if random.uniform(0,1) > chance_two:
                                     new_ways.append(deepcopy(route))
 
                         # remember all folds
@@ -109,9 +105,10 @@ def greedy_look_ahead_beam_2d(sequence):
 
     end = timer.time()
     time = round((end - start), 3)
+    print("Score: " + str(int(best_fold_points)))
 
     # write results to relevant .csv file
-    results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
+    results = [protein.sequence, best_fold_points, time, chance_two, chance_one, optellingwegens*5]
     with open('resultaten/2d/greedylookahead_beam_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
