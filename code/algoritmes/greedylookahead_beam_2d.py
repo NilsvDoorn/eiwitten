@@ -1,12 +1,12 @@
 import sys
-sys.path.insert(0,'../classes')
-from protein import Protein
-from path import Path
-
-import time
 import random
 import csv
+import time as timer
 
+sys.path.insert(0,'../classes')
+
+from protein import Protein
+from path import Path
 from sys import argv
 from copy import deepcopy
 from functions import amino_positions_2d, fold_points_2d, mirror
@@ -14,7 +14,7 @@ from functions import amino_positions_2d, fold_points_2d, mirror
 def main():
 
     # Determines program running time
-    start = time.time()
+    start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -91,10 +91,12 @@ def main():
     # make positions sendig to matplotlib
 
 
-    end = time.time()
-    tijd = end - start
-    results = [protein.sequence,best_fold_points,round(tijd),P2,P1,optellingwegens*5]
-    with open('greedylookahead_beam.csv', 'a') as csvFile:
+    end = timer.time()
+    time = round((end - start), 3)
+
+    # write results to relevant .csv file
+    results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
+    with open('greedylookahead_beam_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

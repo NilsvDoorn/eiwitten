@@ -1,21 +1,20 @@
 import sys
+import csv
+import time as timer
+
 sys.path.insert(0,'../classes')
+
 from protein import Protein
 from path import Path
-
-import time
-import csv
-
 from sys import argv
 from copy import deepcopy
-
 from functions import amino_positions_2d, fold_points_2d, mirror
 
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
 
     # Determines program running time
-    start = time.time()
+    start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -66,11 +65,12 @@ def main():
         optellingwegens += len(ways)
 
 
-    end = time.time()
-    tijd = end - start
+    end = timer.time()
+    time = round((end - start), 3)
 
-    results = [protein.sequence, best_fold_points, round(tijd), optellingwegens*5]
-    with open('greedylookahead.csv', 'a') as csvFile:
+    # write results to relevant .csv file
+    results = [protein.sequence, best_fold_points, time, optellingwegens*5]
+    with open('greedylookahead_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

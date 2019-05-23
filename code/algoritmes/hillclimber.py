@@ -1,11 +1,12 @@
 import sys
+import time as timer
+
 sys.path.insert(0,'../classes')
+
 from protein import Protein
 from path import Path
-
 from sys import argv
 from copy import deepcopy
-
 from functions import viable_random_product_3d, all_options_3d, amino_positions_3d_hc, fold_points_3d_hc
 
 change_length = 6
@@ -15,6 +16,8 @@ def hillclimber_3d():
 
     # lets user know which program is currently being run
     print("__3D-Hillclimber__")
+
+    start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -52,6 +55,17 @@ def hillclimber_3d():
                         best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
+
+
+    end = timer.time()
+    time = round((end - start), 3)
+
+    # write results to relevant .csv file
+    results = [protein.sequence, best_fold_points, time]
+    with open('hillclimber.csv', 'a') as csvFile:
+        writer = csv.writer(csvFile)
+        writer.writerow(results)
+
 
     # Lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
