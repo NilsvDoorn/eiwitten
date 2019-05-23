@@ -120,7 +120,7 @@ class Path(object):
 
 
         # save image WITH grid
-        plt.savefig("../../../resultaten/3d/3D_out_grid.png")
+        plt.savefig("resultaten/3d/3D_out_grid.png")
 
 
         # disable axis ticks
@@ -130,7 +130,7 @@ class Path(object):
 
 
         # save image WITHOUT grid
-        plt.savefig("../../../resultaten/3d/3D_out.png")
+        plt.savefig("resultaten/3d/3D_out.png")
 
 
         # show latest version of the image in an interactive figure
@@ -240,7 +240,7 @@ class Path(object):
 
 
         # save image WITH grid
-        plt.savefig("../../../resultaten/2d/2D_out_grid.png")
+        plt.savefig("resultaten/2d/2D_out_grid.png")
 
 
         # disable axis ticks
@@ -249,7 +249,7 @@ class Path(object):
 
 
         # save image WITHOUT grid
-        plt.savefig("../../../resultaten/2d/2D_out.png")
+        plt.savefig("resultaten/2d/2D_out.png")
 
         # show latest version of the image
         plt.show()

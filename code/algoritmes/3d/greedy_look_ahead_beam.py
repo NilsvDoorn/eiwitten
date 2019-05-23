@@ -1,23 +1,20 @@
-import sys
 import random
 import csv
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
-def main():
+def greedy_look_ahead_beam(sequence):
+
+    print("__3D-Beam-search with greedy look ahead__")
 
     # Determines program running time
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     options = ["right", "forward", "left", "up", "down", "back"]
     best_fold = options[0]
@@ -118,7 +115,7 @@ def main():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
-    with open('../../../resultaten/3d/greedylookahead_beam.csv', 'a') as csvFile:
+    with open('resultaten/3d/greedylookahead_beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
@@ -129,4 +126,4 @@ def main():
     p.plot3Dfold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy_look_ahead_beam()

@@ -5,14 +5,14 @@ from path import Path
 from copy import deepcopy
 from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
 
-change_length = 8
-number_loops = 3
 
-def hillclimber_2d(sequence):
+
+def hillclimber_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
     print("__2D-Hillclimber__")
 
+    # determines algorithm running time
     start = timer.time()
 
     # makes user input into the protein class
@@ -52,6 +52,7 @@ def hillclimber_2d(sequence):
                         best_fold = changed_fold
                         best_positions = changed_positions
 
+    # determines running time of hillclimber algorithm
     end = timer.time()
     time = round((end - start), 3)
 

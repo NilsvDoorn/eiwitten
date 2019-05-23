@@ -1,27 +1,19 @@
-import sys
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
-from functions import viable_random_product_3d, all_options_3d, amino_positions_3d_hc, fold_points_3d_hc
+from functions import all_options_3d, amino_positions_3d_hc, fold_points_3d_hc
 
-
-change_length = 6
-number_loops = 3
-
-def greedy_3d():
+def greedy_look_ahead(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__3D-Greedy__")
+    print("__3D-Greedy with look ahead__")
 
+    # determines algorithm running time
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     # creates list of all options of size change_length
     possible_changes = all_options_3d(change_length)
@@ -37,7 +29,7 @@ def greedy_3d():
             print("Constructing...")
         else:
             print("Improving...")
-        for index in range(len(protein.sequence) - change_length):
+        for index in range(protein.length) - change_length:
 
             # tries all possibble changes on every point in best_fold
             for change in possible_changes:
@@ -62,12 +54,13 @@ def greedy_3d():
             if (loop_number == 0):
                 best_fold.append("forward")
 
+    # finds final running time for the algorithm
     end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time]
-    with open('../../../resultaten/3d/greedylookahead.csv', 'a') as csvFile:
+    with open('resultaten/3d/greedylookahead.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
     csvFile.close()
@@ -81,4 +74,4 @@ def greedy_3d():
     p.plot3Dfold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    greedy_3d()
+    greedy_look_ahead()

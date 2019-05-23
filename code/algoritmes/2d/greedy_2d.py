@@ -56,7 +56,7 @@ def greedy_2d(sequence):
                                 best_fold_points = pseudo_points
                                 best_ways.append(deepcopy(route))
 
-                            # equal to highest score proceeds as well
+                            # folds equal to the highest score proceeds as well
                             elif pseudo_points == best_fold_points:
                                 best_ways.append(deepcopy(route))
 

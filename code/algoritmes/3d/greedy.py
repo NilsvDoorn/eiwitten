@@ -1,23 +1,19 @@
-import sys
 import csv
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
 from functions import all_options_3d, amino_positions_3d, fold_points_3d, mirror
 
-def main():
-    """Asks for either 2D or 3D input, then uses the relevant code"""
+def greedy(sequence):
+
+    print("__3D-greedy__")
 
     # Determines program running time
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     options = ["right", "forward", "left", "up", "down", "back"]
     best_fold = options[0]
@@ -90,4 +86,4 @@ def main():
     p.plot3Dfold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy()

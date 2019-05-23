@@ -1,23 +1,16 @@
-import sys
 import csv
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
 from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
 
-change_length = 8
-number_loops = 3
-
-def greedy_look_ahead_2d(sequence):
+def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")
 
+    # determines algorithm running time
     start = timer.time()
 
     # makes user input into the protein class
@@ -27,7 +20,7 @@ def greedy_look_ahead_2d(sequence):
     possible_changes = list(all_options_2d(change_length))
 
     # takes first option from possible_changes and finds positions and points
-    best_fold = possible_changes[0]
+    best_fold = list(possible_changes[0])
     best_positions = amino_positions_2d_hc(best_fold)
     best_fold_points = fold_points_2d_hc(best_positions, protein)
 
@@ -62,6 +55,7 @@ def greedy_look_ahead_2d(sequence):
             if (loop_number == 0):
                 best_fold.append("forward")
 
+    # determines running time of greedy with look ahead algorithm
     end = timer.time()
     time = round((end - start), 3)
 
