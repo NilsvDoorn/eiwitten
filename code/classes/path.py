@@ -12,11 +12,6 @@ class Path(object):
         self.axislength = protein_length
         self.datapoints = best_positions
 
-    # def minmax_coords(*pnts):
-    #     mn = Point( *(min(p[i] for p in pnts) for i in range(3)) )
-    #     mx = Point( *(max(p[i] for p in pnts) for i in range(3)) )
-    #     return mn, mx
-
     def plot3Dfold(self, proteinsequence, best_fold_points):
         """This plots the 3D coordinates of the folded protein"""
 
@@ -52,13 +47,6 @@ class Path(object):
                 p_3D_cnd_list.append(position)
             else:
                 c_3D_cnd_list.append(position)
-
-        # print('these are the h coordinates')
-        # print(h_cnd_list)
-        # print('these are the p coordinates')
-        # print(p_cnd_list)
-        # print('these are the c coordinates')
-        # print(c_cnd_list)
 
         # define x, y per aminoacid
         h_x_3D = [t[0] for t in h_3D_cnd_list]

@@ -2,7 +2,7 @@ import sys
 import csv
 import time as timer
 
-sys.path.insert(0,'../../classes')
+sys.path.insert(0,'../classes')
 
 from protein import Protein
 from path import Path
@@ -28,6 +28,9 @@ def main():
     ways = [["right"], ["forward"]]
     optellingwegens = 0
 
+    # aminoacids to look ahead
+    steps = 6
+
     for aminoacid in range(len(protein.sequence) - 3):
         all_ways = []
         best_ways = []
@@ -36,28 +39,42 @@ def main():
         for route in ways:
             for option in options:
                 route.append(option)
+
+                # ovoid mirror options
                 if not mirror(route):
                     coordinates_route = amino_positions_3d(route)
+
+                    # check for bumbs
                     if coordinates_route:
+
+                        # calculate points of current fold
                         pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
+
+                        # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                                 best_positions = coordinates_route
 
-                        elif aminoacid % 6 == 0:
+                        # look ahead steps aminoacids
+                        elif aminoacid % steps == 0:
+
+                            # if highest points so far, empty best_ways and append new best fold
                             if pseudo_points > best_fold_points:
                                 best_ways = []
                                 best_fold_points = pseudo_points
                                 best_ways.append(deepcopy(route))
 
+                            # equal to highest score proceeds as well
                             elif pseudo_points == best_fold_points:
                                 best_ways.append(deepcopy(route))
+
+                        # else remember all folds
                         else:
                             all_ways.append(deepcopy(route))
                 route.pop()
-        if not len(best_ways) == 0:
+        if aminoacid % steps == 0:
             ways = deepcopy(best_ways)
         else:
             ways = deepcopy(all_ways)
