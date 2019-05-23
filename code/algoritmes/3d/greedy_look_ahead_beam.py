@@ -1,27 +1,28 @@
-import sys
 import random
 import csv
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
-from functions_2d import amino_positions_2d, fold_points_2d, mirror
+from functions import amino_positions_3d, fold_points_3d, mirror
 
+<<<<<<< HEAD:code/algoritmes/3d/greedylookahead_beam.py
 def main():
     # lets user know which program is currently being run
-    print("__2D-Greedylookahead_with_Beam_Search__")
+    print("__3D-Greedylookahead_with_Beam_Search__")
+=======
+def greedy_look_ahead_beam(sequence):
+
+    print("__3D-Beam-search with greedy look ahead__")
+>>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/3d/greedy_look_ahead_beam.py
 
     # Determines program running time
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
-    options = ["right", "forward", "left"]
+    options = ["right", "forward", "left", "up", "down", "back"]
     best_fold = options[0]
     best_positions = []
 
@@ -51,13 +52,13 @@ def main():
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_2d(route, False)
+                    coordinates_route = amino_positions_3d(route, False)
 
                     # check for bumbs
                     if coordinates_route:
 
                         # calculate points of current fold
-                        pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
 
                         # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
@@ -107,6 +108,7 @@ def main():
         if aminoacid % steps == 0:
             for i in best_ways:
                 new_ways.append(deepcopy(i))
+
             ways = deepcopy(new_ways)
         elif not len(all_ways) == 0:
             AVG_points = round_points / len(all_ways)
@@ -119,7 +121,7 @@ def main():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
-    with open('../../../resultaten/2d/greedylookahead_beam_2d.csv', 'a') as csvFile:
+    with open('resultaten/3d/greedylookahead_beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
@@ -127,7 +129,7 @@ def main():
 
     # start visualisation
     p = Path(protein.length, best_positions)
-    p.plotFold(protein.sequence, best_fold_points)
+    p.plot3Dfold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy_look_ahead_beam()

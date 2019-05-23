@@ -1,20 +1,16 @@
-import sys
 import csv
 import random
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
-def main():
+def beam_search_2d(sequence):
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     # lets user know which program is currently being run
     print("__2D-Beam_Search__")
@@ -94,7 +90,7 @@ def main():
 
     # write results to the relevant .csv file
     results = [protein.sequence,best_fold_points,time,P2,P1]
-    with open('../../../resultaten/2d/beam_search_2d.csv', 'a') as csvFile:
+    with open('resultaten/2d/beam_search_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
     csvFile.close()
@@ -104,4 +100,4 @@ def main():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    beam_search_2d()

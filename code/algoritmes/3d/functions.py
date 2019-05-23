@@ -19,7 +19,6 @@ def viable_random_product_3d(length):
         best_fold = list(random_product(["forward", "right", "left", "up", "down", "back"], repeat = length))
     return best_fold
 
-
 """Generates a list of all possible fold options of length length (3D)"""
 def all_options_3d(length):
     return list(product(["forward", "left", "right", "up", "down", "back"], repeat = length))
