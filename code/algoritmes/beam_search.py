@@ -20,7 +20,7 @@ def main():
     # begin timer for duration of algorithm
     start = timer.time()
 
-    options = ["right", "forward", "left", "up", "down"]
+    options = ["right", "forward", "left", "up", "down","back"]
     best_fold = options[0]
     best_positions = []
 
