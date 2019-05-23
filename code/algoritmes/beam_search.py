@@ -66,9 +66,9 @@ def main():
     best_positions = amino_positions_3d(protein.sequence, best_fold)
 
     end = time.time()
-    tijd = end - start
+    time = end - start
 
-    results = [protein.sequence,best_fold_points,round(tijd),P2,P1]
+    results = [protein.sequence,best_fold_points,round(time),P2,P1]
     with open('beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
