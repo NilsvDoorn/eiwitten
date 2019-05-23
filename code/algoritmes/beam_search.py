@@ -20,7 +20,7 @@ def main():
     # begin timer for duration of algorithm
     start = timer.time()
 
-    options = ["right", "forward", "left", "up", "down"]
+    options = ["right", "forward", "left", "up", "down","back"]
     best_fold = options[0]
     best_positions = []
 
@@ -47,6 +47,7 @@ def main():
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
+                                best_positions = coordinates_route
                         else:
                             round_points += pseudo_points
                             if pseudo_points >= last_fold_points:
@@ -67,8 +68,6 @@ def main():
             AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
-
-    best_positions = amino_positions_3d(best_fold)
 
     end = timer.time()
     time = round((end - start), 3)
