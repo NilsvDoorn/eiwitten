@@ -9,7 +9,6 @@ from functions import amino_positions_2d, amino_positions_3d, fold_points_2d, fo
 import csv
 
 
-
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
 
@@ -22,13 +21,17 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = Option()
-    best_fold = options.options[0]
+    if dimension == "3D":
+        options = ["right", "forward", "left", "up", "down", "back"]
+    elif dimension == "2D":
+        options = ["right", "forward", "left"]
+    best_fold = options[0]
+
     best_positions = []
     best_positions_2d = []
+
     ways = [["right"], ["forward"]]
     optellingwegens = 0
-    # creates fold based on the protein and the current option
 
     if dimension == "3D":
         for aminoacid in range(len(protein.sequence) - 3):
@@ -37,7 +40,7 @@ def main():
             best_fold_points = 0
             print('aminoacid', aminoacid)
             for route in ways:
-                for option in options.options:
+                for option in options:
                     route.append(option)
                     if not mirror(route):
                         coordinates_route = amino_positions_3d(route)
@@ -75,7 +78,7 @@ def main():
             best_fold_points = 0
             print('aminoacid', aminoacid)
             for route in ways:
-                for option in options.options_2D:
+                for option in options:
                     route.append(option)
                     if not mirror(route):
                         coordinates_route = amino_positions_2d(route)
@@ -112,7 +115,8 @@ def main():
 
     end = time.time()
     tijd = end - start
-    results = [protein.sequence,best_fold_points,round(tijd),optellingwegens*5]
+
+    results = [protein.sequence, best_fold_points, round(tijd), optellingwegens*5]
     with open('greedylookahead.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
