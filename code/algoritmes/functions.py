@@ -264,36 +264,6 @@ def fold_points_2d(positions, sequence):
                 points += 2
     return points / 2
 
-"""Checks the points scored by the current fold (2D, non-Hillclimbers)"""
-def fold_points_2d(positions, sequence):
-
-    # initialises list of points, H-positions and C-position):
-    points = 0
-    HHHH = []
-    CCCC = []
-
-    # finds the positions of all H's and C's
-    for position, acid in zip(positions, sequence):
-        if acid == "H":
-            HHHH.append(position)
-        elif acid == "C":
-            CCCC.append(position)
-
-    # finds all H-H connections
-    for acid_position in HHHH:
-        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
-                points += 1
-
-    # finds all H-C connections
-    for acid_position in CCCC:
-        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in CCCC:
-                points += 5
-            elif (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
-                points += 2
-    return points / 2
-
 """checks the points scored by the current fold (2D, Hillclimbers)"""
 def fold_points_2d_hc(positions, protein):
 
