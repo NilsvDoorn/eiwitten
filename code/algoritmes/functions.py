@@ -175,7 +175,7 @@ def amino_positions_3d_hc(option):
     return positions
 
 
-"""Checks the points scored by the current fold (2D, Hillclimber)"""
+"""Checks the points scored by the current fold (2D, non-Hillclimber)"""
 def fold_points_2d(positions, sequence):
 
     points = 0
