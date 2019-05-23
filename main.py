@@ -25,7 +25,7 @@ def main():
     # checks if user input is correct, prompts again if not
     while not correct:
         correct = True
-        print("Input should only contain H, P and C (no spaces or other characters)")
+        print("Input should only contain H, P and C (no spaces or other characters, example: HHHPPPCCC)")
         sequence = input("Sequence: ").upper()
         for acid in sequence:
             if acid != "H" and acid != "P" and acid != "C":

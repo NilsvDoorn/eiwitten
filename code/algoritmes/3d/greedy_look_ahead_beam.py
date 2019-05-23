@@ -31,7 +31,7 @@ def greedy_look_ahead_beam(sequence):
     # steps to look ahead
     steps = 6
 
-    optellingwegens = 0
+    iterations = 0
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
         best_fold_points = 0
@@ -108,13 +108,13 @@ def greedy_look_ahead_beam(sequence):
             AVG_points = round_points / len(all_ways)
             ways = deepcopy(all_ways)
 
-        optellingwegens += len(ways)
+        iterations += len(ways)
 
     end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
+    results = [protein.sequence, best_fold_points, time, P2, P1, iterations*5]
     with open('resultaten/3d/greedylookahead_beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
