@@ -1,5 +1,4 @@
 import sys
-import csv
 import time as timer
 
 sys.path.insert(0,'../../classes')
@@ -8,95 +7,77 @@ from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
-from functions_2d import amino_positions_2d, fold_points_2d, mirror
+from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
 
-def main():
-    """Asks for either 2D or 3D input, then uses the relevant code"""
+change_length = 8
+number_loops = 3
 
-    # Determines program running time
+def greedy_2d():
+
+    # lets user know which program is currently being run
+    print("__2D-Greedy__")
+
     start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = ["right", "forward", "left"]
-    best_fold = options[0]
+    # creates list of all options of size change_length
+    possible_changes = all_options_2d(change_length)
 
-    best_positions = []
-    best_positions_2d = []
+    # takes first option from possible_changes and finds positions and points
+    best_fold = possible_changes[0]
+    best_positions = amino_positions_2d_hc(best_fold)
+    best_fold_points = fold_points_2d_hc(best_positions, protein)
 
-    ways = [["right"], ["forward"]]
-    optellingwegens = 0
-
-    # aminoacids to look ahead
-    steps = 6
-
-    for aminoacid in range(len(protein.sequence) - 3):
-        all_ways = []
-        best_ways = []
-        best_fold_points = 0
-        print('aminoacid', aminoacid)
-        for route in ways:
-            for option in options:
-                route.append(option)
-
-                # ovoid mirror options
-                if not mirror(route):
-                    coordinates_route = amino_positions_2d(route)
-
-                    # check for bumbs
-                    if coordinates_route:
-
-                        # calculate points of current fold
-                        pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
-
-                        # aminoacid + 4 is last route to add
-                        if aminoacid + 4 == protein.length:
-                            if pseudo_points > best_fold_points:
-                                best_fold_points = int(pseudo_points)
-                                best_fold = deepcopy(route)
-                                best_positions = coordinates_route
-
-                        # look ahead steps aminoacids
-                        elif aminoacid % steps == 0:
-
-                            # if highest points so far, empty best_ways and append new best fold
-                            if pseudo_points > best_fold_points:
-                                best_ways = []
-                                best_fold_points = pseudo_points
-                                best_ways.append(deepcopy(route))
-
-                            # equal to highest score proceeds as well
-                            elif pseudo_points == best_fold_points:
-                                best_ways.append(deepcopy(route))
-
-                        # else remember all folds
-                        else:
-                            all_ways.append(deepcopy(route))
-                route.pop()
-        if aminoacid % steps == 0:
-            ways = deepcopy(best_ways)
+    # loops over entire protein number_loops times
+    for loop_number in range(number_loops):
+        if loop_number == 0:
+            print("Constructing...")
         else:
-            ways = deepcopy(all_ways)
-        print(len(ways))
-        optellingwegens += len(ways)
+            print("Changing...")
+        for index in range(len(protein.sequence) - change_length):
 
+            # tries all possibble changes on every point in best_fold
+            for change in possible_changes:
+                changed_fold = deepcopy(best_fold)
+                for change_index in range(change_length):
+                    changed_fold[index + change_index] = change[change_index]
+
+                # determines aminopositions of changed fold
+                changed_positions = amino_positions_2d_hc(changed_fold)
+
+                # only checks score if there are no bumps
+                if changed_positions:
+
+                    # remembers fold and positions if they improve the score
+                    fold_points = fold_points_2d_hc(changed_positions, protein)
+                    if fold_points > best_fold_points:
+                        best_fold_points = fold_points
+                        best_fold = changed_fold
+                        best_positions = changed_positions
+
+            # builds up the option on the first loop
+            if (loop_number == 0):
+                best_fold.append("forward")
 
     end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence, best_fold_points, time, optellingwegens*5]
+    results = [protein.sequence,best_fold_points,time]
     with open('../../../resultaten/2d/greedylookahead_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
-
     csvFile.close()
 
-    print(best_fold)
-    # start visualisation
+    # lets user know the score of the best fold found
+    print("Score: " + str(int(best_fold_points)))
+    print("")
+
+    # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy_2d()
