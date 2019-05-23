@@ -8,7 +8,7 @@ from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
-from functions import amino_positions_2d, fold_points_2d, mirror
+from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
