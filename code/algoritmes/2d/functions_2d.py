@@ -14,15 +14,9 @@ def random_product(*args, repeat):
 """Generates random option until one is found that contains no bumps (2D)"""
 def viable_random_product_2d(length):
 
-<<<<<<< HEAD
     best_fold = list(random_product(["right", "left", "forward"], repeat = length))
     while not amino_positions_2d(best_fold, True):
         best_fold = list(random_product(["right", "left", "forward"], repeat = length))
-=======
-    best_fold = list(random_product(["forward", "right", "left"], repeat = length))
-    while not amino_positions_2d_hc(best_fold):
-        best_fold = list(random_product(["forward", "right", "left"], repeat = length))
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742
     return best_fold
 
 

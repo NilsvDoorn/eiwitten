@@ -1,23 +1,16 @@
 import csv
 import time as timer
-<<<<<<< HEAD:code/algoritmes/2d/greedylookahead_2d.py
-import csv
+import sys
 
 sys.path.insert(0,'../../classes')
 
-=======
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/2d/greedy_look_ahead_2d.py
 from protein import Protein
 from path import Path
 from copy import deepcopy
-<<<<<<< HEAD:code/algoritmes/2d/greedylookahead_2d.py
 from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d, fold_points_2d
 
 change_length = 8
 number_loops = 3
-=======
-from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/2d/greedy_look_ahead_2d.py
 
 def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
@@ -34,15 +27,9 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
     possible_changes = list(all_options_2d(change_length))
 
     # takes first option from possible_changes and finds positions and points
-<<<<<<< HEAD:code/algoritmes/2d/greedylookahead_2d.py
     best_fold = possible_changes[0]
     best_positions = amino_positions_2d(best_fold, True)
     best_fold_points = fold_points_2d(best_positions, protein.sequence) - protein.errorpoint[-1]
-=======
-    best_fold = list(possible_changes[0])
-    best_positions = amino_positions_2d_hc(best_fold)
-    best_fold_points = fold_points_2d_hc(best_positions, protein)
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/2d/greedy_look_ahead_2d.py
 
     # loops over entire protein number_loops times
     for loop_number in range(number_loops):

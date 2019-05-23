@@ -67,7 +67,7 @@ def settings_3d(sequence):
             number_loops = input("Number of loops: ")
 
             print("")
-            hillclimber_3d(sequence, int(change_length), int(number_loops))
+            hillclimber(sequence, int(change_length), int(number_loops))
 
 
     if number == 2 or number == 6:
@@ -114,8 +114,8 @@ def settings_3d(sequence):
 
     if number == 4 or number == 6:
         print("")
-        beam_search_2d(sequence)
+        beam_search(sequence)
 
     if number == 5 or number == 6:
         print("")
-        greedy_look_ahead_beam_2d(sequence)
+        greedy_look_ahead_beam(sequence)

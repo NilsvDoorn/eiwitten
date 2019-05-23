@@ -6,13 +6,9 @@ from path import Path
 from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
-<<<<<<< HEAD:code/algoritmes/2d/greedylookahead_beam_2d.py
-def main():
+def greedy_look_ahead_beam_2d(sequence):
     # lets user know which program is currently being run
     print("__2D-Greedylookahead_with_Beam_Search__")
-=======
-def greedy_look_ahead_beam_2d(sequence):
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742:code/algoritmes/2d/greedy_look_ahead_beam_2d.py
 
     # Determines program running time
     start = timer.time()
