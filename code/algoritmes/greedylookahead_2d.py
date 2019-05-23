@@ -9,7 +9,7 @@ import csv
 from sys import argv
 from copy import deepcopy
 
-from functions import amino_positions_3d, fold_points_3d, mirror
+from functions import amino_positions_2d, fold_points_2d, mirror
 
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
@@ -20,7 +20,7 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = ["right", "forward", "left", "up", "down", "back"]
+    options = ["right", "forward", "left"]
     best_fold = options[0]
 
     best_positions = []
@@ -38,9 +38,9 @@ def main():
             for option in options:
                 route.append(option)
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_2d(route)
                     if coordinates_route:
-                        pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -80,7 +80,7 @@ def main():
     print(best_fold)
     # start visualisation
     p = Path(protein.length, best_positions)
-    p.plot3Dfold(protein.sequence, best_fold_points)
+    p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
     main()
