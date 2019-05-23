@@ -109,7 +109,7 @@ class Path(object):
 
         # ax.set_axis_off()
 
-        plt.savefig("3D_out.png")
+        plt.savefig("../../../resultaten/3d/3D_out.png")
 
         plt.show()
 
@@ -212,5 +212,6 @@ class Path(object):
         gridline_space = 1.0
         ax.grid()
 
+        plt.savefig("../../../resultaten/2d/2D_out.png")
 
-        plt.savefig("2D_out.png")
+        plt.show()

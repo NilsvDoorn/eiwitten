@@ -26,8 +26,14 @@ def main():
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
+
+    # chance to prune a fold
     P1 = 1
     P2 = 1
+
+    # steps to look ahead
+    steps = 6
+
     optellingwegens = 0
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -40,18 +46,31 @@ def main():
         for route in ways:
             for option in options:
                 route.append(option)
+
+                # ovoid mirror options
                 if not mirror(route):
                     coordinates_route = amino_positions_2d(route)
+
+                    # check for bumbs
                     if coordinates_route:
+
+                        # calculate points of current fold
                         pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
 
+                        # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                                 best_positions = coordinates_route
-                        elif aminoacid % 7 == 0:
+
+                        # look ahead steps aminoacids
+                        elif aminoacid % steps == 0:
+
+                            # if highest points so far, empty best_ways and append new best fold
                             if pseudo_points > best_fold_points:
+
+                                # give last best score a chance to proceed
                                 for i in best_ways:
                                     if pseudo_points <= AVG_points:
                                         if random.uniform(0,1) > P1:
@@ -63,40 +82,42 @@ def main():
                                 best_fold_points = pseudo_points
                                 best_ways.append(deepcopy(route))
 
+                            # equal to highest score proceeds as well
                             elif pseudo_points == best_fold_points:
                                 best_ways.append(deepcopy(route))
 
+                            # low chance of proceeding
                             elif pseudo_points <= AVG_points:
                                 if random.uniform(0,1) > P1:
                                     new_ways.append(deepcopy(route))
+
+                            # high chance of proceeding
                             else:
                                 if random.uniform(0,1) > P2:
                                     new_ways.append(deepcopy(route))
+
+                        # remember all folds
                         else:
                             round_points += pseudo_points
                             all_ways.append(deepcopy(route))
                 route.pop()
-        for i in best_ways:
-            new_ways.append(deepcopy(i))
 
-        if not len(new_ways) == 0:
+        if aminoacid % steps == 0:
+            for i in best_ways:
+                new_ways.append(deepcopy(i))
             ways = deepcopy(new_ways)
         elif not len(all_ways) == 0:
             AVG_points = round_points / len(all_ways)
             ways = deepcopy(all_ways)
 
-        # print(len(ways))
         optellingwegens += len(ways)
-
-    # make positions sendig to matplotlib
-
 
     end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
-    with open('greedylookahead_beam_2d.csv', 'a') as csvFile:
+    with open('../../../resultaten/2d/greedylookahead_beam_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

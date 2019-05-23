@@ -62,7 +62,7 @@ def hillclimber_3d():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time]
-    with open('hillclimber.csv', 'a') as csvFile:
+    with open('../../../resultaten/3d/hillclimber.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
