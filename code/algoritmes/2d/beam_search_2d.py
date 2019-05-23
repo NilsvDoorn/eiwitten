@@ -3,7 +3,7 @@ import csv
 import random
 import time as timer
 
-sys.path.insert(0,'../classes')
+sys.path.insert(0,'../../classes')
 
 from protein import Protein
 from path import Path
@@ -74,7 +74,7 @@ def main():
 
     # write results to the relevant .csv file
     results = [protein.sequence,best_fold_points,time,P2,P1]
-    with open('beam_search_2d.csv', 'a') as csvFile:
+    with open('../../../resultaten/2d/beam_search_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
     csvFile.close()

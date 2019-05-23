@@ -1,8 +1,9 @@
 import sys
 import csv
+import random
 import time as timer
 
-sys.path.insert(0,'../classes')
+sys.path.insert(0,'../../classes')
 
 from protein import Protein
 from path import Path
@@ -11,28 +12,29 @@ from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
 def main():
-    """Asks for either 2D or 3D input, then uses the relevant code"""
-
-    # Determines program running time
-    start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    options = ["right", "forward", "left", "up", "down", "back"]
-    best_fold = options[0]
+    # begin timer for duration of algorithm
+    start = timer.time()
 
+    options = ["right", "forward", "left", "up", "down","back"]
+    best_fold = options[0]
     best_positions = []
-    best_positions_2d = []
 
     ways = [["right"], ["forward"]]
-    optellingwegens = 0
+    last_fold_points = 0
+    AVG_points=0
+    P1 = 0.8
+    P2 = 0.25
 
+    # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        all_ways = []
-        best_ways = []
         best_fold_points = 0
-        print('aminoacid', aminoacid)
+        new_ways = []
+        all_ways = []
+        round_points = 0
         for route in ways:
             for option in options:
                 route.append(option)
@@ -45,38 +47,39 @@ def main():
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
                                 best_positions = coordinates_route
-
-                        elif aminoacid % 6 == 0:
-                            if pseudo_points > best_fold_points:
-                                best_ways = []
-                                best_fold_points = pseudo_points
-                                best_ways.append(deepcopy(route))
-
-                            elif pseudo_points == best_fold_points:
-                                best_ways.append(deepcopy(route))
                         else:
-                            all_ways.append(deepcopy(route))
+                            round_points += pseudo_points
+                            if pseudo_points >= last_fold_points:
+                                new_ways.append(deepcopy(route))
+
+                                if pseudo_points > best_fold_points:
+                                    best_fold_points = pseudo_points
+                            elif pseudo_points <= AVG_points:
+                                if random.uniform(0,1) > P1:
+                                    new_ways.append(deepcopy(route))
+
+                            else:
+                                if random.uniform(0,1) > P2:
+                                    new_ways.append(deepcopy(route))
+
                 route.pop()
-        if not len(best_ways) == 0:
-            ways = deepcopy(best_ways)
-        else:
-            ways = deepcopy(all_ways)
-        print(len(ways))
-        optellingwegens += len(ways)
+        if not len(new_ways) == 0:
+            AVG_points = round_points / len(new_ways)
+        last_fold_points = best_fold_points
+        ways = deepcopy(new_ways)
 
 
-    end = time.time()
+    end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence, best_fold_points, time, optellingwegens*5]
-    with open('greedylookahead.csv', 'a') as csvFile:
+    results = [protein.sequence,best_fold_points,time,P2,P1]
+    with open('beam_search.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
-
     csvFile.close()
 
-    # start visualisation
+    # # start visualisation in 2D or 3D depending on version run
     p = Path(protein.length, best_positions)
     p.plot3Dfold(protein.sequence, best_fold_points)
 

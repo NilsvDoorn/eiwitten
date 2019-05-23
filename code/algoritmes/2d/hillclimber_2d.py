@@ -1,7 +1,7 @@
 import sys
 import time as timer
 
-sys.path.insert(0,'../classes')
+sys.path.insert(0,'../../classes')
 
 from protein import Protein
 from path import Path
@@ -12,10 +12,10 @@ from functions import viable_random_product_2d, all_options_2d, amino_positions_
 change_length = 8
 number_loops = 3
 
-def greedy_2d():
+def hillclimber_2d():
 
     # lets user know which program is currently being run
-    print("__2D-Greedy__")
+    print("__2D-Hillclimber__")
 
     start = timer.time()
 
@@ -23,7 +23,7 @@ def greedy_2d():
     protein = Protein(argv[1])
 
     # generates random viable option (no bumps)
-    best_fold = viable_random_product_2d(change_length)
+    best_fold = viable_random_product_2d(protein.length)
 
     # finds positions and fold points of randomly generated option
     best_positions = amino_positions_2d_hc(best_fold)
@@ -34,10 +34,7 @@ def greedy_2d():
 
     # loops over entire protein number_loops times
     for loop_number in range(number_loops):
-        if loop_number == 0:
-            print("Constructing...")
-        else:
-            print("Changing...")
+        print("Improving...")
         for index in range(len(protein.sequence) - change_length):
 
             # tries all possibble changes on every point in best_fold
@@ -46,7 +43,7 @@ def greedy_2d():
                 for change_index in range(change_length):
                     changed_fold[index + change_index] = change[change_index]
 
-                # determines aminopositions of changed fold
+                # determines positions of changed fold
                 changed_positions = amino_positions_2d_hc(changed_fold)
 
                 # only checks score if there are no bumps
@@ -59,21 +56,18 @@ def greedy_2d():
                         best_fold = changed_fold
                         best_positions = changed_positions
 
-            # builds up the option on the first loop
-            if (loop_number == 0):
-                best_fold.append("forward")
-
     end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence,best_fold_points,time]
-    with open('greedy_2d.csv', 'a') as csvFile:
+    results = [protein.sequence, best_fold_points, time]
+    with open('hillclimber_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
-    csvFile.close()
 
-    # lets user know the score of the best fold found
+
+
+    # Lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
     print("")
 
@@ -82,4 +76,4 @@ def greedy_2d():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    greedy_2d()
+    hillclimber_2d()

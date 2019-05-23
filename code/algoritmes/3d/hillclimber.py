@@ -1,7 +1,7 @@
 import sys
 import time as timer
 
-sys.path.insert(0,'../classes')
+sys.path.insert(0,'../../classes')
 
 from protein import Protein
 from path import Path
