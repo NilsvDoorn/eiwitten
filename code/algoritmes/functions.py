@@ -14,18 +14,18 @@ def random_product(*args, repeat):
 """Generates random option until one is found that contains no bumps (2D)"""
 def viable_random_product_2d(length):
 
-    best_fold = list(random_product(["right", "left", "forward"], repeat = length))
+    best_fold = list(random_product(["forward", "right", "left"], repeat = length))
     while not amino_positions_2d_hc(best_fold):
-        best_fold = list(random_product(["right", "left", "forward"], repeat = length))
+        best_fold = list(random_product(["forward" "right", "left"], repeat = length))
     return best_fold
 
 
 """Generates random option until one is found that contains no bumps (3D)"""
 def viable_random_product_3d(length):
 
-    best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
+    best_fold = list(random_product(["forward", "right", "left", "up", "down"], repeat = length))
     while not amino_positions_3d_hc(best_fold):
-        best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
+        best_fold = list(random_product(["forward", "right", "left", "up", "down"], repeat = length))
     return best_fold
 
 
