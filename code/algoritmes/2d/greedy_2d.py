@@ -6,7 +6,6 @@ from copy import deepcopy
 from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d, mirror
 
 def greedy_2d(sequence):
-    """Asks for either 2D or 3D input, then uses the relevant code"""
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")

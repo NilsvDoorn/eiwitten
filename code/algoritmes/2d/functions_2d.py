@@ -17,7 +17,6 @@ def viable_random_product_2d(length):
     best_fold = list(random_product(["right", "left", "forward"], repeat = length))
     while not amino_positions_2d(best_fold, True):
         best_fold = list(random_product(["right", "left", "forward"], repeat = length))
-    best_fold = list(random_product(["forward", "right", "left"], repeat = length))
     return best_fold
 
 

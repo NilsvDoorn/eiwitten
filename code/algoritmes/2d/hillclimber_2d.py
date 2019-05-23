@@ -1,5 +1,5 @@
-import csv
 import time as timer
+import csv
 from protein import Protein
 from path import Path
 from copy import deepcopy

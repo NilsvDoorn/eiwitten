@@ -5,9 +5,6 @@ from path import Path
 from copy import deepcopy
 from functions import viable_random_product_3d, all_options_3d, amino_positions_3d, fold_points_3d
 
-change_length = 6
-number_loops = 2
-
 def hillclimber(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run

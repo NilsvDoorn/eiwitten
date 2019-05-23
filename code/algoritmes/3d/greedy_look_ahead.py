@@ -2,6 +2,7 @@ import time as timer
 from protein import Protein
 from path import Path
 from copy import deepcopy
+import csv
 from functions import all_options_3d, amino_positions_3d, fold_points_3d
 
 def greedy_look_ahead(sequence, change_length, number_loops):

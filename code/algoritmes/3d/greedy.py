@@ -6,15 +6,10 @@ from copy import deepcopy
 from functions import all_options_3d, amino_positions_3d, fold_points_3d, mirror
 
 def greedy(sequence):
-<<<<<<< HEAD
 
-    print("__3D-greedy__")
-    
-=======
     # lets user know which program is currently being run
     print("__3D-Greedy__")
 
->>>>>>> 75e10ef30f37fc9a83686a1bce582b38a5a88354
     # Determines program running time
     start = timer.time()
 
