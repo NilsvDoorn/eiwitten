@@ -138,13 +138,13 @@ def amino_positions_3d_hc(option):
 
     # initialises x-, y-coordinates and current direction
     x, y, z = begin, begin + 1, begin
-    
+
     direction = 'forward'
     going_back = {'left':'right','right':'left','forward':'back','back':'forward','up':'down','down':'up'}
     new_directions = {'left':[-1,0,0],'right':[1,0,0],'forward':[0,1,0],'back':[0,-1,0],'up':[0,0,1],'down':[0,0,-1],}
 
     for move in option:
-        if not going_back[move] == direction:
+        if not going_back[len(option) - 1] == direction:
             x += new_directions[move][0]
             y += new_directions[move][1]
             z += new_directions[move][2]
