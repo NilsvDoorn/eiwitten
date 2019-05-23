@@ -39,7 +39,7 @@ def all_options_3d(length):
     return list(product(["forward", "left", "right", "up", "down"], repeat = length))
 
 
-"""Funcion for avoiding isomerism"""
+"""Funcion for avoiding mirrored folds"""
 def mirror(route):
     for option in route:
         if option == 'right':
