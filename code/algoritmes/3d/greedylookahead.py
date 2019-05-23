@@ -2,7 +2,7 @@ import sys
 import csv
 import time as timer
 
-sys.path.insert(0,'../classes')
+sys.path.insert(0,'../../classes')
 
 from protein import Protein
 from path import Path
@@ -87,7 +87,7 @@ def main():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, optellingwegens*5]
-    with open('greedylookahead.csv', 'a') as csvFile:
+    with open('../../../resultaten/3d/greedylookahead.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
