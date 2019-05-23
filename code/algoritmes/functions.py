@@ -9,12 +9,14 @@ def random_product(*args, repeat):
     pools = [tuple(pool) for pool in args] * repeat
     return tuple(random.choice(pool) for pool in pools)
 
+
 # generates random option until one is found that contains no bumps (2D)
 def viable_random_product_2d(length):
     best_fold = list(random_product(["right", "left", "forward"], repeat = length))
     while not amino_positions_2d_hc(best_fold):
         best_fold = list(random_product(["right", "left", "forward"], repeat = length))
     return best_fold
+
 
 # generates random option until one is found that contains no bumps (3D)
 def viable_random_product_3d(length):
@@ -23,13 +25,16 @@ def viable_random_product_3d(length):
         best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
     return best_fold
 
+
 # generates a list of all possible fold options of length length (2D)
 def all_options_2d(length):
     return list(product(["forward", "left", "right"], repeat = length))
 
+
 # generates a list of all possible fold options of length length (3D)
 def all_options_3d(length):
     return list(product(["forward", "left", "right", "up", "down"], repeat = length))
+
 
 def mirror(route):
     for option in route:
@@ -38,6 +43,7 @@ def mirror(route):
         elif option == 'left' or option == "up" or option == "down":
             return True
     return True
+
 
 """Finds aminoacid positions in current fold and checks for bumps (2D)"""
 def amino_positions_2d(option):
@@ -72,6 +78,7 @@ def amino_positions_2d(option):
         positions.append(tuple((y, x)))
     return positions
 
+
 """Finds aminoacid positions in current fold and checks for bumps (2D)"""
 def amino_positions_2d_hc(option):
     # initialises positions list and starting coordinates of protein
@@ -99,6 +106,7 @@ def amino_positions_2d_hc(option):
             return False
         positions.append(tuple((y, x)))
     return positions
+
 
 """Finds aminoacid positions in current fold and checks for bumps (3D)"""
 def amino_positions_3d(option):
@@ -129,6 +137,7 @@ def amino_positions_3d(option):
         positions.append(tuple((x, y, z)))
     return positions
 
+
 """Finds aminoacid positions in current fold and checks for bumps (3D)"""
 def amino_positions_3d_hc(option):
 
@@ -158,6 +167,7 @@ def amino_positions_3d_hc(option):
     # returns a list of all the current fold's aminoacids' positions
     return positions
 
+
 """Checks the points scored by the current fold (2D, Hillclimbers)"""
 def fold_points_2d(positions, sequence):
     points = 0
@@ -180,6 +190,7 @@ def fold_points_2d(positions, sequence):
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
                 points += 2
     return points / 2
+
 
 """checks the points scored by the current fold (2D, Hillclimbers)"""
 def fold_points_2d_hc(positions, protein):
@@ -213,6 +224,7 @@ def fold_points_2d_hc(positions, protein):
     # returns points scored by current fold
     return (points / 2)  - protein.errorpoint[-1]
 
+
 """Checks the points scored by the current fold (3D, non-Hillclimbers)"""
 def fold_points_3d(positions, sequence):
 
@@ -242,6 +254,7 @@ def fold_points_3d(positions, sequence):
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 2
     return points / 2
+
 
 """checks the points scored by the current fold (3D, Hillclimbers)"""
 def fold_points_3d_hc(positions, protein):
