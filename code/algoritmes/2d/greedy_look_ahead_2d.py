@@ -1,4 +1,5 @@
 import sys
+import csv
 import time as timer
 
 sys.path.insert(0,'../../classes')
@@ -7,12 +8,12 @@ from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
-from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
+from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
 
 change_length = 8
 number_loops = 3
 
-def greedy_look_ahead_2d():
+def greedy_look_ahead_2d(sequence):
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")
@@ -20,10 +21,10 @@ def greedy_look_ahead_2d():
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     # creates list of all options of size change_length
-    possible_changes = all_options_2d(change_length)
+    possible_changes = list(all_options_2d(change_length))
 
     # takes first option from possible_changes and finds positions and points
     best_fold = possible_changes[0]
@@ -66,7 +67,7 @@ def greedy_look_ahead_2d():
 
     # write results to relevant .csv file
     results = [protein.sequence,best_fold_points,time]
-    with open('../../../resultaten/2d/greedylookahead_2d.csv', 'a') as csvFile:
+    with open('resultaten/2d/greedylookahead_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
     csvFile.close()

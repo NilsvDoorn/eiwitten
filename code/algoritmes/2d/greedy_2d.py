@@ -1,23 +1,18 @@
-import sys
 import csv
 import time as timer
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
-from sys import argv
 from copy import deepcopy
-from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
+from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d, mirror
 
-def greedy_2d():
+def greedy_2d(sequence):
     """Asks for either 2D or 3D input, then uses the relevant code"""
 
     # Determines program running time
     start = timer.time()
 
     # makes user input into the protein class
-    protein = Protein(argv[1])
+    protein = Protein(sequence)
 
     options = ["right", "forward", "left"]
     best_fold = options[0]
@@ -66,7 +61,7 @@ def greedy_2d():
                                 best_ways.append(deepcopy(route))
 
                 route.pop()
-        if aminoacid % steps == 0:
+        if not aminoacid + 4 == protein.length:
             ways = deepcopy(best_ways)
         else:
             ways = deepcopy(all_ways)
@@ -79,7 +74,7 @@ def greedy_2d():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, optellingwegens*5]
-    with open('../../../resultaten/2d/greedy_2d.csv', 'a') as csvFile:
+    with open('resultaten/2d/greedy_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

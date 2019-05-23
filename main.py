@@ -2,10 +2,9 @@ import time
 import sys
 sys.path.insert(0,'code/algoritmes/2d')
 sys.path.insert(0,'code/algoritmes/3d')
+sys.path.insert(0,'code/classes')
 from user_interface_2d import settings_2d
 from user_interface_3d import settings_3d
-
-
 
 def main():
 
@@ -43,9 +42,9 @@ def main():
     print("")
 
     if dimension == "2D":
-        settings_2d()
+        settings_2d(sequence)
     else:
-        settings_3d()
+        settings_3d(sequence)
 
 if __name__ == '__main__':
     main()
