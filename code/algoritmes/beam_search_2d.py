@@ -5,22 +5,19 @@ from path import Path
 
 import csv
 import random
-import time as timer
+import time
 
 from sys import argv
 from copy import deepcopy
 
-from functions import amino_positions_3d, fold_points_3d, mirror
+from functions import amino_positions_2d, fold_points_2d, mirror
 
 def main():
 
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    # begin timer for duration of algorithm
-    start = timer.time()
-
-    options = ["right", "forward", "left", "up", "down"]
+    options = ["right", "forward", "left"]
     best_fold = options[0]
     best_positions = []
 
@@ -40,9 +37,9 @@ def main():
             for option in options:
                 route.append(option)
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_2d(route)
                     if coordinates_route:
-                        pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
+                        pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
@@ -68,13 +65,9 @@ def main():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
 
-    best_positions = amino_positions_3d(best_fold)
+    best_positions = amino_positions_2d(best_fold)
 
-    end = timer.time()
-    time = end - start
-
-
-    results = [protein.sequence,best_fold_points,round(time, 3),P2,P1]
+    results = [protein.sequence,best_fold_points,"1010101",P2,P1]
     with open('beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
@@ -82,7 +75,7 @@ def main():
 
     # # start visualisation in 2D or 3D depending on version run
     p = Path(protein.length, best_positions)
-    p.plot3Dfold(protein.sequence, best_fold_points)
+    p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
     main()

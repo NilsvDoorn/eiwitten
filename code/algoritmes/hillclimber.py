@@ -1,7 +1,11 @@
-from sys import argv
-from copy import deepcopy
+import sys
+sys.path.insert(0,'../classes')
 from protein import Protein
 from path import Path
+
+from sys import argv
+from copy import deepcopy
+
 from functions import viable_random_product_3d, all_options_3d, amino_positions_3d_hc, fold_points_3d_hc
 
 change_length = 6

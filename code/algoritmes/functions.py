@@ -138,100 +138,17 @@ def amino_positions_3d_hc(option):
 
     # initialises x-, y-coordinates and current direction
     x, y, z = begin, begin + 1, begin
-    direction = "x_min"
+    
+    direction = 'forward'
+    going_back = {'left':'right','right':'left','forward':'back','back':'forward','up':'down','down':'up'}
+    new_directions = {'left':[-1,0,0],'right':[1,0,0],'forward':[0,1,0],'back':[0,-1,0],'up':[0,0,1],'down':[0,0,-1],}
 
-    # loops over current option and finds aminoacid coordinates
     for move in option:
-        if direction == "x_plus":
-            if move == "right":
-                y = y - 1
-                direction = "y_min"
-            elif move == "left":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                x = x + 1
-        elif direction == "y_plus":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                y = y + 1
-        elif direction == "y_min":
-            if move == "right":
-                x = x - 1
-                direction = "x_min"
-            elif move == "left":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                y = y - 1
-        elif direction == "x_min":
-            if move == "right":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "left":
-                y = y - 1
-                direction = "y_min"
-            elif move == "up":
-                z = z + 1
-                direction = "z_plus"
-            elif move == "down":
-                z = z - 1
-                direction = "z_min"
-            elif move == "forward":
-                x = x - 1
-        elif direction == "z_plus":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "down":
-                y = y - 1
-                direction = "y_min"
-            elif move == "forward":
-                z = z + 1
-        elif direction == "z_min":
-            if move == "right":
-                x = x + 1
-                direction = "x_plus"
-            elif move == "left":
-                x = x - 1
-                direction = "x_min"
-            elif move == "up":
-                y = y + 1
-                direction = "y_plus"
-            elif move == "down":
-                y = y - 1
-                direction = "y_min"
-            elif move == "forward":
-                z = z - 1
+        if not going_back[move] == direction:
+            x += new_directions[move][0]
+            y += new_directions[move][1]
+            z += new_directions[move][2]
+            direction = move
 
         # only appends coordinates if there are no bumps
         if tuple((x, y, z)) in positions:
@@ -261,36 +178,6 @@ def fold_points_2d(positions, sequence):
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
                 points += 5
             elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
-                points += 2
-    return points / 2
-
-"""Checks the points scored by the current fold (2D, non-Hillclimbers)"""
-def fold_points_2d(positions, sequence):
-
-    # initialises list of points, H-positions and C-position):
-    points = 0
-    HHHH = []
-    CCCC = []
-
-    # finds the positions of all H's and C's
-    for position, acid in zip(positions, sequence):
-        if acid == "H":
-            HHHH.append(position)
-        elif acid == "C":
-            CCCC.append(position)
-
-    # finds all H-H connections
-    for acid_position in HHHH:
-        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
-                points += 1
-
-    # finds all H-C connections
-    for acid_position in CCCC:
-        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in CCCC:
-                points += 5
-            elif (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
                 points += 2
     return points / 2
 
