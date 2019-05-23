@@ -3,10 +3,8 @@ from protein import Protein
 from option import Option
 from path import Path
 import time
-import random
 from copy import deepcopy
 from math import ceil
-from itertools import product
 import csv
 
 
@@ -22,7 +20,6 @@ def main():
 
     # set dimension for folding the protein
     dimension = argv[2]
-    print(dimension)
 
     # makes user input into the protein class
     protein = Protein(argv[1])
