@@ -5,14 +5,8 @@ from path import Path
 from copy import deepcopy
 from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d, mirror
 
-<<<<<<< HEAD
-def main():
-    # lets user know which program is currently being run
-    print("__2D-Greedy__")
-=======
 def greedy_2d(sequence):
     """Asks for either 2D or 3D input, then uses the relevant code"""
->>>>>>> 9e919eec05dd6f29a2491c8c6b04a3789234a742
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")

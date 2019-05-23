@@ -10,7 +10,6 @@ def greedy_look_ahead_beam_2d(sequence, chance_one, chance_two, steps):
 
     # lets user know which program is currently being run
     print("__2D-Beam-search with look ahead__")
->>>>>>> 5e46b0430082fc5e52998c17eb50ffce2edcaf79
 
     # Determines program running time
     start = timer.time()
