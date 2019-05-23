@@ -11,12 +11,24 @@ def random_product(*args, repeat):
     return tuple(random.choice(pool) for pool in pools)
 
 
+<<<<<<< HEAD:code/algoritmes/3d/functions.py
+=======
+"""Generates random option until one is found that contains no bumps (2D)"""
+def viable_random_product_2d(length):
+
+    best_fold = list(random_product(["forward", "right", "left"], repeat = length))
+    while not amino_positions_2d_hc(best_fold):
+        best_fold = list(random_product(["forward" "right", "left"], repeat = length))
+    return best_fold
+
+
+>>>>>>> c8a5f15d39a0fda680891ac941bb3f9c46861953:code/algoritmes/functions.py
 """Generates random option until one is found that contains no bumps (3D)"""
 def viable_random_product_3d(length):
 
-    best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
+    best_fold = list(random_product(["forward", "right", "left", "up", "down"], repeat = length))
     while not amino_positions_3d_hc(best_fold):
-        best_fold = list(random_product(["right", "left", "forward", "up", "down"], repeat = length))
+        best_fold = list(random_product(["forward", "right", "left", "up", "down"], repeat = length))
     return best_fold
 
 
