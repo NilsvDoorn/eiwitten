@@ -1,7 +1,7 @@
 import sys
 import time as timer
 
-sys.path.insert(0,'../../classes')
+sys.path.insert(0,'../classes')
 
 from protein import Protein
 from path import Path
@@ -22,15 +22,13 @@ def greedy_2d():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
-    # generates random viable option (no bumps)
-    best_fold = viable_random_product_2d(change_length)
-
-    # finds positions and fold points of randomly generated option
-    best_positions = amino_positions_2d_hc(best_fold)
-    best_fold_points = fold_points_2d_hc(best_positions, protein)
-
     # creates list of all options of size change_length
     possible_changes = all_options_2d(change_length)
+
+    # takes first option from possible_changes and finds positions and points
+    best_fold = possible_changes[0]
+    best_positions = amino_positions_2d_hc(best_fold)
+    best_fold_points = fold_points_2d_hc(best_positions, protein)
 
     # loops over entire protein number_loops times
     for loop_number in range(number_loops):
