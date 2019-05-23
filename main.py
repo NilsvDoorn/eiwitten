@@ -1,4 +1,11 @@
 import time
+import sys
+sys.path.insert(0,'code/algoritmes/2d')
+sys.path.insert(0,'code/algoritmes/3d')
+from user_interface_2d import settings_2d
+from user_interface_3d import settings_3d
+
+
 
 def main():
 
@@ -28,10 +35,17 @@ def main():
     # prompts user for the dimension that should be folded in
     print("")
     print("Would you like the fold in 2 dimensions or 3 dimensions? (enter 2D or 3D)")
-    dimension = input("Dimension: ")
-    while dimension.upper() != "2D" and dimension.upper() != "3D":
+    time.sleep(1)
+    dimension = input("Dimension: ").upper()
+    while dimension != "2D" and dimension != "3D":
         print("Input must be 2D or 3D")
-        dimension = input("Dimension: ")
+        dimension = input("Dimension: ").upper()
+    print("")
+
+    if dimension == "2D":
+        settings_2d()
+    else:
+        settings_3d()
 
 if __name__ == '__main__':
     main()

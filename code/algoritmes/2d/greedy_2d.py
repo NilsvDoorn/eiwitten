@@ -8,13 +8,9 @@ from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
-<<<<<<< HEAD
 from functions_2d import all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
-=======
-from functions_2d import amino_positions_2d, fold_points_2d, mirror
->>>>>>> ca3ce231bd830382fe3210ecedb06b10e3b61032
 
-def main():
+def greedy_2d():
     """Asks for either 2D or 3D input, then uses the relevant code"""
 
     # Determines program running time
@@ -95,4 +91,4 @@ def main():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedy_2d()

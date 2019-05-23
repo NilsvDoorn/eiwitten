@@ -12,7 +12,7 @@ from functions_2d import viable_random_product_2d, all_options_2d, amino_positio
 change_length = 8
 number_loops = 3
 
-def greedy_2d():
+def greedy_look_ahead_2d():
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")
@@ -80,4 +80,4 @@ def greedy_2d():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    greedy_2d()
+    greedy_look_ahead_2d()

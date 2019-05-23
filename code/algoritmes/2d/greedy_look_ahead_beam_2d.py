@@ -11,7 +11,7 @@ from sys import argv
 from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
-def main():
+def greedylookahead_beam_2d():
 
     # Determines program running time
     start = timer.time()
@@ -128,4 +128,4 @@ def main():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    greedylookahead_beam_2d()

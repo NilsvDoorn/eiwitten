@@ -11,7 +11,7 @@ from sys import argv
 from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
-def main():
+def beam_search_2d():
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -101,4 +101,4 @@ def main():
     p.plotFold(protein.sequence, best_fold_points)
 
 if __name__ == '__main__':
-    main()
+    beam_search_2d()
