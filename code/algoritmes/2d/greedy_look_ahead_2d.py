@@ -20,7 +20,7 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
     possible_changes = list(all_options_2d(change_length))
 
     # takes first option from possible_changes and finds positions and points
-    best_fold = possible_changes[0]
+    best_fold = list(possible_changes[0])
     best_positions = amino_positions_2d(best_fold, True)
     best_fold_points = fold_points_2d(best_positions, protein.sequence) - protein.errorpoint[-1]
 

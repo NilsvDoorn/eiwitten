@@ -14,9 +14,6 @@ def beam_search_2d(sequence, chance_one, chance_two):
     # makes user input into the protein class
     protein = Protein(sequence)
 
-    # lets user know which program is currently being run
-    print("__2D-Beam_Search__")
-
     # begin timer for duration of algorithm
     start = timer.time()
 

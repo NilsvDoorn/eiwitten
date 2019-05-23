@@ -162,7 +162,7 @@ def settings_2d(sequence):
             time.sleep(1)
             settings = input("Defaul settings? ")
 
-        # runs hillclimber with default settings
+        # runs beam search with look ahead with default settings
         if settings in yes:
             print("")
             greedy_look_ahead_beam_2d(sequence, 1, 1, 6)
