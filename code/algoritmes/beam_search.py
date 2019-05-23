@@ -44,6 +44,7 @@ def main():
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
+                                best_positions = coordinates_route
                         else:
                             round_points += pseudo_points
                             if pseudo_points >= last_fold_points:
@@ -64,8 +65,6 @@ def main():
             AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
-
-    best_positions = amino_positions_3d(best_fold)
 
     results = [protein.sequence,best_fold_points,"1010101",P2,P1]
     with open('beam.csv', 'a') as csvFile:

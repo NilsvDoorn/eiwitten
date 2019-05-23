@@ -49,6 +49,7 @@ def main():
                             if pseudo_points > best_fold_points:
                                 best_fold_points = int(pseudo_points)
                                 best_fold = deepcopy(route)
+                                best_positions = coordinates_route
                         elif aminoacid % 7 == 0:
                             if pseudo_points > best_fold_points:
                                 for i in best_ways:
@@ -88,7 +89,7 @@ def main():
         optellingwegens += len(ways)
 
     # make positions sendig to matplotlib
-    best_positions = amino_positions_2d(best_fold)
+
 
     end = time.time()
     tijd = end - start
