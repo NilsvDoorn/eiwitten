@@ -231,8 +231,6 @@ class Path(object):
             # plot a legend without C
             ax.legend((marker_h, marker_p), ("H", "P"))
 
-        # plot a legend and grid for better visualisation
-        ax.legend((marker_h, marker_p, marker_c), ("H", "P", "C"))
 
         # plot grid for better visualisation
         gridline_space = 1.0
