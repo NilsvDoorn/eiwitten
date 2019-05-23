@@ -1,16 +1,16 @@
 from sys import argv
 from protein import Protein
 from path import Path
-import time
+import time as timer
 from copy import deepcopy
 import csv
 import random
-from functions import amino_positions_3d, fold_points_3d, mirror
+from functions import amino_positions_3d, fold_points_3d, mirror, amino_positions_2d
 
 def main():
 
     # determines program running time
-    start = time.time()
+    start = timer.time()
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -35,7 +35,7 @@ def main():
             for option in options:
                 route.append(option)
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(protein.sequence[:aminoacid + 4], route)
+                    coordinates_route = amino_positions_3d(route)
                     if coordinates_route:
                         pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
                         if aminoacid + 4 == protein.length:
@@ -65,14 +65,17 @@ def main():
 
     best_positions = amino_positions_3d(protein.sequence, best_fold)
 
-    end = time.time()
+    end = timer.time()
     time = end - start
+    print(time)
+    time = round(time, 3)
+    print(time)
 
-    results = [protein.sequence,best_fold_points,round(time),P2,P1]
-    with open('beam.csv', 'a') as csvFile:
-        writer = csv.writer(csvFile)
-        writer.writerow(results)
-    csvFile.close()
+    # results = [protein.sequence,best_fold_points,round(time, 3),P2,P1]
+    # with open('beam.csv', 'a') as csvFile:
+    #     writer = csv.writer(csvFile)
+    #     writer.writerow(results)
+    # csvFile.close()
 
     # # start visualisation in 2D or 3D depending on version run
     p = Path(protein.length, best_positions)
