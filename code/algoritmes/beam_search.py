@@ -5,7 +5,7 @@ from path import Path
 
 import csv
 import random
-import time
+import time as timer
 
 from sys import argv
 from copy import deepcopy
@@ -16,6 +16,9 @@ def main():
 
     # makes user input into the protein class
     protein = Protein(argv[1])
+
+    # begin timer for duration of algorithm
+    start = timer.time()
 
     options = ["right", "forward", "left", "up", "down"]
     best_fold = options[0]
@@ -66,7 +69,11 @@ def main():
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
 
-    results = [protein.sequence,best_fold_points,"1010101",P2,P1]
+    end = timer.time()
+    time = end - start
+
+
+    results = [protein.sequence,best_fold_points,round(time, 3),P2,P1]
     with open('beam.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
