@@ -26,7 +26,7 @@ def greedy_2d():
     possible_changes = all_options_2d(change_length)
 
     # takes first option from possible_changes and finds positions and points
-    best_fold = viable_random_product_2d(change_length)
+    best_fold = possible_changes[0]
     best_positions = amino_positions_2d_hc(best_fold)
     best_fold_points = fold_points_2d_hc(best_positions, protein)
 
