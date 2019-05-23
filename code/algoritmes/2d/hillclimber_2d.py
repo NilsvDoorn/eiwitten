@@ -66,11 +66,8 @@ def hillclimber_2d(sequence, change_length, number_loops):
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
-
-
     # Lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)

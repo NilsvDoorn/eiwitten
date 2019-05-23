@@ -15,7 +15,7 @@ number_loops = 3
 def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__2D-Greedylookahead__")
+    print("__2D-Greedy with look ahead__")
 
     # determines algorithm running time
     start = timer.time()
@@ -75,7 +75,6 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)

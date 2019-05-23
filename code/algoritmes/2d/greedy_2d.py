@@ -9,6 +9,9 @@ def greedy_2d(sequence):
     # lets user know which program is currently being run
     print("__2D-Greedy__")
 
+    # lets user know which program is currently being run
+    print("__2D-Greedy__")
+
     # Determines program running time
     start = timer.time()
 
@@ -28,7 +31,7 @@ def greedy_2d(sequence):
         all_ways = []
         best_ways = []
         best_fold_points = 0
-        print('aminoacid', aminoacid)
+        print('Aminoacid:', aminoacid + 1)
         for route in ways:
             for option in options:
                 route.append(option)
@@ -66,12 +69,13 @@ def greedy_2d(sequence):
             ways = deepcopy(best_ways)
         else:
             ways = deepcopy(all_ways)
-        print(len(ways))
+        print("Constructing...")
         optellingwegens += len(ways)
 
 
     end = timer.time()
     time = round((end - start), 3)
+    print("Score: " + str(int(best_fold_points)))
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, optellingwegens*5]
@@ -81,7 +85,6 @@ def greedy_2d(sequence):
 
     csvFile.close()
 
-    print(best_fold)
     # start visualisation
     p = Path(protein.length, best_positions)
     p.plotFold(protein.sequence, best_fold_points)
