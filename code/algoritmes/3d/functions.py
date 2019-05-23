@@ -10,10 +10,7 @@ def random_product(*args, repeat):
     pools = [tuple(pool) for pool in args] * repeat
     return tuple(random.choice(pool) for pool in pools)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> ca3ce231bd830382fe3210ecedb06b10e3b61032
 """Generates random option until one is found that contains no bumps (3D)"""
 def viable_random_product_3d(length):
 

@@ -225,10 +225,16 @@ class Path(object):
         if len(c_cnd_list) is not 0:
             marker_c = ax.scatter(c_x, c_y, marker= 'o', c='yellow', s=100, zorder=10)
 
+            # plot a legend or better visualisation
+            ax.legend((marker_h, marker_p, marker_c), ("H", "P", "C"))
+        else:
+            # plot a legend without C
+            ax.legend((marker_h, marker_p), ("H", "P"))
 
         # plot a legend and grid for better visualisation
         ax.legend((marker_h, marker_p, marker_c), ("H", "P", "C"))
 
+        # plot grid for better visualisation
         gridline_space = 1.0
         ax.xaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
         ax.yaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
