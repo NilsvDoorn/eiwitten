@@ -6,9 +6,15 @@ from copy import deepcopy
 from functions import all_options_3d, amino_positions_3d, fold_points_3d, mirror
 
 def greedy(sequence):
+<<<<<<< HEAD
 
     print("__3D-greedy__")
     
+=======
+    # lets user know which program is currently being run
+    print("__3D-Greedy__")
+
+>>>>>>> 75e10ef30f37fc9a83686a1bce582b38a5a88354
     # Determines program running time
     start = timer.time()
 
@@ -71,7 +77,7 @@ def greedy(sequence):
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, optellingwegens*5]
-    with open('../../../resultaten/3d/greedy.csv', 'a') as csvFile:
+    with open('resultaten/3d/greedy.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 
