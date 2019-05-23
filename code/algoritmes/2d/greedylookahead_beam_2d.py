@@ -12,6 +12,8 @@ from copy import deepcopy
 from functions_2d import amino_positions_2d, fold_points_2d, mirror
 
 def main():
+    # lets user know which program is currently being run
+    print("__2D-Greedylookahead_with_Beam_Search__")
 
     # Determines program running time
     start = timer.time()
@@ -49,7 +51,7 @@ def main():
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_2d(route)
+                    coordinates_route = amino_positions_2d(route, False)
 
                     # check for bumbs
                     if coordinates_route:

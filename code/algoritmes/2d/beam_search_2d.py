@@ -16,6 +16,9 @@ def main():
     # makes user input into the protein class
     protein = Protein(argv[1])
 
+    # lets user know which program is currently being run
+    print("__2D-Beam_Search__")
+
     # begin timer for duration of algorithm
     start = timer.time()
 
@@ -43,7 +46,7 @@ def main():
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_2d(route)
+                    coordinates_route = amino_positions_2d(route, False)
 
                     # check for bumbs
                     if coordinates_route:

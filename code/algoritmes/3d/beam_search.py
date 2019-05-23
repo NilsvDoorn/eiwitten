@@ -12,6 +12,8 @@ from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
 def main():
+    # lets user know which program is currently being run
+    print("__3D-Beam_Search__")
 
     # makes user input into the protein class
     protein = Protein(argv[1])
@@ -43,7 +45,7 @@ def main():
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_3d(route, False)
 
                     # check for bumbs
                     if coordinates_route:

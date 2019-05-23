@@ -1,5 +1,6 @@
 import sys
 import time as timer
+import csv
 
 sys.path.insert(0,'../../classes')
 
@@ -7,7 +8,7 @@ from protein import Protein
 from path import Path
 from sys import argv
 from copy import deepcopy
-from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d_hc, fold_points_2d_hc
+from functions_2d import viable_random_product_2d, all_options_2d, amino_positions_2d, fold_points_2d
 
 change_length = 8
 number_loops = 3
@@ -26,8 +27,8 @@ def hillclimber_2d():
     best_fold = viable_random_product_2d(protein.length)
 
     # finds positions and fold points of randomly generated option
-    best_positions = amino_positions_2d_hc(best_fold)
-    best_fold_points = fold_points_2d_hc(best_positions, protein)
+    best_positions = amino_positions_2d(best_fold, True)
+    best_fold_points = fold_points_2d(best_positions, protein.sequence) - protein.errorpoint[-1]
 
     # creates list of all options of size change_length
     possible_changes = all_options_2d(change_length)
@@ -44,13 +45,13 @@ def hillclimber_2d():
                     changed_fold[index + change_index] = change[change_index]
 
                 # determines positions of changed fold
-                changed_positions = amino_positions_2d_hc(changed_fold)
+                changed_positions = amino_positions_2d(changed_fold, True)
 
                 # only checks score if there are no bumps
                 if changed_positions:
 
                     # remembers fold and positions if they improve the score
-                    fold_points = fold_points_2d_hc(changed_positions, protein)
+                    fold_points = fold_points_2d(changed_positions, protein.sequence) - protein.errorpoint[-1]
                     if fold_points > best_fold_points:
                         best_fold_points = fold_points
                         best_fold = changed_fold

@@ -11,7 +11,8 @@ from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
 def main():
-    """Asks for either 2D or 3D input, then uses the relevant code"""
+    # lets user know which program is currently being run
+    print("__3D-Greedy__")
 
     # Determines program running time
     start = timer.time()
@@ -39,14 +40,13 @@ def main():
 
                 # ovoid mirror options
                 if not mirror(route):
-                    coordinates_route = amino_positions_3d(route)
+                    coordinates_route = amino_positions_3d(route, False)
 
                     # check for bumbs
                     if coordinates_route:
 
                         # calculate points of current fold
                         pseudo_points = int(fold_points_3d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
-
                         # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
@@ -66,15 +66,12 @@ def main():
                                 best_ways.append(deepcopy(route))
 
                 route.pop()
-        if aminoacid % steps == 0:
-            ways = deepcopy(best_ways)
-        else:
-            ways = deepcopy(all_ways)
 
+        ways = deepcopy(best_ways)
         optellingwegens += len(ways)
 
 
-    end = time.time()
+    end = timer.time()
     time = round((end - start), 3)
 
     # write results to relevant .csv file
