@@ -96,7 +96,7 @@ def main():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, P2, P1, optellingwegens*5]
-    with open('greedylookahead_beam_2d.csv', 'a') as csvFile:
+    with open('../../../resultaten/2d/greedylookahead_beam_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

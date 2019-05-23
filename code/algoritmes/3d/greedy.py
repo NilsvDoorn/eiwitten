@@ -69,7 +69,7 @@ def greedy_3d():
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time]
-    with open('greedy.csv', 'a') as csvFile:
+    with open('../../../resultaten/3d/greedy.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
     csvFile.close()
