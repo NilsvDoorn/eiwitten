@@ -1,12 +1,15 @@
-from sys import argv
+import sys
+sys.path.insert(0,'../classes')
 from protein import Protein
 from path import Path
+
 import time
-from copy import deepcopy
-from math import ceil
-from functions import amino_positions_2d, amino_positions_3d, fold_points_2d, fold_points_3d, mirror
 import csv
 
+from sys import argv
+from copy import deepcopy
+
+from functions import amino_positions_2d, amino_positions_3d, fold_points_2d, fold_points_3d, mirror
 
 def main():
     """Asks for either 2D or 3D input, then uses the relevant code"""
