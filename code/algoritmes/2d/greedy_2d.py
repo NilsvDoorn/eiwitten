@@ -64,6 +64,8 @@ def greedy_2d(sequence):
                 route.pop()
 
         ways = deepcopy(best_ways)
+        if len(ways) == 0 and not aminoacid + 4 == protein.length:
+            exit("Geen vouwing mogelijk doordat het algoritme zich heeft ingebouwd")
         print("Constructing...")
         iterations += len(ways)
 
