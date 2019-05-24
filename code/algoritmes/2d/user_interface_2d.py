@@ -54,17 +54,25 @@ def settings_2d(sequence):
             # prompts user for the change length
             print("Please enter the length of the sequences that the Hillclimber will attempt to fold differently")
             time.sleep(1)
-            print("Length should not be longer than the length of the protein!")
             print("Length above 10 will result in extremely long running times")
             time.sleep(1)
 
             # ToDO: checkt input nog niet
             change_length = input("Length: ")
-            print("")
+            while not change_length.isdigit() or int(change_length) > len(sequence):
+                print("Please enter a positive integer that is shorter than the length of the sequence")
+                time.sleep(1)
+                change_length = input("Length: ")
 
             # ToDO: checkt input nog niet
+            print("")
             print("Please enter the number of times the Hillclimber will loop over the entire protein")
             number_loops = input("Number of loops: ")
+            while not number_loops.isdigit() or int(number_loops) < 1:
+                print("Please enter a positive integer")
+                time.sleep(1)
+                number_loops = input("Number of loops: ")
+
 
             print("")
             hillclimber_2d(sequence, int(change_length), int(number_loops))
@@ -96,17 +104,26 @@ def settings_2d(sequence):
             # prompts user for the change length
             print("Please enter the length that greedy will look ahead")
             time.sleep(1)
-            print("Length should not be longer than the length of the protein!")
             print("Length above 10 will result in extremely long running times")
             time.sleep(1)
-
-            # ToDO: checkt input nog niet
             change_length = input("Length: ")
+
+            # checks user input
+            while not change_length.isdigit() or int(change_length) > len(sequence):
+                print("Please enter a positive integer that is shorter than the length of the sequence")
+                time.sleep(1)
+                change_length = input("Length: ")
             print("")
 
-            # ToDO: checkt input nog niet
+            # promps user for the number of loops
             print("Please enter the number of times the Hillclimber will loop over the entire protein")
             number_loops = input("Number of loops: ")
+
+            # checks user input
+            while not number_loops.isdigit() or int(number_loops) < 1:
+                print("Please enter a positive integer")
+                time.sleep(1)
+                number_loops = input("Number of loops: ")
 
             print("")
             greedy_look_ahead_2d(sequence, int(change_length), int(number_loops))
@@ -121,36 +138,43 @@ def settings_2d(sequence):
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("Default settings? ")
+        print("")
 
         # runs beam search with default settings
         if settings in yes:
-            print("")
             beam_search_2d(sequence, 0.8, 0.25)
 
         # runs beam search with settings specified by user
         else:
 
-            # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search will keep good options (x.xx)")
+            # prompts user for the percentage of good options that will get pruned
+            print("Please enter the chance that beam search will prune bad options (0-100)")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
-            time.sleep(1)
-
-            # ToDO: checkt input nog niet
+            print("Percentage below 70 will result in extremely long running times")
             chance_one = input("Chance: ")
+
+            # checks user input
+            while not chance_one.isdigit() or int(chance_one) > 100:
+                print("Please enter an integer between 0 and 100")
+                time.sleep(1)
+                chance_one = input("Chance: ")
             print("")
 
             # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search will keep bad options (x.xx)")
+            print("Please enter the chance that beam search will prune good options (0-100)")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
+            print("Percentage below 20 will result in extremely long running times")
             time.sleep(1)
-
-            # ToDO: checkt input nog niet
             chance_two = input("Chance: ")
 
+            # checks user input
+            while not chance_two.isdigit() or int(chance_two) > 100:
+                print("Please enter an integer between 0 and 100")
+                time.sleep(1)
+                chance_two = input("Chance: ")
             print("")
-            beam_search_2d(sequence, float(chance_one), float(chance_two))
+
+            beam_search_2d(sequence, (float(chance_one)/100), (float(chance_two)/100))
 
     if number == 5 or number == 6:
         print("")
@@ -171,34 +195,45 @@ def settings_2d(sequence):
         else:
 
             # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search with look ahead will prune good options 'xxx(%)'")
-            time.sleep(1)
-            print("Percentage below 20 will result in extremely long running times")
-            time.sleep(1)
-
-            # ToDO: checkt input nog niet
-            chance_one = input("Chance: ")
-            print("")
-
-            # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search with look ahead will prune bad options 'xxx(%)'")
+            print("Please enter the chance that beam search with look ahead will prune bad options (0-100)")
             time.sleep(1)
             print("Percentage below 70 will result in extremely long running times")
             time.sleep(1)
+            chance_one = input("Chance: ")
 
-            # ToDO: checkt input nog niet
-            chance_two = input("Chance: ")
+            # checks user input
+            while not chance_one.isdigit() or int(chance_one) > 100:
+                print("Please enter an integer between 0 and 100")
+                time.sleep(1)
+                chance_one = input("Chance: ")
             print("")
 
-            # prompts user for the step length
+            # prompts user for the percentage of good options that will get pruned
+            print("Please enter the chance that beam search with look ahead will prune good options (0-100)")
+            time.sleep(1)
+            print("Percentage below 20 will result in extremely long running times")
+            time.sleep(1)
+            chance_two = input("Chance: ")
+
+            # checks user input
+            while not chance_two.isdigit() or int(chance_two) > 100:
+                print("Please enter an integer between 0 and 100")
+                time.sleep(1)
+                chance_two = input("Chance: ")
+            print("")
+
+            # prompts user for the change length
             print("Please enter the length that beam search will look ahead")
             time.sleep(1)
-            print("Length should not be longer than the length of the protein!")
-            print("Length above 7 will result in extremely long running times")
+            print("Length above 9 will result in extremely long running times")
             time.sleep(1)
-
-            # ToDO: checkt input nog niet
             steps = input("Length: ")
 
+            # checks user input
+            while not steps.isdigit() or int(steps) > len(sequence):
+                print("Please enter a positive integer that is shorter than the length of the sequence")
+                time.sleep(1)
+                steps = input("Length: ")
             print("")
-            greedy_look_ahead_beam_2d(sequence, float(chance_two/100), float(chance_one/100), int(steps))
+
+            greedy_look_ahead_beam_2d(sequence, float(chance_one/100), float(chance_two/100), int(steps))
