@@ -35,16 +35,15 @@ def settings_3d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for hillclimber? (yes or no) ")
+        settings = input("Default settings for hillclimber? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
         print("")
 
         # runs hillclimber with default settings
         if settings in yes:
-            print("")
             hillclimber(sequence, 6, 3)
 
         # runs hillclimber with settings specified by user
@@ -70,24 +69,22 @@ def settings_3d(sequence):
 
 
     if number == 2 or number == 6:
-        print("")
         greedy(sequence)
 
     # runs greedy look ahead if it was selected by the user
     if number == 3 or number == 6:
-        print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for greedy look ahead? (yes or no) ")
+        print("")
+        settings = input("Default settings for greedy look ahead? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
         print("")
 
         # runs greedy with look ahead with default settings
         if settings in yes:
-            print("")
             greedy_look_ahead(sequence, 6, 3)
 
         # runs greedy with look ahead with settings specified by user
@@ -119,7 +116,7 @@ def settings_3d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
 
         # runs beam search with default settings
         if settings in yes:
@@ -159,7 +156,7 @@ def settings_3d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
 
         # runs beam search with look ahead with default settings
         if settings in yes:
