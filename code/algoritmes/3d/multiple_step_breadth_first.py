@@ -62,7 +62,6 @@ def multiple_step_breadth_first(sequence, change_length, number_loops):
 
     # Lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)

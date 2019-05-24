@@ -105,6 +105,7 @@ def greedy_look_ahead_beam(sequence, chance_one, chance_two, steps):
 
     end = timer.time()
     time = round((end - start), 3)
+    print("Score: " + str(int(best_fold_points)))
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, chance_two, chance_one, iterations*5]
