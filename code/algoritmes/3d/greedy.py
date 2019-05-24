@@ -76,6 +76,9 @@ def greedy(sequence):
 
     csvFile.close()
 
+    # lets user know the score of the best fold found
+    print("Score: " + str(int(best_fold_points)))
+
     # start visualisation
     p = Path(protein.length, best_positions)
     p.plot3Dfold(protein.sequence, best_fold_points)
