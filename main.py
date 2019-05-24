@@ -15,7 +15,6 @@ def main():
 
     # prompts user for the protein sequence
     print("Please enter a protein sequence consisting of only H's, P's and C's (no spaces or other characters)")
-    time.sleep(1)
     sequence = input("Sequence: ").upper()
     correct = True
     if len(sequence) < 4:
