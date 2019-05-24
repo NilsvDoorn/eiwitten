@@ -22,6 +22,7 @@ def beam_search_2d(sequence, chance_one, chance_two):
     best_positions = []
 
     ways = [["right"], ["forward"]]
+    last_fold_points = 0
     AVG_points=0
 
     # creates fold based on the protein and the current option

@@ -35,11 +35,11 @@ def settings_3d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for hillclimber? (yes or no) ")
+        settings = input("default settings for hillclimber? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("default settings? ")
         print("")
 
         # runs hillclimber with default settings
@@ -78,11 +78,11 @@ def settings_3d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Defaul settings for greedy look ahead? (yes or no) ")
+        settings = input("default settings for greedy look ahead? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("default settings? ")
         print("")
 
         # runs greedy with look ahead with default settings
