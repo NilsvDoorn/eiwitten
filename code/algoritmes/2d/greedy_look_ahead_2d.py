@@ -60,7 +60,7 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence,best_fold_points,time]
+    results = [protein.sequence, best_fold_points,time]
     with open('resultaten/2d/greedylookahead_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
