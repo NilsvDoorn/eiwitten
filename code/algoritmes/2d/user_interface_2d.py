@@ -15,7 +15,7 @@ def settings_2d(sequence):
     print("Please make a selection:")
     print("1. Hillclimber")
     print("2. Greedy")
-    print("3. Greedy look ahead")
+    print("3. Multiple step breadth first")
     print("4. Beam search")
     print("5. Beam search greedy look ahead")
     print("6. Run all algorithms")
@@ -37,7 +37,11 @@ def settings_2d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Default settings for hillclimber? (yes or no) ")
+        print("Default settings for hillclimber? (yes or no) ")
+        print("Default: Length of change = 8, Number of loops = 3")
+        settings = input()
+
+        # checks user input
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
@@ -56,49 +60,55 @@ def settings_2d(sequence):
             time.sleep(1)
             print("Length above 10 will result in extremely long running times")
             time.sleep(1)
-
-            # ToDO: checkt input nog niet
             change_length = input("Length: ")
+
+            # checks user input
             while not change_length.isdigit() or int(change_length) > len(sequence):
                 print("Please enter a positive integer that is shorter than the length of the sequence")
                 time.sleep(1)
                 change_length = input("Length: ")
-
-            # ToDO: checkt input nog niet
             print("")
+
+            # prompts user for the number of loops
             print("Please enter the number of times the Hillclimber will loop over the entire protein")
             number_loops = input("Number of loops: ")
+
+            # checks user input
             while not number_loops.isdigit() or int(number_loops) < 1:
                 print("Please enter a positive integer")
                 time.sleep(1)
                 number_loops = input("Number of loops: ")
-
-
             print("")
+
+            # runs program with user settings
             hillclimber_2d(sequence, int(change_length), int(number_loops))
 
-
+    # runs greedy if it was selected by the user
     if number == 2 or number == 6:
         print("")
         greedy_2d(sequence)
 
-    # runs greedy look ahead if it was selected by the user
+    # runs the multiple step breadth first if it was selected by the user
     if number == 3 or number == 6:
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Default settings for greedy look ahead? (yes or no) ")
+        print("Default settings for multiple step breadth first? (yes or no) ")
+        print("Default: Length of change = 8, Number of loops = 3")
+        settings = input()
+
+        # checks user input
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("Default settings? ")
         print("")
 
-        # runs greedy with look ahead with default settings
+        # runs multiple step breadth first with default settings
         if settings in yes:
             greedy_look_ahead_2d(sequence, 8, 3)
 
-        # runs greedy with look ahead with settings specified by user
+        # runs multiple step breadth first with settings specified by user
         else:
 
             # prompts user for the change length
@@ -124,16 +134,21 @@ def settings_2d(sequence):
                 print("Please enter a positive integer")
                 time.sleep(1)
                 number_loops = input("Number of loops: ")
-
             print("")
+
+            # runs multiple step breadth first with user settings
             greedy_look_ahead_2d(sequence, int(change_length), int(number_loops))
 
-    # runs beam search algorithm
+    # runs beam search if it was selected by the user
     if number == 4 or number == 6:
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Default settings for beam search? (yes or no) ")
+        print("Default settings for beam search? (yes or no) ")
+        print("Default: Chance to prune good options = 0.25, Chance to prune bad options = 0.8")
+        settings = input()
+
+        # checks user input
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
@@ -174,21 +189,25 @@ def settings_2d(sequence):
                 chance_two = input("Chance: ")
             print("")
 
+            # runs beam search with user settings
             beam_search_2d(sequence, (float(chance_one)/100), (float(chance_two)/100))
 
+    # runs bream search with look ahead if it was selected by the user
     if number == 5 or number == 6:
         print("")
 
         # lets user choose to change settings or use default
-        settings = input("Default settings for beam search with look ahead? (yes or no) ")
+        print("Default settings for beam search with look ahead? (yes or no) ")
+        print("Default: Chance to prune good options = 80, Chance to prune bad options = 100, Steps = 6")
+        settings = input()
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("default settings? ")
+        print("")
 
         # runs beam search with look ahead with default settings
         if settings in yes:
-            print("")
             greedy_look_ahead_beam_2d(sequence, 1, 0.8, 6)
 
         # runs beam search with settings specified by user
@@ -225,7 +244,7 @@ def settings_2d(sequence):
             # prompts user for the change length
             print("Please enter the length that beam search will look ahead")
             time.sleep(1)
-            print("Length above 9 will result in extremely long running times")
+            print("Length above 7 will result in extremely long running times")
             time.sleep(1)
             steps = input("Length: ")
 
@@ -236,4 +255,5 @@ def settings_2d(sequence):
                 steps = input("Length: ")
             print("")
 
-            greedy_look_ahead_beam_2d(sequence, float(chance_one/100), float(chance_two/100), int(steps))
+            # runs beam search with look ahead with user settings
+            greedy_look_ahead_beam_2d(sequence, (float(chance_one)/100), (float(chance_two)/100), int(steps))
