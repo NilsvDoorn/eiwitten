@@ -143,7 +143,7 @@ def settings_3d(sequence):
 
         # lets user choose to change settings or use default
         print("Default settings for beam search? (yes or no) ")
-        print("Default: Chance to prune good options = 0.25, Chance to prune bad options = 0.8")
+        print("Default: Chance to prune good options = 25%, Chance to prune bad options = 80%")
         settings = input("Default settings? ")
 
         # checks user input
@@ -196,7 +196,7 @@ def settings_3d(sequence):
 
         # lets user choose to change settings or use default
         print("Default settings for beam search with look ahead? (yes or no) ")
-        print("Default: Chance to prune good options = 100, Chance to prune bad options = 100, Steps = 5")
+        print("Default: Chance to prune good options = 100%, Chance to prune bad options = 100%, Step size = 5")
         settings = input("Default settings? ")
 
         # checks user input

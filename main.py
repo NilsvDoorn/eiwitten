@@ -17,9 +17,9 @@ def main():
     print("Please enter a protein sequence consisting of only H's, P's and C's (no spaces or other characters)")
     sequence = input("Sequence: ").upper()
     correct = True
-    if len(sequence) < 4:
+    if len(sequence) < 9:
         correct = False
-        print("Input should be longer than 4 characters")
+        print("Input should be longer than 9 characters")
     for acid in sequence:
         if acid != "H" and acid != "P" and acid != "C":
             correct = False
@@ -31,9 +31,9 @@ def main():
         time.sleep(1)
         correct = True
         sequence = input("Sequence: ").upper()
-        if len(sequence) < 4:
+        if len(sequence) < 9:
             correct = False
-            print("Input should be longer than 4 characters")
+            print("Input should be longer than 9 characters")
         for acid in sequence:
             if acid != "H" and acid != "P" and acid != "C":
                 correct = False
