@@ -40,10 +40,7 @@ def settings_3d(sequence):
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("Default settings? ")
-<<<<<<< HEAD
-=======
 
->>>>>>> 0144cc43ba7d90384861776be37112bcc9e8464c
         print("")
 
         # runs hillclimber with default settings
