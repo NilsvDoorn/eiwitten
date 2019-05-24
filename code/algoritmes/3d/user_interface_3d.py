@@ -200,4 +200,4 @@ def settings_3d(sequence):
             steps = input("Length: ")
 
             print("")
-            greedy_look_ahead_beam(sequence, float(chance_one), float(chance_two), int(steps))
+            greedy_look_ahead_beam(sequence, float(chance_two), float(chance_one), int(steps))

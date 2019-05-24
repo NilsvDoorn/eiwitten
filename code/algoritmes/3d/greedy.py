@@ -27,7 +27,7 @@ def greedy(sequence):
     for aminoacid in range(len(protein.sequence) - 3):
         all_ways = []
         best_ways = []
-        best_fold_points = 0
+        best_fold_points = -1
         print('aminoacid', aminoacid)
         for route in ways:
             for option in options:
