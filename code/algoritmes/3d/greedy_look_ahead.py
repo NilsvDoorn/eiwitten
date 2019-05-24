@@ -2,15 +2,13 @@ import time as timer
 from protein import Protein
 from path import Path
 from copy import deepcopy
-from functions import viable_random_product_3d, all_options_3d, amino_positions_3d, fold_points_3d
+import csv
+from functions import all_options_3d, amino_positions_3d, fold_points_3d
 
+def greedy_look_ahead(sequence, change_length, number_loops):
 
-change_length = 6
-number_loops = 3
-
-def greedy_look_ahead(sequence):
     # lets user know which program is currently being run
-    print("__3D-Greedylookahead__")
+    print("__3D-Greedy with look ahead__")
 
     # determines algorithm running time
     start = timer.time()

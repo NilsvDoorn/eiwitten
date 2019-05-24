@@ -6,8 +6,6 @@ from copy import deepcopy
 from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d, mirror
 
 def greedy_2d(sequence):
-    # lets user know which program is currently being run
-    print("__2D-Greedy__")
 
     # lets user know which program is currently being run
     print("__2D-Greedy__")
@@ -44,8 +42,10 @@ def greedy_2d(sequence):
                     if coordinates_route:
 
                         # calculate points of current fold
+                        print(route)
                         pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
-
+                        print(fold_points_2d(coordinates_route, protein.sequence))
+                        print(protein.errorpoint[aminoacid + 3])
                         # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
@@ -76,7 +76,7 @@ def greedy_2d(sequence):
     end = timer.time()
     time = round((end - start), 3)
     print("Score: " + str(int(best_fold_points)))
-
+    print(best_fold)
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, optellingwegens*5]
     with open('resultaten/2d/greedy_2d.csv', 'a') as csvFile:

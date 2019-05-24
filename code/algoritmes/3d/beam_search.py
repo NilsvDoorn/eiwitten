@@ -7,6 +7,7 @@ from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
 def beam_search(sequence):
+
     # lets user know which program is currently being run
     print("__3D-Beam_Search__")
 

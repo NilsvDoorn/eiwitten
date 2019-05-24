@@ -1,9 +1,5 @@
-import sys
 import time as timer
 import csv
-
-sys.path.insert(0,'../../classes')
-
 from protein import Protein
 from path import Path
 from copy import deepcopy
