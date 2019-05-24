@@ -35,19 +35,12 @@ def settings_3d(sequence):
         print("")
 
         # lets user choose to change settings or use default
-<<<<<<< HEAD
         settings = input("Default settings for hillclimber? (yes or no) ")
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("Default settings? ")
-=======
-        settings = input("default settings for hillclimber? (yes or no) ")
-        while settings not in yesno:
-            print("Type y or n, then hit enter")
-            time.sleep(1)
-            settings = input("default settings? ")
->>>>>>> 6e43927145afcf2a170205e53934086680c9489e
+
         print("")
 
         # runs hillclimber with default settings
