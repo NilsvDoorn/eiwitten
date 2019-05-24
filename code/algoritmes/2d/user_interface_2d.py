@@ -41,7 +41,7 @@ def settings_2d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("default settings? ")
         print("")
 
         # runs hillclimber with default settings
@@ -83,7 +83,7 @@ def settings_2d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
         print("")
 
         # runs greedy with look ahead with default settings
@@ -120,7 +120,7 @@ def settings_2d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("Default settings? ")
 
         # runs beam search with default settings
         if settings in yes:
@@ -160,7 +160,7 @@ def settings_2d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-            settings = input("Defaul settings? ")
+            settings = input("default settings? ")
 
         # runs beam search with look ahead with default settings
         if settings in yes:
