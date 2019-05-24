@@ -26,7 +26,6 @@ def greedy_2d(sequence):
     optellingwegens = 0
 
     for aminoacid in range(len(protein.sequence) - 3):
-        all_ways = []
         best_ways = []
         best_fold_points = 0
         print('Aminoacid:', aminoacid + 1)
@@ -63,10 +62,8 @@ def greedy_2d(sequence):
                                 best_ways.append(deepcopy(route))
 
                 route.pop()
-        if not aminoacid + 4 == protein.length:
-            ways = deepcopy(best_ways)
-        else:
-            ways = deepcopy(all_ways)
+
+        ways = deepcopy(best_ways)
         print("Constructing...")
         optellingwegens += len(ways)
 
