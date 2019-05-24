@@ -24,6 +24,7 @@ def beam_search_2d(sequence, chance_one, chance_two):
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
+    iterations = 0
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -78,6 +79,7 @@ def beam_search_2d(sequence, chance_one, chance_two):
             AVG_points = round_points / len(new_ways)
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
+        iterations += len(ways)
 
         iterations += len(ways)
 
@@ -87,7 +89,7 @@ def beam_search_2d(sequence, chance_one, chance_two):
     print("Score: " + str(int(best_fold_points)))
 
     # write results to the relevant .csv file
-    results = [protein.sequence,best_fold_points,time,chance_two,chance_one,iterations*5]
+    results = [protein.sequence,best_fold_points,time,chance_two,chance_one,iterations*3]
     with open('resultaten/2d/beam_search_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
