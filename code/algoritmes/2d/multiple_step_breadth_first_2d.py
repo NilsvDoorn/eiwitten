@@ -10,7 +10,7 @@ from functions_2d import viable_random_product_2d, all_options_2d, amino_positio
 def multiple_step_breadth_first_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__2D-Hillclimber__")
+    print("__2D-Multiple step breadth first__")
 
     # determines algorithm running time
     start = timer.time()

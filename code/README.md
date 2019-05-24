@@ -1,7 +1,3 @@
 <h1>Code</h1>
-Alle code is te vinden in de map algoritmes
-Greedy: Greedy wordt aan ieder aminozuur een richting verwezen om het aminozuur te vouwen. Iedere keer als er een richting wordt toegevoegd wordt er berekend welke vouwing(en) het meeste aantal punten geven. Deze routes worden onthouden om een volgende richting aan toe te voegen voor het volgende aminozuur. De rest van de vouwingen worden gepruned.
-
-Beam_Search: Beam Search voegt net als bij greedy iedere keer een richting toe aan de vouwing. Er zijn een boven- en een ondergrens toegevoegd om de uitkomsten van breath first in een ronde in 3 groepen te verdelen. De bovengrens is de hoogste score die behaald is tijdens het toevoegen van het vorige aminozuur. De ondergrens is het gemiddelde van alle vouwingen van het vorige aminozuur. Als de score van een vouwingen in de nieuwe groep boven de bovengrens zit, wordt deze zeker meegenomen voor de volgende iteraties. onder de ondergrens krijgt een kans van 20% om door te gaan en de scores boven de ondergrens krijgen 75% kans om door te gaan. Deze kansen zijn uit de instelling van de default values.
-
-greedy_look_ahead_beam: Bij greedy look ahead beam wordt er eerst voor een bepaald aantal stappen alle vouwingen gemaakt. Daarna wordt er dezelfde methode gebruikt voor de ondergrens als bij beam search. Voor de bovengrens wordt alleen de beste vouwing(en) onthouden aan de hand van hun scores. 
+Alle algoritmes zijn te vinden in de map algoritmes</br>
+Alle gebruikte classes (protein & path) zijn te vinden de map classes
