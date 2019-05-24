@@ -26,7 +26,7 @@ def greedy_look_ahead_beam(sequence):
 
     # chance to prune a fold
     P1 = 1
-    P2 = 1
+    P2 = 0.8
 
     # steps to look ahead
     steps = 6

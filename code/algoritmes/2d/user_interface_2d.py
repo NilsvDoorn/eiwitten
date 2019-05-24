@@ -171,9 +171,9 @@ def settings_2d(sequence):
         else:
 
             # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search with look ahead will keep good options (x.xx)")
+            print("Please enter the chance that beam search with look ahead will prune good options 'xxx(%)'")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
+            print("Percentage below 20 will result in extremely long running times")
             time.sleep(1)
 
             # ToDO: checkt input nog niet
@@ -181,9 +181,9 @@ def settings_2d(sequence):
             print("")
 
             # prompts user for the percentage of bad options that will get pruned
-            print("Please enter the chance that beam search with look ahead will keep bad options (x.xx)")
+            print("Please enter the chance that beam search with look ahead will prune bad options 'xxx(%)'")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
+            print("Percentage below 70 will result in extremely long running times")
             time.sleep(1)
 
             # ToDO: checkt input nog niet
@@ -201,4 +201,4 @@ def settings_2d(sequence):
             steps = input("Length: ")
 
             print("")
-            greedy_look_ahead_beam_2d(sequence, float(chance_one), float(chance_two), int(steps))
+            greedy_look_ahead_beam_2d(sequence, float(chance_two/100), float(chance_one/100), int(steps))
