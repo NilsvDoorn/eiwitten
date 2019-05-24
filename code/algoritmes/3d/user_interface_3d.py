@@ -92,7 +92,7 @@ def settings_3d(sequence):
 
         # lets user choose to change settings or use default
         print("Default settings for multiple step breadth first? (yes or no) ")
-        print("Default: Number of steps = 6, Number of loops = 3")
+        print("Default: Number of steps = 6, Number of loops = 2")
         settings = input("Default settings? ")
 
         # checks user input
@@ -135,7 +135,7 @@ def settings_3d(sequence):
             print("")
 
             # runs greedy with look ahead with user settings
-            greedy_look_ahead(sequence, int(change_length), int(number_loops))
+            greedy_look_ahead(sequence, int(change_length), (int(number_loops) + 1))
 
     # runs beam search if it was selected by the user
     if number == 4 or number == 6:
