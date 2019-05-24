@@ -30,7 +30,7 @@ def greedy_look_ahead(sequence, change_length, number_loops):
             print("Constructing...")
         else:
             print("Improving...")
-        for index in range(protein.length) - change_length:
+        for index in range(protein.length - change_length):
 
             # tries all possibble changes on every point in best_fold
             for change in possible_changes:
