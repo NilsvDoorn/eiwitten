@@ -16,10 +16,8 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
     # makes user input into the protein class
     protein = Protein(sequence)
 
-
     # creates list of all options of size change_length
     possible_changes = list(all_options_2d(change_length))
-    iterations = len(possible_changes)
 
     # takes first option from possible_changes and finds positions and points
     best_fold = list(possible_changes[0])

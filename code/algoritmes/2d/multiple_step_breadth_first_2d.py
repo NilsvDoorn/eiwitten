@@ -20,7 +20,6 @@ def multiple_step_breadth_first_2d(sequence, change_length, number_loops):
 
     # generates random viable option (no bumps)
     best_fold = viable_random_product_2d(protein.length)
-    iterations = 1
 
     # finds positions and fold points of randomly generated option
     best_positions = amino_positions_2d(best_fold, True)
