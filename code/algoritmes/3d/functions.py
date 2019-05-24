@@ -93,8 +93,8 @@ def fold_points_3d(positions, sequence):
     # checks for H-C and C-C connections
     for acid_position in CCCC:
         for direction in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
-            if (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + look_around[2]) in CCCC:
+            if (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + direction[2]) in CCCC:
                 points += 5
-            elif (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + look_around[2]) in HHHH:
+            elif (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + direction[2]) in HHHH:
                 points += 2
     return points / 2
