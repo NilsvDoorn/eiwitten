@@ -40,6 +40,10 @@ def settings_3d(sequence):
             print("Type y or n, then hit enter")
             time.sleep(1)
             settings = input("Default settings? ")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0144cc43ba7d90384861776be37112bcc9e8464c
         print("")
 
         # runs hillclimber with default settings
@@ -197,4 +201,4 @@ def settings_3d(sequence):
             steps = input("Length: ")
 
             print("")
-            greedy_look_ahead_beam(sequence, float(chance_one), float(chance_two), int(steps))
+            greedy_look_ahead_beam(sequence, float(chance_two), float(chance_one), int(steps))
