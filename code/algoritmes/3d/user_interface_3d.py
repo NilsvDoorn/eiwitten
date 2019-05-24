@@ -43,12 +43,7 @@ def settings_3d(sequence):
         while settings not in yesno:
             print("Type y or n, then hit enter")
             time.sleep(1)
-<<<<<<< HEAD
-            settings = input("Default settings? ")
-
-=======
             settings = input("default settings? ")
->>>>>>> 8de1c7d28458088fc0194cba0ed8bb8621801056
         print("")
 
         # runs multiple step breadth first with default settings
