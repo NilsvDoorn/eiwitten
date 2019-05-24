@@ -65,7 +65,6 @@ def greedy_2d(sequence):
 
         ways = deepcopy(best_ways)
         print("Constructing...")
-        print(len(ways))
         iterations += len(ways)
 
 

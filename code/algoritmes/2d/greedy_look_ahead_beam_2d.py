@@ -28,7 +28,7 @@ def greedy_look_ahead_beam_2d(sequence, chance_one, chance_two, steps):
     iterations = 0
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        best_fold_points = 0
+        best_fold_points = -1
         new_ways = []
         all_ways = []
         best_ways = []

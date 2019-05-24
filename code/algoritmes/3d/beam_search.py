@@ -81,6 +81,7 @@ def beam_search(sequence, chance_one, chance_two):
     # end of algorithm, end time
     end = timer.time()
     time = round((end - start), 3)
+    print("Score: " + str(int(best_fold_points)))
 
     # write results to relevant .csv file
     results = [protein.sequence,best_fold_points,time,chance_two,chance_one]

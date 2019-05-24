@@ -8,7 +8,7 @@ from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d
 def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__2D-Greedy with look ahead__")
+    print("__2D-Multiple step breadth first__")
 
     # determines algorithm running time
     start = timer.time()

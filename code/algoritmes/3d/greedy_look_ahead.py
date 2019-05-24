@@ -68,7 +68,6 @@ def greedy_look_ahead(sequence, change_length, number_loops):
 
     # lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)
