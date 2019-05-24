@@ -22,7 +22,7 @@ def greedy(sequence):
     best_positions_2d = []
 
     ways = [["right"], ["forward"]]
-    optellingwegens = 0
+    iterations = 0
 
     for aminoacid in range(len(protein.sequence) - 3):
         all_ways = []
@@ -63,13 +63,13 @@ def greedy(sequence):
                 route.pop()
 
         ways = deepcopy(best_ways)
-        optellingwegens += len(ways)
+        iterations += len(ways)
 
 
     end = timer.time()
     time = round((end - start), 3)
     # write results to relevant .csv file
-    results = [protein.sequence, best_fold_points, time, optellingwegens*5]
+    results = [protein.sequence, best_fold_points, time, iterations*5]
     with open('resultaten/3d/greedy.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
