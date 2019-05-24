@@ -59,7 +59,7 @@ def multiple_step_breadth_first_2d(sequence, change_length, number_loops):
 
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time]
-    with open('resultaten/2d/hillclimber_2d.csv', 'a') as csvFile:
+    with open('resultaten/2d/multiple_step_breadth_first_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
 

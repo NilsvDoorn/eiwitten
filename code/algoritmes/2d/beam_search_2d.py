@@ -81,6 +81,8 @@ def beam_search_2d(sequence, chance_one, chance_two):
         ways = deepcopy(new_ways)
         iterations += len(ways)
 
+        iterations += len(ways)
+
     # end of algorithm, end time
     end = timer.time()
     time = round((end - start), 3)
