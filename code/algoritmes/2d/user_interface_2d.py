@@ -15,7 +15,7 @@ def settings_2d(sequence):
     print("Please make a selection:")
     print("1. Multiple step breadth first")
     print("2. Greedy")
-    print("3. Multiple step breadth first")
+    print("3. Greedy with look ahead")
     print("4. Beam search")
     print("5. Beam search greedy look ahead")
     print("6. Run all algorithms")
