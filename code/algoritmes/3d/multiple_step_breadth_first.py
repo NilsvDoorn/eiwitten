@@ -8,7 +8,7 @@ from functions import viable_random_product_3d, all_options_3d, amino_positions_
 def multiple_step_breadth_first(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__3D-Multiple step breadth first")
+    print("__3D-Multiple step breadth first__")
 
     start = timer.time()
 
@@ -60,7 +60,7 @@ def multiple_step_breadth_first(sequence, change_length, number_loops):
         writer.writerow(results)
 
 
-    # Lets user know the score of the best fold found
+    # lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
 
     # renders visualisation of the best fold found
