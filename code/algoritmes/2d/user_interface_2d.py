@@ -160,7 +160,7 @@ def settings_2d(sequence):
                 chance_one = input("Chance: ")
             print("")
 
-            # prompts user for the percentage of bad options that will get pruned
+            # prompts user for the percentage of good options that will get pruned
             print("Please enter the chance that beam search will prune good options (0-100)")
             time.sleep(1)
             print("Percentage below 20 will result in extremely long running times")

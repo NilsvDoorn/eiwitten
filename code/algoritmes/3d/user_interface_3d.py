@@ -169,7 +169,7 @@ def settings_3d(sequence):
             # prompts user for the percentage of bad options that will get pruned
             print("Please enter the chance that beam search with look ahead will keep good options (x.xx)")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
+            print("Percentage below 20 will result in extremely long running times")
             time.sleep(1)
 
             # ToDO: checkt input nog niet
@@ -179,7 +179,7 @@ def settings_3d(sequence):
             # prompts user for the percentage of bad options that will get pruned
             print("Please enter the chance that beam search with look ahead will keep bad options (x.xx)")
             time.sleep(1)
-            print("Percentage below ?? will result in extremely long running times")
+            print("Percentage below 70 will result in extremely long running times")
             time.sleep(1)
 
             # ToDO: checkt input nog niet
