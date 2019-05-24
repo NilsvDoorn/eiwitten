@@ -18,6 +18,8 @@ def main():
     time.sleep(1)
     sequence = input("Sequence: ").upper()
     correct = True
+    if len(sequence) == 0:
+        correct = False
     for acid in sequence:
         if acid != "H" and acid != "P" and acid != "C":
             correct = False
@@ -27,6 +29,8 @@ def main():
         correct = True
         print("Input should only contain H, P and C (no spaces or other characters)")
         sequence = input("Sequence: ").upper()
+        if len(sequence) == 0:
+            correct = False
         for acid in sequence:
             if acid != "H" and acid != "P" and acid != "C":
                 correct = False
