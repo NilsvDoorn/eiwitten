@@ -24,16 +24,6 @@ def greedy_look_ahead_beam(sequence, chance_one, chance_two, steps):
     last_fold_points = 0
     AVG_points=0
 
-<<<<<<< HEAD
-    # chance to prune a fold
-    P1 = 1
-    P2 = 0.8
-
-    # steps to look ahead
-    steps = 6
-
-=======
->>>>>>> 7742ca96c86a080a9ed6727e739b09bb195e7f5c
     optellingwegens = 0
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
