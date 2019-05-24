@@ -23,7 +23,7 @@ def settings_2d(sequence):
 
     # checks if users selection is valid
     while not number.isdigit() or int(number) < 1 or int(number) > 7:
-        print("Please enter an integer between 1 and 5")
+        print("Please enter an integer between 1 and 6")
         time.sleep(1)
         number = input("Number: ")
     number = int(number)

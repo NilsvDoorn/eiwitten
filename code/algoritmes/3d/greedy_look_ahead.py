@@ -20,7 +20,7 @@ def greedy_look_ahead(sequence, change_length, number_loops):
     possible_changes = all_options_3d(change_length)
 
     # takes first option from possible_changes and finds positions and points
-    best_fold = possible_changes[0]
+    best_fold = list(possible_changes[0])
     best_positions = amino_positions_3d(best_fold, True)
     best_fold_points = fold_points_3d(best_positions, protein.sequence)  - protein.errorpoint[-1]
 
@@ -30,13 +30,12 @@ def greedy_look_ahead(sequence, change_length, number_loops):
             print("Constructing...")
         else:
             print("Improving...")
-        for index in range(protein.length) - change_length:
+        for index in range(protein.length - change_length):
 
             # tries all possibble changes on every point in best_fold
             for change in possible_changes:
                 changed_fold = deepcopy(best_fold)
                 for change_index in range(change_length):
-                    print(changed_fold)
                     changed_fold[index + change_index] = change[change_index]
 
                 # determines aminopositions of changed fold
