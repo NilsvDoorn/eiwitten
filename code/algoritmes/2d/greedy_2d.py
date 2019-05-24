@@ -72,7 +72,6 @@ def greedy_2d(sequence):
     end = timer.time()
     time = round((end - start), 3)
     print("Score: " + str(int(best_fold_points)))
-    print(best_fold)
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, iterations*5]
     with open('resultaten/2d/greedy_2d.csv', 'a') as csvFile:
