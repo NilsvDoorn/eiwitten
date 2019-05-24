@@ -86,11 +86,11 @@ def settings_2d(sequence):
             settings = input("Defaul settings? ")
         print("")
 
-        # runs hillclimber with default settings
+        # runs greedy with look ahead with default settings
         if settings in yes:
             greedy_look_ahead_2d(sequence, 8, 3)
 
-        # runs hillclimber with settings specified by user
+        # runs greedy with look ahead with settings specified by user
         else:
 
             # prompts user for the change length
@@ -122,7 +122,7 @@ def settings_2d(sequence):
             time.sleep(1)
             settings = input("Defaul settings? ")
 
-        # runs hillclimber with default settings
+        # runs beam search with default settings
         if settings in yes:
             print("")
             beam_search_2d(sequence, 0.8, 0.25)
