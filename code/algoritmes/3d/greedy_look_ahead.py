@@ -46,7 +46,7 @@ def greedy_look_ahead(sequence, change_length, number_loops):
 
                     # remembers fold and positions if they improve the score
                     fold_points = fold_points_3d(changed_positions, protein.sequence) - protein.errorpoint[-1]
-                    if fold_points > best_fold_points:
+                    if fold_points >= best_fold_points:
                         best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
@@ -68,7 +68,6 @@ def greedy_look_ahead(sequence, change_length, number_loops):
 
     # lets user know the score of the best fold found
     print("Score: " + str(int(best_fold_points)))
-    print("")
 
     # renders visualisation of the best fold found
     p = Path(protein.length, best_positions)

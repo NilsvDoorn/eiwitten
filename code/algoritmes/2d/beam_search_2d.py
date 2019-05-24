@@ -27,7 +27,7 @@ def beam_search_2d(sequence, chance_one, chance_two):
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
-        best_fold_points = 0
+        best_fold_points = -1
         new_ways = []
         all_ways = []
         round_points = 0

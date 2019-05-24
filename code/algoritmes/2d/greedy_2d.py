@@ -64,15 +64,15 @@ def greedy_2d(sequence):
                 route.pop()
 
         ways = deepcopy(best_ways)
+        if len(ways) == 0 and not aminoacid + 4 == protein.length:
+            exit("Geen vouwing mogelijk doordat het algoritme zich heeft ingebouwd")
         print("Constructing...")
-        print(len(ways))
         iterations += len(ways)
 
 
     end = timer.time()
     time = round((end - start), 3)
     print("Score: " + str(int(best_fold_points)))
-    print(best_fold)
     # write results to relevant .csv file
     results = [protein.sequence, best_fold_points, time, iterations*5]
     with open('resultaten/2d/greedy_2d.csv', 'a') as csvFile:

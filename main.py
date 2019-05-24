@@ -15,30 +15,34 @@ def main():
 
     # prompts user for the protein sequence
     print("Please enter a protein sequence consisting of only H's, P's and C's (no spaces or other characters)")
-    time.sleep(1)
     sequence = input("Sequence: ").upper()
     correct = True
-    if len(sequence) == 0:
+    if len(sequence) < 9:
         correct = False
+        print("Input should be longer than 9 characters")
     for acid in sequence:
         if acid != "H" and acid != "P" and acid != "C":
             correct = False
+            print("Input should only contain H, P and C (no spaces or other characters, example: HHHPPPCCC)")
+
 
     # checks if user input is correct, prompts again if not
     while not correct:
+        time.sleep(1)
         correct = True
-        print("Input should only contain H, P and C (no spaces or other characters, example: HHHPPPCCC)")
         sequence = input("Sequence: ").upper()
-        if len(sequence) == 0:
+        if len(sequence) < 9:
             correct = False
+            print("Input should be longer than 9 characters")
         for acid in sequence:
             if acid != "H" and acid != "P" and acid != "C":
                 correct = False
+                print("Input should only contain H, P and C (no spaces or other characters, example: HHHPPPCCC)")
+
 
     # prompts user for the dimension that should be folded in
     print("")
     print("Would you like the fold in 2 dimensions or 3 dimensions? (enter 2D or 3D)")
-    time.sleep(1)
     valid_dimensions = ["2", "2d", "2D", "3", "3d", "3D"]
     two_dimensional = ["2", "2d", "2D"]
     dimension = input("Dimension: ").upper()
@@ -46,6 +50,7 @@ def main():
     # checks if user input is correct, prompts again if not
     while dimension not in valid_dimensions:
         print("Input must be 2D or 3D")
+        time.sleep(1)
         dimension = input("Dimension: ").upper()
 
     print("")
