@@ -18,6 +18,8 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # creates list of all options of size change_length
     possible_changes = list(all_options_2d(change_length))
+    for i in possible_changes:
+        print(i)
 
     # takes first option from possible_changes and finds positions and points
     best_fold = list(possible_changes[0])
@@ -52,7 +54,7 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
                         best_positions = changed_positions
 
             # builds up the option on the first loop
-            if (loop_number == 0):
+            if loop_number == 0:
                 best_fold.append("forward")
 
     # determines running time of greedy with look ahead algorithm

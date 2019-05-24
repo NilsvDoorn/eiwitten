@@ -165,7 +165,7 @@ def settings_2d(sequence):
         # runs beam search with look ahead with default settings
         if settings in yes:
             print("")
-            greedy_look_ahead_beam_2d(sequence, 1, 1, 6)
+            greedy_look_ahead_beam_2d(sequence, 1, 0.8, 6)
 
         # runs beam search with settings specified by user
         else:
