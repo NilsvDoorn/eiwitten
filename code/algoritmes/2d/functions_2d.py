@@ -58,7 +58,6 @@ def amino_positions_2d(option, hillclimber):
     direction = "y_min"
 
     # loops over current option and appends aminoacid coordinates
-    # if there are no bumps
     for move in option:
         x += directions[direction][move][0]
         y += directions[direction][move][1]
@@ -70,7 +69,7 @@ def amino_positions_2d(option, hillclimber):
         positions.append(tuple((y, x)))
     return positions
 
-"""Checks the points scored by the current fold (2D, non-Hillclimber)"""
+"""Checks the points scored by the current fold (2D)"""
 def fold_points_2d(positions, sequence):
 
     points = 0
@@ -82,14 +81,14 @@ def fold_points_2d(positions, sequence):
         elif acid == "C":
             CCCC.append(position)
     for acid_position in HHHH:
-        for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
+        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
+            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
                 points += 1
 
     for acid_position in CCCC:
-        for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
-            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in CCCC:
+        for direction in [[1,0],[-1,0],[0,1],[0,-1]]:
+            if (acid_position[0] + direction[0], acid_position[1] + direction[1]) in CCCC:
                 points += 5
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:
+            elif (acid_position[0] + direction[0], acid_position[1] + direction[1]) in HHHH:
                 points += 2
     return points / 2

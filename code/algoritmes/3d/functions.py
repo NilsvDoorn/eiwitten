@@ -41,7 +41,7 @@ def amino_positions_3d(option, hillclimber):
     positions = []
     begin = int(ceil(len(option) / 2))
 
-    # if hillclimber is True, hillclimber first two posiotions aren't constant
+    # if hillclimber is True, hillclimber first two positions aren't constant
     if not hillclimber:
         # appends first two positions to positions list
         positions.append(tuple((begin, begin, begin)))
@@ -50,10 +50,12 @@ def amino_positions_3d(option, hillclimber):
     # initialises x-, y- and z-coordinates and current direction
     x, y, z = begin, begin + 1, begin
 
+    # right, left and forward change with last direction
     direction = 'forward'
     going_back = {'left':'right','right':'left','forward':'back','back':'forward','up':'down','down':'up'}
     new_directions = {'left':[-1,0,0],'right':[1,0,0],'forward':[0,1,0],'back':[0,-1,0],'up':[0,0,1],'down':[0,0,-1],}
 
+    # loops over current option and appends aminoacid coordinates
     for move in option:
         if not going_back[move] == direction:
             x += new_directions[move][0]
@@ -61,12 +63,13 @@ def amino_positions_3d(option, hillclimber):
             z += new_directions[move][2]
             direction = move
 
+        # only appends coordinates if there are no bumps
         if tuple((x, y, z)) in positions:
             return False
         positions.append(tuple((x, y, z)))
     return positions
 
-"""Checks the points scored by the current fold (3D, non-Hillclimber)"""
+"""Checks the points scored by the current fold (3D)"""
 def fold_points_3d(positions, sequence):
 
     # initialises lists for positions of H's and C's and points
@@ -89,9 +92,9 @@ def fold_points_3d(positions, sequence):
 
     # checks for H-C and C-C connections
     for acid_position in CCCC:
-        for look_around in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
-            if (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in CCCC:
+        for direction in [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]:
+            if (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + look_around[2]) in CCCC:
                 points += 5
-            elif (acid_position[0] + look_around[0], acid_position[1] + look_around[1], acid_position[2] + look_around[2]) in HHHH:
+            elif (acid_position[0] + direction[0], acid_position[1] + direction[1], acid_position[2] + look_around[2]) in HHHH:
                 points += 2
     return points / 2
