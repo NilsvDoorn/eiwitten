@@ -8,7 +8,7 @@ from functions_2d import all_options_2d, amino_positions_2d, fold_points_2d
 def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
     # lets user know which program is currently being run
-    print("__2D-Multiple step breadth first__")
+    print("__2D-Greedy with look ahead__")
 
     # determines algorithm running time
     start = timer.time()
@@ -30,7 +30,7 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
             print("Constructing...")
         else:
             print("Changing...")
-        for index in range(len(protein.sequence) - change_length):
+        for index in range(protein.length - change_length):
 
             # tries all possibble changes on every point in best_fold
             for change in possible_changes:
@@ -46,7 +46,7 @@ def greedy_look_ahead_2d(sequence, change_length, number_loops):
 
                     # remembers fold and positions if they improve the score
                     fold_points = fold_points_2d(changed_positions, protein.sequence) - protein.errorpoint[-1]
-                    if fold_points > best_fold_points:
+                    if fold_points >= best_fold_points:
                         best_fold_points = fold_points
                         best_fold = changed_fold
                         best_positions = changed_positions
