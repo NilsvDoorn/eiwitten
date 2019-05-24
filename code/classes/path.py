@@ -143,9 +143,6 @@ class Path(object):
 
         # plot figure with size 6:6 with 200 dots per inches
         plt.figure(figsize=(6, 6), dpi=200)
-        fig, ax = plt.subplots()
-
-        ax.set_title('This fold has a stability of: ' + str(- best_fold_points))
 
 
         # find minimum x and y coordinates
@@ -166,16 +163,20 @@ class Path(object):
 
 
         # use minimum and maximum coordinates for axis limits
-        ax.axis([(min_x - 1), (max_x + 1), (min_y - 1), (max_y + 1)])
+        plt.ylim(top = (max_y + 1))
+        plt.ylim(bottom =  (min_y - 1))
+
+        plt.xlim(right = (max_x + 1))
+        plt.xlim(left = (min_x - 1))
 
 
-        # place the folding coordinates of the field in a list, starting cnd at protein length
+        # create a list + script for all aminoacid coordinates for plotting
         list_path_data = [
             (mpath.Path.MOVETO, (self.datapoints[0])),
             ]
 
 
-        # place the code + coordinates in the list
+        # place the script + coordinates in the list
         for i in self.datapoints[1:]:
             list_path_data.extend([(mpath.Path.LINETO, i)])
 
@@ -191,10 +192,10 @@ class Path(object):
 
 
         # plot line to indicate connections for the sequence
-        line = ax.plot(x, y, color='black', linestyle='solid')
+        line = plt.plot(x, y, color='black', linestyle='solid')
 
 
-        # list coordinates per aminoacid for markers
+        # list with coordinates per aminoacid for marker plots
         h_cnd_list = []
         p_cnd_list = []
         c_cnd_list = []
@@ -218,25 +219,33 @@ class Path(object):
         c_y = [t[1] for t in c_cnd_list]
 
 
-        # plot markers
-        marker_h = ax.scatter(h_x, h_y, marker= 'o', c='red', s=100, zorder=10)
-        marker_p = ax.scatter(p_x, p_y, marker= 'o', c='blue', s=100, zorder=10)
+        # plot markers, zorder = 10 for plotting above line
+        marker_h = plt.scatter(h_x, h_y, marker= 'o', c='red', s=100, zorder=10)
+        marker_p = plt.scatter(p_x, p_y, marker= 'o', c='blue', s=100, zorder=10)
 
         if len(c_cnd_list) is not 0:
-            marker_c = ax.scatter(c_x, c_y, marker= 'o', c='yellow', s=100, zorder=10)
+            marker_c = plt.scatter(c_x, c_y, marker= 'o', c='yellow', s=100, zorder=10)
 
-            # plot a legend or better visualisation
-            ax.legend((marker_h, marker_p, marker_c), ("H", "P", "C"))
+            # plot a legend for better visualisation
+            plt.legend((marker_h, marker_p, marker_c), ("H", "P", "C"))
         else:
             # plot a legend without C
-            ax.legend((marker_h, marker_p), ("H", "P"))
+            plt.legend((marker_h, marker_p), ("H", "P"))
+
+
+        # get current axis
+        ax = plt.gca()
 
 
         # plot grid for better visualisation
         gridline_space = 1.0
         ax.xaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
         ax.yaxis.set_major_locator(ticker.MultipleLocator(gridline_space))
-        ax.grid()
+        plt.grid()
+
+
+        # add a title with the stability score
+        plt.title('This fold has a stability of: ' + str(- best_fold_points))
 
 
         # save image WITH grid
@@ -250,6 +259,7 @@ class Path(object):
 
         # save image WITHOUT grid
         plt.savefig("resultaten/2d/2D_out.png")
+
 
         # show latest version of the image
         plt.show()
