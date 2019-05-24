@@ -81,8 +81,6 @@ def fold_points_2d(positions, sequence):
             HHHH.append(position)
         elif acid == "C":
             CCCC.append(position)
-    print(HHHH)
-    print(CCCC)
     for acid_position in HHHH:
         for look_around in [[1,0],[-1,0],[0,1],[0,-1]]:
             if (acid_position[0] + look_around[0], acid_position[1] + look_around[1]) in HHHH:

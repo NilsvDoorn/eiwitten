@@ -42,10 +42,8 @@ def greedy_2d(sequence):
                     if coordinates_route:
 
                         # calculate points of current fold
-                        print(route)
                         pseudo_points = int(fold_points_2d(coordinates_route, protein.sequence) - protein.errorpoint[aminoacid + 3])
-                        print(fold_points_2d(coordinates_route, protein.sequence))
-                        print(protein.errorpoint[aminoacid + 3])
+
                         # aminoacid + 4 is last route to add
                         if aminoacid + 4 == protein.length:
                             if pseudo_points > best_fold_points:
