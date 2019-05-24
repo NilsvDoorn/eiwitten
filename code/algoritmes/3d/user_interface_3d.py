@@ -88,7 +88,7 @@ def settings_3d(sequence):
         # runs greedy with look ahead with default settings
         if settings in yes:
             print("")
-            greedy_look_ahead(sequence, 8, 3)
+            greedy_look_ahead(sequence, 6, 3)
 
         # runs greedy with look ahead with settings specified by user
         else:
@@ -113,7 +113,43 @@ def settings_3d(sequence):
 
     if number == 4 or number == 6:
         print("")
-        beam_search(sequence)
+
+        # lets user choose to change settings or use default
+        settings = input("Default settings for beam search? (yes or no) ")
+        while settings not in yesno:
+            print("Type y or n, then hit enter")
+            time.sleep(1)
+            settings = input("Defaul settings? ")
+
+        # runs beam search with default settings
+        if settings in yes:
+            print("")
+            beam_search(sequence, 0.8, 0.25)
+
+        # runs beam search with settings specified by user
+        else:
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search will keep good options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_one = input("Chance: ")
+            print("")
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search will keep bad options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_two = input("Chance: ")
+
+            print("")
+            beam_search(sequence, float(chance_one), float(chance_two))
 
     if number == 5 or number == 6:
         print("")

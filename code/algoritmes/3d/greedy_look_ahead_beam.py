@@ -8,7 +8,7 @@ from functions import amino_positions_3d, fold_points_3d, mirror
 
 def greedy_look_ahead_beam(sequence):
 
-    print("__3D-Beam-search with greedy look ahead__")
+    print("__3D-Beam-search with look ahead__")
 
     # Determines program running time
     start = timer.time()

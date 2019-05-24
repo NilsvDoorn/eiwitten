@@ -6,7 +6,7 @@ from path import Path
 from copy import deepcopy
 from functions import amino_positions_3d, fold_points_3d, mirror
 
-def beam_search(sequence):
+def beam_search(sequence, chance_one, chance_two):
 
     # lets user know which program is currently being run
     print("__3D-Beam_Search__")
@@ -24,10 +24,6 @@ def beam_search(sequence):
     ways = [["right"], ["forward"]]
     last_fold_points = 0
     AVG_points=0
-
-    # chance of pruning a route
-    P1 = 0.8
-    P2 = 0.25
 
     # creates fold based on the protein and the current option
     for aminoacid in range(len(protein.sequence) - 3):
@@ -67,12 +63,12 @@ def beam_search(sequence):
 
                             # lower as avarage last round, gets lower chance of proceeding
                             elif pseudo_points <= AVG_points:
-                                if random.uniform(0,1) > P1:
+                                if random.uniform(0,1) > chance_one:
                                     new_ways.append(deepcopy(route))
 
                             # higher as avarage last round, gets higher chance of proceeding
                             else:
-                                if random.uniform(0,1) > P2:
+                                if random.uniform(0,1) > chance_two:
                                     new_ways.append(deepcopy(route))
 
                 route.pop()
@@ -87,7 +83,7 @@ def beam_search(sequence):
     time = round((end - start), 3)
 
     # write results to relevant .csv file
-    results = [protein.sequence,best_fold_points,time,P2,P1]
+    results = [protein.sequence,best_fold_points,time,chance_two,chance_one]
     with open('resultaten/3d/beam_search.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
