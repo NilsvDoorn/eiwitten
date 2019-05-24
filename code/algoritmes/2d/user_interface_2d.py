@@ -38,7 +38,7 @@ def settings_2d(sequence):
 
         # lets user choose to change settings or use default
         print("Default settings for multiple step breadth first? (yes or no) ")
-        print("Default: Length of change = 8, Number of loops = 2")
+        print("Default: Length of change = 8, Number of loops = 3")
         settings = input("Default settings? ")
 
         # checks user input
@@ -88,13 +88,13 @@ def settings_2d(sequence):
         print("")
         greedy_2d(sequence)
 
-    # runs the multiple step breadth first if it was selected by the user
+    # runs the greedy with look ahead first if it was selected by the user
     if number == 3 or number == 6:
         print("")
 
         # lets user choose to change settings or use default
-        print("Default settings for multiple step breadth first? (yes or no) ")
-        print("Default: Number of steps = 8, Number of loops = 3")
+        print("Default settings for greedu with look ahead first? (yes or no) ")
+        print("Default: Number of steps = 8, Number of loops = 2")
         settings = input("Default settings? ")
 
         # checks user input
@@ -104,7 +104,7 @@ def settings_2d(sequence):
             settings = input("Default settings? ")
         print("")
 
-        # runs multiple step breadth first with default settings
+        # runs greedy with look ahead with default settings
         if settings in yes:
             greedy_look_ahead_2d(sequence, 8, 3)
 
@@ -145,7 +145,7 @@ def settings_2d(sequence):
 
         # lets user choose to change settings or use default
         print("Default settings for beam search? (yes or no) ")
-        print("Default: Chance to prune good options = 0.25, Chance to prune bad options = 0.8")
+        print("Default: Chance to prune good options = 25, Chance to prune bad options = 80")
         settings = input("Default settings? ")
 
         # checks user input
@@ -218,7 +218,7 @@ def settings_2d(sequence):
             # prompts user for the percentage of bad options that will get pruned
             print("Please enter the chance that beam search with look ahead will prune bad options (0-100)")
             time.sleep(1)
-            print("Percentage below 70 will result in extremely long running times")
+            print("Percentage below 95 will result in extremely long running times")
             time.sleep(1)
             chance_one = input("Chance: ")
 
@@ -232,7 +232,7 @@ def settings_2d(sequence):
             # prompts user for the percentage of good options that will get pruned
             print("Please enter the chance that beam search with look ahead will prune good options (0-100)")
             time.sleep(1)
-            print("Percentage below 20 will result in extremely long running times")
+            print("Percentage below 90 will result in extremely long running times")
             time.sleep(1)
             chance_two = input("Chance: ")
 

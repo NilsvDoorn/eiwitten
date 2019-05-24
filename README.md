@@ -12,7 +12,7 @@ Deze codebase is volledig geschreven in Python3.6.3. In requirements.txt staan a
 Alle Python scripts staan in de folder Code. In de map Data staan alle opgegeven aminozuurvolgorden en in de map resultaten worden alle resultaten opgeslagen door de code.
 
 <h4>Test (Testing)</h4>
-Om het programma te runnen kan de volgende instructie gebruikt worden. De command line interface geeft verdere instructies</br>
+Om het programma te runnen kan de volgende command gebruikt worden. De command line interface geeft verdere instructies</br>
 
 <p>python main.py
 
