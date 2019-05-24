@@ -153,4 +153,51 @@ def settings_3d(sequence):
 
     if number == 5 or number == 6:
         print("")
-        greedy_look_ahead_beam(sequence)
+
+        # lets user choose to change settings or use default
+        settings = input("Default settings for beam search with look ahead? (yes or no) ")
+        while settings not in yesno:
+            print("Type y or n, then hit enter")
+            time.sleep(1)
+            settings = input("Defaul settings? ")
+
+        # runs beam search with look ahead with default settings
+        if settings in yes:
+            print("")
+            greedy_look_ahead_beam(sequence, 1, 0.8, 6)
+
+        # runs beam search with settings specified by user
+        else:
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search with look ahead will keep good options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_one = input("Chance: ")
+            print("")
+
+            # prompts user for the percentage of bad options that will get pruned
+            print("Please enter the chance that beam search with look ahead will keep bad options (x.xx)")
+            time.sleep(1)
+            print("Percentage below ?? will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            chance_two = input("Chance: ")
+            print("")
+
+            # prompts user for the step length
+            print("Please enter the length that beam search will look ahead")
+            time.sleep(1)
+            print("Length should not be longer than the length of the protein!")
+            print("Length above  5 will result in extremely long running times")
+            time.sleep(1)
+
+            # ToDO: checkt input nog niet
+            steps = input("Length: ")
+
+            print("")
+            greedy_look_ahead_beam(sequence, float(chance_one), float(chance_two), int(steps))
