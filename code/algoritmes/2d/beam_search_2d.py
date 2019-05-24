@@ -79,13 +79,15 @@ def beam_search_2d(sequence, chance_one, chance_two):
         last_fold_points = best_fold_points
         ways = deepcopy(new_ways)
 
+        iterations += len(ways)
+
     # end of algorithm, end time
     end = timer.time()
     time = round((end - start), 3)
     print("Score: " + str(int(best_fold_points)))
 
     # write results to the relevant .csv file
-    results = [protein.sequence,best_fold_points,time,chance_two,chance_one]
+    results = [protein.sequence,best_fold_points,time,chance_two,chance_one,iterations*5]
     with open('resultaten/2d/beam_search_2d.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(results)
